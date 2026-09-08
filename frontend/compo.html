@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Compo · Compos Albion</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  <header class="barre"></header>
+  <main>
+    <h1 id="titre-page">Nouvelle compo</h1>
+    <p class="sous-titre" id="info-compo">Les champs marqués <span class="obligatoire">*</span> sont obligatoires.</p>
+    <div id="message" class="message"></div>
+
+    <form id="formulaire-compo">
+      <div class="carte">
+        <div class="grille col-4">
+          <div style="grid-column: span 2">
+            <label for="nom">Nom de la compo <span class="obligatoire">*</span></label>
+            <input id="nom" maxlength="120" required>
+          </div>
+          <div>
+            <label for="type_contenu">Type de contenu <span class="obligatoire">*</span></label>
+            <select id="type_contenu" required></select>
+          </div>
+          <div>
+            <label for="taille_groupe">Taille de groupe <span class="obligatoire">*</span></label>
+            <input id="taille_groupe" type="number" min="1" max="200" value="5" required>
+          </div>
+          <div>
+            <label for="statut">Statut <span class="obligatoire">*</span></label>
+            <select id="statut"></select>
+          </div>
+          <div style="grid-column: span 3">
+            <label for="notes">Notes (optionnel)</label>
+            <textarea id="notes" placeholder="Consignes, rotations, remarques…"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <h2>Lignes de la compo <span id="compteur-lignes" class="badge"></span></h2>
+      <div id="lignes"></div>
+
+      <div class="actions" style="margin-bottom:24px">
+        <button type="button" id="ajouter-ligne">+ Ajouter un joueur</button>
+        <button type="button" id="tout-replier" class="mini">Tout replier</button>
+        <button type="button" id="tout-deplier" class="mini">Tout déplier</button>
+      </div>
+
+      <div class="carte actions" style="position:sticky;bottom:0">
+        <button type="submit" class="principal">Enregistrer</button>
+        <button type="button" id="bouton-apercu">Aperçu Discord</button>
+        <button type="button" id="bouton-discord" class="discord">Envoyer sur Discord</button>
+        <button type="button" id="bouton-dupliquer">Dupliquer</button>
+        <a class="bouton" href="/bibliotheque">Retour à la bibliothèque</a>
+      </div>
+    </form>
+
+    <div id="zone-apercu" hidden>
+      <h2>Aperçu de l'embed Discord</h2>
+      <div id="contenu-apercu"></div>
+    </div>
+  </main>
+  <script src="/static/js/api.js"></script>
+  <script src="/static/js/selecteur.js"></script>
+  <script src="/static/js/compo.js"></script>
+</body>
+</html>

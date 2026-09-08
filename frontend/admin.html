@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Administration · Compos Albion</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  <header class="barre"></header>
+  <main>
+    <h1>Administration</h1>
+    <p class="sous-titre">Membres autorisés et configuration du webhook Discord.</p>
+    <div id="message" class="message"></div>
+
+    <div class="carte">
+      <h2 style="margin-top:0">Webhook Discord</h2>
+      <p class="sous-titre" id="source-webhook"></p>
+      <div class="grille" style="grid-template-columns: 1fr auto; align-items: flex-end">
+        <div>
+          <label for="webhook">URL du webhook</label>
+          <input id="webhook" placeholder="https://discord.com/api/webhooks/…">
+        </div>
+        <button id="enregistrer-webhook" class="principal">Enregistrer</button>
+      </div>
+    </div>
+
+    <div class="carte">
+      <h2 style="margin-top:0">Ajouter un membre</h2>
+      <form id="formulaire-membre" class="grille" style="grid-template-columns: 1fr 1fr 160px auto; align-items: flex-end">
+        <div>
+          <label for="nouveau-pseudo">Pseudo <span class="obligatoire">*</span></label>
+          <input id="nouveau-pseudo" minlength="3" maxlength="64" required>
+        </div>
+        <div>
+          <label for="nouveau-mdp">Mot de passe <span class="obligatoire">*</span></label>
+          <input id="nouveau-mdp" type="password" minlength="6" required>
+        </div>
+        <div>
+          <label for="nouveau-role">Rôle</label>
+          <select id="nouveau-role"></select>
+        </div>
+        <button type="submit" class="principal">Créer</button>
+      </form>
+    </div>
+
+    <div class="carte" style="padding:0;overflow-x:auto">
+      <table>
+        <thead>
+          <tr><th>Pseudo</th><th>Rôle</th><th>Actif</th><th>Créé le</th><th></th></tr>
+        </thead>
+        <tbody id="corps-membres"></tbody>
+      </table>
+    </div>
+  </main>
+  <script src="/static/js/api.js"></script>
+  <script src="/static/js/admin.js"></script>
+</body>
+</html>

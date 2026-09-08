@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bibliothèque · Compos Albion</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  <header class="barre"></header>
+  <main>
+    <h1>Bibliothèque des compos</h1>
+    <p class="sous-titre">Toutes les compositions de la guilde.</p>
+    <div id="message" class="message"></div>
+
+    <div class="carte">
+      <div class="grille col-4">
+        <div>
+          <label for="filtre-type">Type de contenu</label>
+          <select id="filtre-type"><option value="">Tous</option></select>
+        </div>
+        <div>
+          <label for="filtre-auteur">Auteur</label>
+          <select id="filtre-auteur"><option value="">Tous</option></select>
+        </div>
+        <div>
+          <label for="filtre-statut">Statut</label>
+          <select id="filtre-statut"><option value="">Tous</option></select>
+        </div>
+        <div>
+          <label for="filtre-recherche">Nom contient</label>
+          <input id="filtre-recherche" placeholder="Recherche…">
+        </div>
+        <div>
+          <label for="filtre-debut">Créée à partir du</label>
+          <input id="filtre-debut" type="date">
+        </div>
+        <div>
+          <label for="filtre-fin">Créée jusqu'au</label>
+          <input id="filtre-fin" type="date">
+        </div>
+        <div style="display:flex;align-items:flex-end;gap:8px">
+          <button id="bouton-reinitialiser">Réinitialiser</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="carte" style="padding:0;overflow-x:auto">
+      <table>
+        <thead>
+          <tr>
+            <th>Nom</th><th>Type</th><th>Taille</th><th>Lignes</th>
+            <th>Auteur</th><th>Statut</th><th>Modifiée</th><th>Envoyée</th><th></th>
+          </tr>
+        </thead>
+        <tbody id="corps-table"></tbody>
+      </table>
+      <div id="vide" class="vide" hidden>Aucune compo ne correspond aux filtres.</div>
+    </div>
+  </main>
+  <script src="/static/js/api.js"></script>
+  <script src="/static/js/bibliotheque.js"></script>
+</body>
+</html>

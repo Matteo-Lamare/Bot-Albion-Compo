@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Connexion · Compos Albion</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  <main>
+    <form class="connexion carte" id="formulaire-connexion">
+      <div class="marque">⚔️ Compos Albion</div>
+      <p class="sous-titre" style="text-align:center">Accès réservé aux membres de la guilde</p>
+      <div id="message" class="message"></div>
+      <div class="champ">
+        <label for="pseudo">Pseudo</label>
+        <input id="pseudo" name="pseudo" autocomplete="username" required autofocus>
+      </div>
+      <div class="champ">
+        <label for="mot_de_passe">Mot de passe</label>
+        <input id="mot_de_passe" name="mot_de_passe" type="password" autocomplete="current-password" required>
+      </div>
+      <button class="principal" style="width:100%" type="submit">Se connecter</button>
+    </form>
+  </main>
+  <script src="/static/js/api.js"></script>
+  <script src="/static/js/connexion.js"></script>
+</body>
+</html>

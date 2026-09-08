@@ -1,0 +1,7176 @@
+{
+ "genere_le": "2026-09-08",
+ "source": "https://github.com/ao-data/ao-bin-dumps",
+ "sorts": {
+  "ACID_BOMB": {
+   "nom": "Salve Explosive",
+   "passif": false
+  },
+  "AFTER_IMAGE": {
+   "nom": "Image rémanescente",
+   "passif": false
+  },
+  "AIR_RAID": {
+   "nom": "Fureur du Ciel",
+   "passif": false
+  },
+  "AMBUSH": {
+   "nom": "Embuscade",
+   "passif": false
+  },
+  "ARCANECORRIDOR": {
+   "nom": "Couloir temporel",
+   "passif": false
+  },
+  "ARCANEORB2": {
+   "nom": "Orbe ésotérique",
+   "passif": false
+  },
+  "ARCANE_CHAIN_MISSILE": {
+   "nom": "Chaîne de missiles",
+   "passif": false
+  },
+  "ARCANE_METEOR": {
+   "nom": "Sphère obscure",
+   "passif": false
+  },
+  "AREAOFDECAY": {
+   "nom": "Zone de déclin",
+   "passif": false
+  },
+  "ARMORCHAIN": {
+   "nom": "Chaîne d'âme",
+   "passif": false
+  },
+  "ARMORPIERCER": {
+   "nom": "Perce-armure",
+   "passif": false
+  },
+  "ARMOR_CD_RESET": {
+   "nom": "Éclair de perspicacité",
+   "passif": false
+  },
+  "ARMOR_WEB": {
+   "nom": "Toile mythique",
+   "passif": false
+  },
+  "ARROWRAIN": {
+   "nom": "Pluie de flèches",
+   "passif": false
+  },
+  "ARTILLERY_COMMAND": {
+   "nom": "Baliste de feu",
+   "passif": false
+  },
+  "ASSASSINSPIRIT": {
+   "nom": "Esprit de l'Assassin",
+   "passif": false
+  },
+  "ASSASSIN_DASH": {
+   "nom": "Coupe rapide",
+   "passif": false
+  },
+  "AUTOFIRE2": {
+   "nom": "Tir automatique",
+   "passif": false
+  },
+  "AVALON_BEAM": {
+   "nom": "Rayon avalonien",
+   "passif": false
+  },
+  "AXEBOOST": {
+   "nom": "Montée d'adrénaline",
+   "passif": false
+  },
+  "AXESMASH": {
+   "nom": "Tronçonnage mortel",
+   "passif": false
+  },
+  "AXETHROW": {
+   "nom": "Bandit sanguinaire",
+   "passif": false
+  },
+  "AXEWHIRLWIND2": {
+   "nom": "Tourbillon",
+   "passif": false
+  },
+  "AXE_CHARGE": {
+   "nom": "Ivresse de la bataille",
+   "passif": false
+  },
+  "BACKHAND_KNOCKBACK": {
+   "nom": "Revers de la main",
+   "passif": false
+  },
+  "BACK_SLASH": {
+   "nom": "Final impitoyable",
+   "passif": false
+  },
+  "BATTLEFRENZY": {
+   "nom": "Frénésie du combat",
+   "passif": false
+  },
+  "BERSERK_SPRINT": {
+   "nom": "Sprint Vengeur",
+   "passif": false
+  },
+  "BLACKHOLE": {
+   "nom": "Trou noir",
+   "passif": false
+  },
+  "BLADE_AREA": {
+   "nom": "Flot sans-âme",
+   "passif": false
+  },
+  "BLADE_AURA": {
+   "nom": "Lames déferlantes",
+   "passif": false
+  },
+  "BLAZING_GEYSER": {
+   "nom": "Geyser flamboyant",
+   "passif": false
+  },
+  "BLESSED_MACES": {
+   "nom": "Aurore bénie",
+   "passif": false
+  },
+  "BLINDSPOT": {
+   "nom": "Angle mort",
+   "passif": false
+  },
+  "BLINK": {
+   "nom": "Clignement",
+   "passif": false
+  },
+  "BLOCK": {
+   "nom": "Défense",
+   "passif": false
+  },
+  "BLOODLUST": {
+   "nom": "Soif de sang",
+   "passif": false
+  },
+  "BLOODTHIRSTYBLADE": {
+   "nom": "Lame soif-de-sang",
+   "passif": false
+  },
+  "BLOOD_BLADE": {
+   "nom": "Rituel de sang",
+   "passif": false
+  },
+  "BOLTSHOT": {
+   "nom": "Carreau explosif",
+   "passif": false
+  },
+  "BOULDER_TOSS": {
+   "nom": "Rocher infernal",
+   "passif": false
+  },
+  "BRAMBLESEED": {
+   "nom": "Graine de ronce",
+   "passif": false
+  },
+  "BRIEROFLIFE": {
+   "nom": "Armure vivante",
+   "passif": false
+  },
+  "BURNAURA": {
+   "nom": "Auto-inflammation",
+   "passif": false
+  },
+  "BURNINGARROWS": {
+   "nom": "Flèches explosives",
+   "passif": false
+  },
+  "CALTROPS": {
+   "nom": "Chausse-trappe",
+   "passif": false
+  },
+  "CARTWHEEL": {
+   "nom": "Roue",
+   "passif": false
+  },
+  "CASTBUBBLE": {
+   "nom": "Émission d'énergie",
+   "passif": false
+  },
+  "CC_BLOCK": {
+   "nom": "Prémonition",
+   "passif": false
+  },
+  "CELESTIAL_SPHERE": {
+   "nom": "Sphère céleste",
+   "passif": false
+  },
+  "CHAINDASH": {
+   "nom": "Série d'entailles",
+   "passif": false
+  },
+  "CHANNELED_RUN": {
+   "nom": "Course intense",
+   "passif": false
+  },
+  "CHARGESLOWAE": {
+   "nom": "Charge ralentissante",
+   "passif": false
+  },
+  "CHARGE_IN": {
+   "nom": "Charge dévastatrice",
+   "passif": false
+  },
+  "CHARGE_ROOT": {
+   "nom": "Charge piégée",
+   "passif": false
+  },
+  "CHARGE_SHIELD": {
+   "nom": "Charge avec bouclier",
+   "passif": false
+  },
+  "CHARGINGBLADE": {
+   "nom": "Focalisation intérieure",
+   "passif": false
+  },
+  "CIRCLEOFLIFE": {
+   "nom": "Cycle de la vie",
+   "passif": false
+  },
+  "CLAYMORECHARGE": {
+   "nom": "Charge",
+   "passif": false
+  },
+  "CLAYMORESLASH": {
+   "nom": "Frappe intrépide",
+   "passif": false
+  },
+  "CLEANSEHEAL": {
+   "nom": "Soin purifiant",
+   "passif": false
+  },
+  "CLEANSESPEED2": {
+   "nom": "Purification motivante",
+   "passif": false
+  },
+  "CLEANSE_DASH": {
+   "nom": "Libération",
+   "passif": false
+  },
+  "CLEAVE": {
+   "nom": "Fendoir héroïque",
+   "passif": false
+  },
+  "COMBATSTAFF_SLASH": {
+   "nom": "Lame fatale",
+   "passif": false
+  },
+  "CONCUSSIVEBLOW_MULTI_1": {
+   "nom": "Combo déstabilisant",
+   "passif": false
+  },
+  "CONEPUNCH2": {
+   "nom": "Course Effrénée",
+   "passif": false
+  },
+  "CREATE_OPENING": {
+   "nom": "Créer une ouverture",
+   "passif": false
+  },
+  "CROSSBOW_ARMORPIERCER": {
+   "nom": "Carreau traversant",
+   "passif": false
+  },
+  "CROSSBOW_CONE_ULTIMATE": {
+   "nom": "Barrage vicieux",
+   "passif": false
+  },
+  "CROSSBOW_DIVINE_SHOT": {
+   "nom": "Engin divin",
+   "passif": false
+  },
+  "CROSSSTEP_ROUNDHOUSE": {
+   "nom": "Jeu de jambes",
+   "passif": false
+  },
+  "CRYSTALWAVE": {
+   "nom": "Hyperstatique",
+   "passif": false
+  },
+  "CRYSTALXBOW": {
+   "nom": "Tirs Lumineux",
+   "passif": false
+  },
+  "CRYSTAL_DAGGER_BLADE_RING": {
+   "nom": "Anneau de la Mort",
+   "passif": false
+  },
+  "CRYSTAL_SCYTHE_DASH_ZONE": {
+   "nom": "Assaut implacable",
+   "passif": false
+  },
+  "CURSEBLADE": {
+   "nom": "Faucille maudite",
+   "passif": false
+  },
+  "CURSEDBEAM": {
+   "nom": "Rayon damné",
+   "passif": false
+  },
+  "CURSEDHANDS_STACKUP": {
+   "nom": "Rancune",
+   "passif": false
+  },
+  "CURSEDOT": {
+   "nom": "Malédiction infâme",
+   "passif": false
+  },
+  "CURSED_SPLAT": {
+   "nom": "Goudron Maudit",
+   "passif": false
+  },
+  "CURSED_WALL": {
+   "nom": "Âme angoissée",
+   "passif": false
+  },
+  "CURSENOVA": {
+   "nom": "Profanation",
+   "passif": false
+  },
+  "CURSEULTIMATE": {
+   "nom": "Cataclysme",
+   "passif": false
+  },
+  "CURSE_SKELETON_BARF_FDHR": {
+   "nom": "Porte-peste",
+   "passif": false
+  },
+  "DARKMATTER": {
+   "nom": "Matière noire",
+   "passif": false
+  },
+  "DASHDMG": {
+   "nom": "Charge téméraire",
+   "passif": false
+  },
+  "DASHKICK": {
+   "nom": "Saut du dragon",
+   "passif": false
+  },
+  "DASH_KNOCKBACK": {
+   "nom": "Envolée fracassante",
+   "passif": false
+  },
+  "DEADLYSHOT": {
+   "nom": "Tir mortel",
+   "passif": false
+  },
+  "DEATHCURSE2": {
+   "nom": "Malédiction létale",
+   "passif": false
+  },
+  "DEATHMARK": {
+   "nom": "Marque de sacrifice",
+   "passif": false
+  },
+  "DEEPCUTS": {
+   "nom": "Entailles interdites",
+   "passif": false
+  },
+  "DEFENSERUN": {
+   "nom": "Volonté de fer",
+   "passif": false
+  },
+  "DEFENSIVESLAM": {
+   "nom": "Frappe défensive",
+   "passif": false
+  },
+  "DEFLECTINGSTANCE": {
+   "nom": "Tournoiement déflecteur",
+   "passif": false
+  },
+  "DELAYED_TELEPORT": {
+   "nom": "Téléportation retardée",
+   "passif": false
+  },
+  "DEMONWALK": {
+   "nom": "Sol putride",
+   "passif": false
+  },
+  "DISEMBOWEL": {
+   "nom": "Éviscération",
+   "passif": false
+  },
+  "DISRUPTIONIMMUNITY": {
+   "nom": "Immunité au déplacement",
+   "passif": false
+  },
+  "DIVEPUNCH_RISE": {
+   "nom": "Frappe du faucon",
+   "passif": false
+  },
+  "DIVINE_JUMP": {
+   "nom": "Intervention divine",
+   "passif": false
+  },
+  "DMG_BLINK": {
+   "nom": "Clignement de rage",
+   "passif": false
+  },
+  "DODGE": {
+   "nom": "Esquive",
+   "passif": false
+  },
+  "DUALAXE_CRAWLER": {
+   "nom": "Coupure de rasoir",
+   "passif": false
+  },
+  "DUAL_NATURE": {
+   "nom": "Nature Double",
+   "passif": false
+  },
+  "DUAL_RAPIDFIRE": {
+   "nom": "Apogée mortelle",
+   "passif": false
+  },
+  "DYNAMIC_CURSE": {
+   "nom": "Ombre intérieure",
+   "passif": false
+  },
+  "DYNAMIC_DEFENSE": {
+   "nom": "Défense dynamique",
+   "passif": false
+  },
+  "ELECTRICSHOCK": {
+   "nom": "Décharge électrique",
+   "passif": false
+  },
+  "EMERGENCY_SHIELD": {
+   "nom": "Bouclier d'urgence",
+   "passif": false
+  },
+  "EMPOWERBEAM": {
+   "nom": "Rayon de puissance",
+   "passif": false
+  },
+  "ENERGYFIELD": {
+   "nom": "Cercle d'inspiration",
+   "passif": false
+  },
+  "ENERGYSHIELD2": {
+   "nom": "Égide d'Énergie",
+   "passif": false
+  },
+  "ENERGY_BARRIER": {
+   "nom": "Bouclier Énergisant",
+   "passif": false
+  },
+  "ENFEEBLEAURA": {
+   "nom": "Aura affaiblissante",
+   "passif": false
+  },
+  "ENFEEBLEBLADES": {
+   "nom": "Lames affaiblissantes",
+   "passif": false
+  },
+  "ENIGMA_BLADE": {
+   "nom": "Lame d'énigme",
+   "passif": false
+  },
+  "ENRAGE": {
+   "nom": "Furie",
+   "passif": false
+  },
+  "EXECUTEDAGGER": {
+   "nom": "Égorgement",
+   "passif": false
+  },
+  "EXPLODING_SHOT": {
+   "nom": "Tir explosif",
+   "passif": false
+  },
+  "FEAR_AURA": {
+   "nom": "Aura de peur",
+   "passif": false
+  },
+  "FIREARTILLERY": {
+   "nom": "Feu d'artillerie",
+   "passif": false
+  },
+  "FIRECONE": {
+   "nom": "Vague de feu",
+   "passif": false
+  },
+  "FIREPHOENIX": {
+   "nom": "Phoenix flamboyant",
+   "passif": false
+  },
+  "FIRESTAFFBOLT2": {
+   "nom": "Carreau de feu",
+   "passif": false
+  },
+  "FIRESTAFFBOLT_AOE": {
+   "nom": "Champ brûlant",
+   "passif": false
+  },
+  "FIRESTAFFIGNITE2_SPREAD": {
+   "nom": "Explosion de flammes",
+   "passif": false
+  },
+  "FIREWALL": {
+   "nom": "Mur de flammes",
+   "passif": false
+  },
+  "FLAMEDASH": {
+   "nom": "Combustion Spontanée",
+   "passif": false
+  },
+  "FLAMEPILLAR": {
+   "nom": "Colonne de feu",
+   "passif": false
+  },
+  "FLAMESHIELD": {
+   "nom": "Bouclier de l'enfer",
+   "passif": false
+  },
+  "FLAMETORNADO": {
+   "nom": "Tornade de flammes",
+   "passif": false
+  },
+  "FLARE": {
+   "nom": "Éclat de Feu",
+   "passif": false
+  },
+  "FORCESHIELD": {
+   "nom": "Bouclier de force",
+   "passif": false
+  },
+  "FORESTOFSPEARS": {
+   "nom": "Forêt de lances",
+   "passif": false
+  },
+  "FRAZZLE2": {
+   "nom": "Épuisement",
+   "passif": false
+  },
+  "FREEZINGWIND": {
+   "nom": "Vent glacial",
+   "passif": false
+  },
+  "FROSTBEAM": {
+   "nom": "Rayon de givre",
+   "passif": false
+  },
+  "FROSTBOMB_CASTSLOW": {
+   "nom": "Bombe de givre",
+   "passif": false
+  },
+  "FROSTNOVA": {
+   "nom": "Nova de givre",
+   "passif": false
+  },
+  "FROSTSHIELD": {
+   "nom": "Bouclier de givre",
+   "passif": false
+  },
+  "FROSTWALK": {
+   "nom": "Pas de givre",
+   "passif": false
+  },
+  "FROST_BITE": {
+   "nom": "Angelure",
+   "passif": false
+  },
+  "FROST_LANCE": {
+   "nom": "Lance de givre",
+   "passif": false
+  },
+  "FROST_TARGETED_CHANNEL": {
+   "nom": "Volée arctique",
+   "passif": false
+  },
+  "FROST_ULTIMATE": {
+   "nom": "Cristal de glace",
+   "passif": false
+  },
+  "FROZEN_CRYSTAL": {
+   "nom": "Prison gelée",
+   "passif": false
+  },
+  "GENEROUSHEAL": {
+   "nom": "Soin généreux",
+   "passif": false
+  },
+  "GEYSER": {
+   "nom": "Puissant geyser",
+   "passif": false
+  },
+  "GHOSTSTRIKE": {
+   "nom": "Frappe fantomatique",
+   "passif": false
+  },
+  "GIANTSTEPS": {
+   "nom": "Pas de géant",
+   "passif": false
+  },
+  "GLACIALFIELD": {
+   "nom": "Enfer de gel",
+   "passif": false
+  },
+  "GLASS_MOVESPEED": {
+   "nom": "Précipitation risquée",
+   "passif": false
+  },
+  "GROUNDARROW": {
+   "nom": "Rayon de lumière",
+   "passif": false
+  },
+  "GROUNDBREAKER2": {
+   "nom": "Brise-terre",
+   "passif": false
+  },
+  "GROUNDDASH": {
+   "nom": "Course folle",
+   "passif": false
+  },
+  "GROUNDMINE": {
+   "nom": "Mine explosive",
+   "passif": false
+  },
+  "GROUNDSHAKER": {
+   "nom": "Grand éboulement",
+   "passif": false
+  },
+  "GROUNDSPEAR": {
+   "nom": "Empaleur",
+   "passif": false
+  },
+  "GROWING_PUNCH": {
+   "nom": "Broyeur terrestre",
+   "passif": false
+  },
+  "GROWING_RAGE": {
+   "nom": "Rage grandissante",
+   "passif": false
+  },
+  "GUARDRUNE": {
+   "nom": "Rune de garde",
+   "passif": false
+  },
+  "HAIL_MULTI_1": {
+   "nom": "Grêle",
+   "passif": false
+  },
+  "HALBERDSMASH": {
+   "nom": "Enracinement",
+   "passif": false
+  },
+  "HAMMERTACKLE": {
+   "nom": "Plaquage",
+   "passif": false
+  },
+  "HAMMERWHIRLWIND2": {
+   "nom": "Sol brisé",
+   "passif": false
+  },
+  "HAMMER_SHOVE": {
+   "nom": "Swing puissant",
+   "passif": false
+  },
+  "HAMMER_TREMOR": {
+   "nom": "Tremblement sismique",
+   "passif": false
+  },
+  "HAMSTRINGSWORD": {
+   "nom": "Claquage",
+   "passif": false
+  },
+  "HASTE": {
+   "nom": "Hâte",
+   "passif": false
+  },
+  "HAWK_SHOT_MULTI1": {
+   "nom": "Faucon luminescent",
+   "passif": false
+  },
+  "HEALINGBEAM": {
+   "nom": "Rayon béni",
+   "passif": false
+  },
+  "HELL_ARROW": {
+   "nom": "Flèche du démon",
+   "passif": false
+  },
+  "HELMET_FIREBREATH": {
+   "nom": "Souffle de feu",
+   "passif": false
+  },
+  "HEROICSTRIKE2": {
+   "nom": "Frappe héroïque",
+   "passif": false
+  },
+  "HOLYDESPERATEPRAYER2": {
+   "nom": "Prière désespérée",
+   "passif": false
+  },
+  "HOLYEXPLOSION": {
+   "nom": "Explosion Sacrée",
+   "passif": false
+  },
+  "HOLYFLASH": {
+   "nom": "Flash sacré",
+   "passif": false
+  },
+  "HOLYHOT": {
+   "nom": "Bénédiction divine",
+   "passif": false
+  },
+  "HOLYORB": {
+   "nom": "Orbe béni",
+   "passif": false
+  },
+  "HOLYSHIELD": {
+   "nom": "Protection divine",
+   "passif": false
+  },
+  "HOLYTOUCH": {
+   "nom": "Toucher sacré",
+   "passif": false
+  },
+  "HOLY_DISPEL": {
+   "nom": "Sanctification",
+   "passif": false
+  },
+  "HOLY_ULTIMATE": {
+   "nom": "Salut",
+   "passif": false
+  },
+  "HOVER_SPRINT": {
+   "nom": "Flotter",
+   "passif": false
+  },
+  "HOWL": {
+   "nom": "Hurlement",
+   "passif": false
+  },
+  "HUMAN_TORCH": {
+   "nom": "Combustion",
+   "passif": false
+  },
+  "HYPER_FOCUS": {
+   "nom": "Hyper concentration",
+   "passif": false
+  },
+  "ICEBLOCK2": {
+   "nom": "Bloc de glace",
+   "passif": false
+  },
+  "ICEROCK_EXPLODE": {
+   "nom": "Avalanche",
+   "passif": false
+  },
+  "ICESHARD": {
+   "nom": "Éclat de glace",
+   "passif": false
+  },
+  "ICESTORM2": {
+   "nom": "Tempête glacée",
+   "passif": false
+  },
+  "ICE_SCULPTURE": {
+   "nom": "Obélisque glacial",
+   "passif": false
+  },
+  "IMMORTAL": {
+   "nom": "Immortel",
+   "passif": false
+  },
+  "IMMUNEAREA": {
+   "nom": "Ailes de Feu",
+   "passif": false
+  },
+  "IMPULSE_PUNCH": {
+   "nom": "Effondrement gravitationnel",
+   "passif": false
+  },
+  "INNERBLEEDING": {
+   "nom": "Hémorragie interne",
+   "passif": false
+  },
+  "INNER_CORRUPTION": {
+   "nom": "Corruption intérieure",
+   "passif": false
+  },
+  "INTERRUPT2": {
+   "nom": "Interruption",
+   "passif": false
+  },
+  "INVISIBLE_WALK": {
+   "nom": "Course spectrale",
+   "passif": false
+  },
+  "INVULNERABILITY": {
+   "nom": "Rayon protecteur",
+   "passif": false
+  },
+  "IRONBREAKER": {
+   "nom": "Brise-fer",
+   "passif": false
+  },
+  "JUMP": {
+   "nom": "Saut d'esquive",
+   "passif": false
+  },
+  "JUMPSHOT2": {
+   "nom": "Tir de givre",
+   "passif": false
+  },
+  "KNOCKBACKSHOT2": {
+   "nom": "Tir propulseur",
+   "passif": false
+  },
+  "KNOCKOUT": {
+   "nom": "Assommer",
+   "passif": false
+  },
+  "KNUCKLECOMBO": {
+   "nom": "Combo dévastateur",
+   "passif": false
+  },
+  "KNUCKLE_COUNTER": {
+   "nom": "Contre",
+   "passif": false
+  },
+  "LANCE_CHARGE": {
+   "nom": "Percée",
+   "passif": false
+  },
+  "LAUNCHER": {
+   "nom": "Frappe atmosphérique",
+   "passif": false
+  },
+  "LEGBREAKER": {
+   "nom": "Estropier",
+   "passif": false
+  },
+  "LETHAL_CLEAVER": {
+   "nom": "Après-coup",
+   "passif": false
+  },
+  "LEVITATE": {
+   "nom": "Lévitation",
+   "passif": false
+  },
+  "LIFESAVIOR": {
+   "nom": "Esprit éternel",
+   "passif": false
+  },
+  "LIFESTEALAURA": {
+   "nom": "Aura de vol de vie",
+   "passif": false
+  },
+  "LIGHTNING_ARROW": {
+   "nom": "Tempête déchaînée",
+   "passif": false
+  },
+  "MACELEAP": {
+   "nom": "Grande enjambée",
+   "passif": false
+  },
+  "MACE_CRYSTAL_FRAGMENT_STORM": {
+   "nom": "Œil de la Tempête",
+   "passif": false
+  },
+  "MAGICCIRCLE": {
+   "nom": "Rune magique",
+   "passif": false
+  },
+  "MAGICSHOCK": {
+   "nom": "Secousse magique",
+   "passif": false
+  },
+  "MAGMASPHERE": {
+   "nom": "Sphère de magma",
+   "passif": false
+  },
+  "MAJESTIC_SMASH": {
+   "nom": "Frappe majestueuse",
+   "passif": false
+  },
+  "MANADRAIN": {
+   "nom": "Source d'énergie",
+   "passif": false
+  },
+  "MAXHEALTHBUFF": {
+   "nom": "Géant",
+   "passif": false
+  },
+  "METEOR": {
+   "nom": "Météore",
+   "passif": false
+  },
+  "MIGHTYBLOW": {
+   "nom": "Coup puissant",
+   "passif": false
+  },
+  "MIGHTYSWING": {
+   "nom": "Frappe en croissant",
+   "passif": false
+  },
+  "MIMIC": {
+   "nom": "Réplique",
+   "passif": false
+  },
+  "MIST_WALKER": {
+   "nom": "Nuage de brume",
+   "passif": false
+  },
+  "MOUNTSPELL_DIREBOAR_FW_LYMHURST_PASSIVE": {
+   "nom": "Sprint de Sanglier",
+   "passif": true
+  },
+  "MOUNTSPELL_GALLOP_FAKESPELL": {
+   "nom": "Résilience Draconique",
+   "passif": true
+  },
+  "MOUNTSPELL_GREYWOLF_FW_CAERLEON_PASSIVE": {
+   "nom": "Intimidation Sauvage",
+   "passif": true
+  },
+  "MOUNTSPELL_MOABIRD_FW_BRIDGEWATCH_PASSIVE": {
+   "nom": "Fuite Blessée",
+   "passif": true
+  },
+  "MOUNTSPELL_RAM_FW_MARTLOCK_PASSIVE": {
+   "nom": "Charge au Galop",
+   "passif": true
+  },
+  "MOUNTSPELL_SWAMPDRAGON_FW_THETFORD_PASSIVE": {
+   "nom": "Camouflage",
+   "passif": true
+  },
+  "MULTISHOT2": {
+   "nom": "Tirs multiples",
+   "passif": false
+  },
+  "NASTY_WOUNDS": {
+   "nom": "Blessures purulentes",
+   "passif": false
+  },
+  "NATURERESILIENCE": {
+   "nom": "Protection de la nature",
+   "passif": false
+  },
+  "NATURE_ULTIMATE_SINGLE": {
+   "nom": "Graine spirituelle",
+   "passif": false
+  },
+  "OUTOFCOMBATHEAL": {
+   "nom": "Guérison des blessures",
+   "passif": false
+  },
+  "OVERSPRINT": {
+   "nom": "Précipitation",
+   "passif": false
+  },
+  "PARRY": {
+   "nom": "Parade armée",
+   "passif": false
+  },
+  "PASSIVE_AASPEEDCHANCE_BOW": {
+   "nom": "Vitesse d'auto-attaque",
+   "passif": true
+  },
+  "PASSIVE_AASPEEDCHANCE_DAGGER": {
+   "nom": "Vitesse d'auto-attaque",
+   "passif": true
+  },
+  "PASSIVE_AASPEEDCHANCE_SPEAR": {
+   "nom": "Vitesse d'auto-attaque",
+   "passif": true
+  },
+  "PASSIVE_ARMORCHANCE_AXE": {
+   "nom": "Défense augmentée",
+   "passif": true
+  },
+  "PASSIVE_ARMORCHANCE_SWORD": {
+   "nom": "Défense augmentée",
+   "passif": true
+  },
+  "PASSIVE_ARMOR_BALANCE": {
+   "nom": "Esprit équilibré",
+   "passif": true
+  },
+  "PASSIVE_ARMOR_CASTER_ARCANESTAFF": {
+   "nom": "Sérénité",
+   "passif": true
+  },
+  "PASSIVE_ARMOR_CASTER_NATURESTAFF": {
+   "nom": "Sérénité",
+   "passif": true
+  },
+  "PASSIVE_ARMOR_CCDURATION": {
+   "nom": "Autorité",
+   "passif": true
+  },
+  "PASSIVE_ARMOR_CD_REDUCTION": {
+   "nom": "Réflexion rapide",
+   "passif": true
+  },
+  "PASSIVE_ARMOR_INCREASED_AASPEED": {
+   "nom": "Promptitude",
+   "passif": true
+  },
+  "PASSIVE_ARMOR_INCREASED_CASTSPEED": {
+   "nom": "Concentration",
+   "passif": true
+  },
+  "PASSIVE_ARMOR_INCREASED_CCR": {
+   "nom": "Ténacité",
+   "passif": true
+  },
+  "PASSIVE_ARMOR_INCREASED_DAMAGE": {
+   "nom": "Agression",
+   "passif": true
+  },
+  "PASSIVE_ARMOR_MR_AR": {
+   "nom": "Robustesse",
+   "passif": true
+  },
+  "PASSIVE_ARMOR_PIERCE_STACK": {
+   "nom": "Flèches perçantes",
+   "passif": true
+  },
+  "PASSIVE_ARMOR_REDUCED_ENERGYCOST": {
+   "nom": "Efficacité",
+   "passif": true
+  },
+  "PASSIVE_ATTACKBUFF_ARCANESTAFF": {
+   "nom": "Puissance persistante",
+   "passif": true
+  },
+  "PASSIVE_BALANCE": {
+   "nom": "Esprit équilibré",
+   "passif": true
+  },
+  "PASSIVE_BLEEDCHANCE": {
+   "nom": "Entailles profondes",
+   "passif": true
+  },
+  "PASSIVE_BURN": {
+   "nom": "Brûlure",
+   "passif": true
+  },
+  "PASSIVE_CAPE_AVALON": {
+   "nom": "Impulsion de force",
+   "passif": true
+  },
+  "PASSIVE_CAPE_BRIDGEWATCH": {
+   "nom": "Tempête de sable",
+   "passif": true
+  },
+  "PASSIVE_CAPE_CAERLEON": {
+   "nom": "Opportuniste",
+   "passif": true
+  },
+  "PASSIVE_CAPE_DEMON": {
+   "nom": "Entrée vers l'enfer",
+   "passif": true
+  },
+  "PASSIVE_CAPE_FEY": {
+   "nom": "Barrière féérique",
+   "passif": true
+  },
+  "PASSIVE_CAPE_FORTSTERLING": {
+   "nom": "Intouchable",
+   "passif": true
+  },
+  "PASSIVE_CAPE_HERETIC": {
+   "nom": "Piège sournois",
+   "passif": true
+  },
+  "PASSIVE_CAPE_KEEPER": {
+   "nom": "Berserker",
+   "passif": true
+  },
+  "PASSIVE_CAPE_LYMHURST": {
+   "nom": "Réserve d'énergie",
+   "passif": true
+  },
+  "PASSIVE_CAPE_MARTLOCK": {
+   "nom": "Bouclier de protection",
+   "passif": true
+  },
+  "PASSIVE_CAPE_MORGANA": {
+   "nom": "Marque de la corneille",
+   "passif": true
+  },
+  "PASSIVE_CAPE_SMUGGLER": {
+   "nom": "Fiole Cachée",
+   "passif": true
+  },
+  "PASSIVE_CAPE_THETFORD": {
+   "nom": "Chaîne d'éclairs",
+   "passif": true
+  },
+  "PASSIVE_CAPE_UNDEAD": {
+   "nom": "Évaporateur",
+   "passif": true
+  },
+  "PASSIVE_CASTINGSPEED_CHANCE_FIRESTAFF": {
+   "nom": "Incantation agressive",
+   "passif": true
+  },
+  "PASSIVE_CASTINGSPEED_CHANCE_FROSTSTAFF": {
+   "nom": "Incantation agressive",
+   "passif": true
+  },
+  "PASSIVE_CASTSPEED": {
+   "nom": "Concentration",
+   "passif": true
+  },
+  "PASSIVE_CCDURATION": {
+   "nom": "Autorité",
+   "passif": true
+  },
+  "PASSIVE_CCDURATION_CHANCE_HAMMER": {
+   "nom": "Combat effroyable",
+   "passif": true
+  },
+  "PASSIVE_CCDURATION_CHANCE_MACE": {
+   "nom": "Combat effroyable",
+   "passif": true
+  },
+  "PASSIVE_CCDURATION_CHANCE_QUARTERSTAFF": {
+   "nom": "Combat effroyable",
+   "passif": true
+  },
+  "PASSIVE_CD_REDUCTION": {
+   "nom": "Réflexion rapide",
+   "passif": true
+  },
+  "PASSIVE_CD_RESET_Q": {
+   "nom": "Bien préparé",
+   "passif": true
+  },
+  "PASSIVE_CURSE": {
+   "nom": "Fléau",
+   "passif": true
+  },
+  "PASSIVE_DIREBEAR_FW_FORTSTERLING_WINTERLORD": {
+   "nom": "Seigneur de l'hiver",
+   "passif": true
+  },
+  "PASSIVE_ENERGYCHANCE_ARCANESTAFF": {
+   "nom": "Énergique",
+   "passif": true
+  },
+  "PASSIVE_ENERGYCHANCE_BOW": {
+   "nom": "Énergique",
+   "passif": true
+  },
+  "PASSIVE_ENERGYCHANCE_CROSSBOW": {
+   "nom": "Énergique",
+   "passif": true
+  },
+  "PASSIVE_ENERGYCHANCE_CURSEDSTAFF": {
+   "nom": "Énergique",
+   "passif": true
+  },
+  "PASSIVE_ENERGYCHANCE_FIRESTAFF": {
+   "nom": "Énergique",
+   "passif": true
+  },
+  "PASSIVE_ENERGYCHANCE_FROSTSTAFF": {
+   "nom": "Énergique",
+   "passif": true
+  },
+  "PASSIVE_ENERGYCHANCE_HAMMER": {
+   "nom": "Énergique",
+   "passif": true
+  },
+  "PASSIVE_ENERGYCHANCE_HOLYSTAFF": {
+   "nom": "Énergique",
+   "passif": true
+  },
+  "PASSIVE_ENERGYCHANCE_MACE": {
+   "nom": "Énergique",
+   "passif": true
+  },
+  "PASSIVE_ENERGYCHANCE_NATURESTAFF": {
+   "nom": "Énergique",
+   "passif": true
+  },
+  "PASSIVE_ENERGYCHANCE_QUARTERSTAFF": {
+   "nom": "Énergique",
+   "passif": true
+  },
+  "PASSIVE_FROST": {
+   "nom": "Givre",
+   "passif": true
+  },
+  "PASSIVE_HEALPOWERCHANCE": {
+   "nom": "Charité d'adrénaline",
+   "passif": true
+  },
+  "PASSIVE_HEALTHCHANCE_AXE": {
+   "nom": "Sangsue de vie",
+   "passif": true
+  },
+  "PASSIVE_HEALTHCHANCE_DAGGER": {
+   "nom": "Sangsue de vie",
+   "passif": true
+  },
+  "PASSIVE_HEALTHCHANCE_HAMMER": {
+   "nom": "Sangsue de vie",
+   "passif": true
+  },
+  "PASSIVE_HEALTHCHANCE_MACE": {
+   "nom": "Sangsue de vie",
+   "passif": true
+  },
+  "PASSIVE_HEALTHCHANCE_QUARTERSTAFF": {
+   "nom": "Sangsue de vie",
+   "passif": true
+  },
+  "PASSIVE_HEALTHCHANCE_SPEAR": {
+   "nom": "Sangsue de vie",
+   "passif": true
+  },
+  "PASSIVE_HEROICSTACK": {
+   "nom": "Combat héroïque",
+   "passif": true
+  },
+  "PASSIVE_HOLY_ASCENDED": {
+   "nom": "Ascension",
+   "passif": true
+  },
+  "PASSIVE_INCREASED_AASPEED": {
+   "nom": "Promptitude",
+   "passif": true
+  },
+  "PASSIVE_INCREASED_CCR": {
+   "nom": "Ténacité",
+   "passif": true
+  },
+  "PASSIVE_INCREASED_DAMAGE": {
+   "nom": "Agression",
+   "passif": true
+  },
+  "PASSIVE_KNOCKBACKCHANCE": {
+   "nom": "Foudre vigoureuse",
+   "passif": true
+  },
+  "PASSIVE_KNOCKBACK_CASTER_HOLYSTAFF": {
+   "nom": "Puissance magique",
+   "passif": true
+  },
+  "PASSIVE_KNUCKLE_BRAWLER": {
+   "nom": "Fureur fatale",
+   "passif": true
+  },
+  "PASSIVE_KNUCKLE_BRAWLER_SPEED": {
+   "nom": "Fureur fatale",
+   "passif": true
+  },
+  "PASSIVE_KNUCKLE_COMBOBREAKER": {
+   "nom": "Difficile à attraper",
+   "passif": true
+  },
+  "PASSIVE_KNUCKLE_RAGE": {
+   "nom": "Rage",
+   "passif": true
+  },
+  "PASSIVE_KNUCKLE_RUSHDOWN": {
+   "nom": "Rattrapage",
+   "passif": true
+  },
+  "PASSIVE_MAXLOAD_DIREBOAR": {
+   "nom": "Messager",
+   "passif": true
+  },
+  "PASSIVE_MAXLOAD_DRAKE": {
+   "nom": "Messager",
+   "passif": true
+  },
+  "PASSIVE_MAXLOAD_GIANTSTAG": {
+   "nom": "Messager",
+   "passif": true
+  },
+  "PASSIVE_MAXLOAD_HORSE": {
+   "nom": "Messager",
+   "passif": true
+  },
+  "PASSIVE_MAXLOAD_OWL": {
+   "nom": "Capacité de charge réduite",
+   "passif": true
+  },
+  "PASSIVE_MAXLOAD_OWL_ELITE": {
+   "nom": "Capacité de charge réduite",
+   "passif": true
+  },
+  "PASSIVE_MAXLOAD_SHOES": {
+   "nom": "Messager",
+   "passif": true
+  },
+  "PASSIVE_MAXLOAD_SWAMPDRAGON": {
+   "nom": "Messager",
+   "passif": true
+  },
+  "PASSIVE_MOVESPEED_CHANCE_CURSEDSTAFF": {
+   "nom": "Délit de fuite",
+   "passif": true
+  },
+  "PASSIVE_MOVESPEED_CHANCE_NATURESTAFF": {
+   "nom": "Délit de fuite",
+   "passif": true
+  },
+  "PASSIVE_MR_AR": {
+   "nom": "Robustesse",
+   "passif": true
+  },
+  "PASSIVE_PLATEARMOR_HEALTH_REDUCTION": {
+   "nom": "Brise-esprit",
+   "passif": true
+  },
+  "PASSIVE_PLATEARMOR_THREATGENERATION": {
+   "nom": "Instinct protecteur",
+   "passif": true
+  },
+  "PASSIVE_REDUCED_ENERGYCOST": {
+   "nom": "Efficacité",
+   "passif": true
+  },
+  "PASSIVE_REDUCE_DMG_SWORD": {
+   "nom": "Affaiblissement",
+   "passif": true
+  },
+  "PASSIVE_SHAPESHIFT_ATTACK_BUFF": {
+   "nom": "Bête altérée",
+   "passif": true
+  },
+  "PASSIVE_SHAPESHIFT_GATHER_CHARGES": {
+   "nom": "Puissance innée",
+   "passif": true
+  },
+  "PASSIVE_SHAPESHIFT_Q_CAST_DAMAGE_REDUCE": {
+   "nom": "Présence intimidante",
+   "passif": true
+  },
+  "PASSIVE_SHAPESHIFT_W_CAST_SPEED_BUFF": {
+   "nom": "Briseurs de règles",
+   "passif": true
+  },
+  "PASSIVE_SILENCECHANCE": {
+   "nom": "Silence",
+   "passif": true
+  },
+  "PASSIVE_SLOWPOISON": {
+   "nom": "Poison lent",
+   "passif": true
+  },
+  "PASSIVE_SPELLPOWER_CASTER_CROSSBOW": {
+   "nom": "Fureur",
+   "passif": true
+  },
+  "PASSIVE_SPELLPOWER_CASTER_CURSEDSTAFF": {
+   "nom": "Fureur",
+   "passif": true
+  },
+  "PASSIVE_SPELLPOWER_CASTER_FIRESTAFF": {
+   "nom": "Fureur",
+   "passif": true
+  },
+  "PASSIVE_SPELLPOWER_CASTER_FROSTSTAFF": {
+   "nom": "Fureur",
+   "passif": true
+  },
+  "PASSIVE_SPELLPOWER_CHANCE_AXE": {
+   "nom": "Ruée violente",
+   "passif": true
+  },
+  "PASSIVE_SPELLPOWER_CHANCE_DAGGER": {
+   "nom": "Ruée violente",
+   "passif": true
+  },
+  "PASSIVE_SPELLPOWER_CHANCE_SPEAR": {
+   "nom": "Ruée violente",
+   "passif": true
+  },
+  "PASSIVE_STUNCHANCE": {
+   "nom": "Frappe étourdissante",
+   "passif": true
+  },
+  "PASSIVE_STUNCHANCE_QUARTERSTAFF": {
+   "nom": "Frappe étourdissante",
+   "passif": true
+  },
+  "PBAOE_KNOCKBACK": {
+   "nom": "Champ de force",
+   "passif": false
+  },
+  "PBAOE_PULL": {
+   "nom": "Compresseur d'air",
+   "passif": false
+  },
+  "PERPETUALENERGY": {
+   "nom": "Énergie perpétuelle",
+   "passif": false
+  },
+  "POISONARROW": {
+   "nom": "Flèche empoisonnée",
+   "passif": false
+  },
+  "PRIMALSLAM": {
+   "nom": "Force de la nature",
+   "passif": false
+  },
+  "PULSINGHEAL": {
+   "nom": "Pulsation sacrée",
+   "passif": false
+  },
+  "PUMMELING_STRIKES": {
+   "nom": "Cent poings marteleurs",
+   "passif": false
+  },
+  "PUNCHCOMBO": {
+   "nom": "Frappe dévastatrice",
+   "passif": false
+  },
+  "PURGE_HELMET": {
+   "nom": "Purge",
+   "passif": false
+  },
+  "PURGINGSHIELD2": {
+   "nom": "Bouclier purificateur",
+   "passif": false
+  },
+  "PURIFYING_SMOKE": {
+   "nom": "Fumée purifiante",
+   "passif": false
+  },
+  "PYROBLAST_SKILLSHOT": {
+   "nom": "Déflagration",
+   "passif": false
+  },
+  "QDASH": {
+   "nom": "Volée mortelle",
+   "passif": false
+  },
+  "QSTAFF_COMBO": {
+   "nom": "Danse du vent",
+   "passif": false
+  },
+  "QSWHIRLWIND": {
+   "nom": "Ouragan",
+   "passif": false
+  },
+  "QS_CRYSTAL_COMBO": {
+   "nom": "Double fantôme",
+   "passif": false
+  },
+  "QS_SLOWROPE": {
+   "nom": "Rochers mystiques",
+   "passif": false
+  },
+  "QS_WHIRLWIND2": {
+   "nom": "Swing vigoureux",
+   "passif": false
+  },
+  "RAM_CHARGE": {
+   "nom": "Piétinement",
+   "passif": false
+  },
+  "RAPIERSTAB": {
+   "nom": "Entailles brusques",
+   "passif": false
+  },
+  "REANIMATE": {
+   "nom": "Revitaliser",
+   "passif": false
+  },
+  "REFLECTAREA": {
+   "nom": "Protection des monstres",
+   "passif": false
+  },
+  "REFLECT_CHANNEL": {
+   "nom": "Rétribution",
+   "passif": false
+  },
+  "REJUVENATING_BREEZE": {
+   "nom": "Brise rajeunissante",
+   "passif": false
+  },
+  "REJUVENATION": {
+   "nom": "Rajeunissement",
+   "passif": false
+  },
+  "REJUVMUSHROOM_GRENADE": {
+   "nom": "Fleur rajeunissante",
+   "passif": false
+  },
+  "RENDINGCOMBO": {
+   "nom": "Rage déchirante",
+   "passif": false
+  },
+  "RENDINGSPIN": {
+   "nom": "Tournoiement déchirant",
+   "passif": false
+  },
+  "RENDINGSTRIKE": {
+   "nom": "Frappe déchirante",
+   "passif": false
+  },
+  "RENDINGSWING": {
+   "nom": "Déchirer",
+   "passif": false
+  },
+  "RESURRECTION": {
+   "nom": "Renaissance",
+   "passif": false
+  },
+  "RETALIATE2": {
+   "nom": "Riposte",
+   "passif": false
+  },
+  "ROOTFIELD": {
+   "nom": "Gravité",
+   "passif": false
+  },
+  "ROTTENVINES": {
+   "nom": "Nature dominante",
+   "passif": false
+  },
+  "ROYAL_BANNER": {
+   "nom": "Bannière royale",
+   "passif": false
+  },
+  "ROYAL_MARCH": {
+   "nom": "Marche royale",
+   "passif": false
+  },
+  "SACRED_GROUND": {
+   "nom": "Terre consacrée",
+   "passif": false
+  },
+  "SACRIFICE_HEAL": {
+   "nom": "Sacrifice",
+   "passif": false
+  },
+  "SCYTHESWING": {
+   "nom": "Faux sanglante",
+   "passif": false
+  },
+  "SEARING_FLAME": {
+   "nom": "Flammes brûlantes",
+   "passif": false
+  },
+  "SELF_CLEANSE": {
+   "nom": "Purification",
+   "passif": false
+  },
+  "SEPARATING_SLAM": {
+   "nom": "Séparateur",
+   "passif": false
+  },
+  "SHAPESHIFT_AVALONIAN_EAGLE": {
+   "nom": "Transformation en Oiseau de l'aube",
+   "passif": false
+  },
+  "SHAPESHIFT_BEAR": {
+   "nom": "Transformation en Esprit d'ours",
+   "passif": false
+  },
+  "SHAPESHIFT_CRYSTAL_COBRA": {
+   "nom": "Transformation en Cobra de Cristal",
+   "passif": false
+  },
+  "SHAPESHIFT_ENT": {
+   "nom": "Transformation en Sylvain",
+   "passif": false
+  },
+  "SHAPESHIFT_IMP": {
+   "nom": "Transformation en Diablotin du feu infernal",
+   "passif": false
+  },
+  "SHAPESHIFT_PANTHER": {
+   "nom": "Transformation en Panthère de l'ombre",
+   "passif": false
+  },
+  "SHAPESHIFT_ROCK_ELEMENTAL": {
+   "nom": "Transformation en Golem de pierre runique",
+   "passif": false
+  },
+  "SHAPESHIFT_WEREWOLF": {
+   "nom": "Transformation en Loup-garou",
+   "passif": false
+  },
+  "SHAPE_Q_CAST": {
+   "nom": "Projectile instable",
+   "passif": false
+  },
+  "SHAPE_Q_CONE_MELEE": {
+   "nom": "Choc d'impulsion",
+   "passif": false
+  },
+  "SHAPE_Q_DAMAGE_AND_SHIELD": {
+   "nom": "Matière adaptative",
+   "passif": false
+  },
+  "SHAPE_Q_SKILLSHOT": {
+   "nom": "Fissure dans la réalité",
+   "passif": false
+  },
+  "SHAPE_W_AREA_PULL": {
+   "nom": "Dérive spatiale",
+   "passif": false
+  },
+  "SHAPE_W_DAMAGE_AOE": {
+   "nom": "Distorsion",
+   "passif": false
+  },
+  "SHAPE_W_POLYMORPH": {
+   "nom": "Polymorphe",
+   "passif": false
+  },
+  "SHAPE_W_TETHERBEAM": {
+   "nom": "Attacher",
+   "passif": false
+  },
+  "SHATTER_Q": {
+   "nom": "Afflux gelé",
+   "passif": false
+  },
+  "SHIELDFRIENDLY": {
+   "nom": "Protection ésotérique",
+   "passif": false
+  },
+  "SHOCKWAVE": {
+   "nom": "Corbeau de Morgana",
+   "passif": false
+  },
+  "SHOCKWAVE_PUNCH": {
+   "nom": "Onde de choc",
+   "passif": false
+  },
+  "SHOULDERTACKLE": {
+   "nom": "Écrasement au coude",
+   "passif": false
+  },
+  "SHOVEL": {
+   "nom": "Lancer",
+   "passif": false
+  },
+  "SHRIEKMACE": {
+   "nom": "Cri de guerre",
+   "passif": false
+  },
+  "SHRINKINGSMASH": {
+   "nom": "Malédiction réductrice",
+   "passif": false
+  },
+  "SILENCINGBOLT": {
+   "nom": "Éliminateur de bruits",
+   "passif": false
+  },
+  "SKILLSHOT_FIREBALL": {
+   "nom": "Flamme furieuse",
+   "passif": false
+  },
+  "SKILLSHOT_PULL": {
+   "nom": "Harpon",
+   "passif": false
+  },
+  "SKILLSHOT_STUN": {
+   "nom": "Flèche magique",
+   "passif": false
+  },
+  "SKILLSHOT_TELEPORT": {
+   "nom": "Lisière ombragée",
+   "passif": false
+  },
+  "SKULLCURSE": {
+   "nom": "Hurlements terrifiants",
+   "passif": false
+  },
+  "SMELLOFBLOOD": {
+   "nom": "Agonie mortelle",
+   "passif": false
+  },
+  "SMITE_AOE": {
+   "nom": "Châtiment",
+   "passif": false
+  },
+  "SMOKEBOMB": {
+   "nom": "Fumigène",
+   "passif": false
+  },
+  "SNIPESHOT_CROSSBOW": {
+   "nom": "Tir de précision",
+   "passif": false
+  },
+  "SOULSHAKER": {
+   "nom": "Agitateur d'âme",
+   "passif": false
+  },
+  "SOUL_LINK": {
+   "nom": "Liage d'âme",
+   "passif": false
+  },
+  "SPEARTHROW": {
+   "nom": "Lancer de lance",
+   "passif": false
+  },
+  "SPEAR_AOE_FINISHER": {
+   "nom": "Le fil de la lame",
+   "passif": false
+  },
+  "SPEAR_LUNGE": {
+   "nom": "Frappe brusque",
+   "passif": false
+  },
+  "SPEEDARCHER_KITE": {
+   "nom": "Carquois enchanté",
+   "passif": false
+  },
+  "SPEEDCASTER": {
+   "nom": "Incantation rapide",
+   "passif": false
+  },
+  "SPEEDSHOT2": {
+   "nom": "Tir de vitesse",
+   "passif": false
+  },
+  "SPELLRUSH": {
+   "nom": "Éclat obsédant",
+   "passif": false
+  },
+  "SPIDER_THREAD": {
+   "nom": "Fil d'araignée",
+   "passif": false
+  },
+  "SPINATTACK": {
+   "nom": "Lames tournoyantes",
+   "passif": false
+  },
+  "SPINNING_SMASH": {
+   "nom": "Massacre",
+   "passif": false
+  },
+  "SPIRITANIMAL": {
+   "nom": "Animal spirituel",
+   "passif": false
+  },
+  "SPIRITSPEAR": {
+   "nom": "Lance d'esprit",
+   "passif": false
+  },
+  "SPLITTINGSLASH": {
+   "nom": "Frappe fissurante",
+   "passif": false
+  },
+  "SPRINTEOT": {
+   "nom": "Sprint énergétique",
+   "passif": false
+  },
+  "SPRINTHOT": {
+   "nom": "Sprint rajeunissant",
+   "passif": false
+  },
+  "SPRINT_CD_REDUCTION": {
+   "nom": "Sprint rafraîchissant",
+   "passif": false
+  },
+  "STARFALL_DOT": {
+   "nom": "Chute d'étoiles",
+   "passif": false
+  },
+  "STONESKIN": {
+   "nom": "Peau de pierre",
+   "passif": false
+  },
+  "STORMSHIELD": {
+   "nom": "Champ électrique",
+   "passif": false
+  },
+  "STUNRUN": {
+   "nom": "Course assommante",
+   "passif": false
+  },
+  "SUMMONER_CD_REDUCTION": {
+   "nom": "Méditation",
+   "passif": false
+  },
+  "SUNDERARMOR2": {
+   "nom": "Brise-armure",
+   "passif": false
+  },
+  "SUNDERSHOT": {
+   "nom": "Brise-tir",
+   "passif": false
+  },
+  "SWAP": {
+   "nom": "Échange de position",
+   "passif": false
+  },
+  "SWORD_BERSERK_RUN_RE": {
+   "nom": "Brise-limites",
+   "passif": false
+  },
+  "SWORD_SPIN": {
+   "nom": "Cyclone à lames",
+   "passif": false
+  },
+  "TAINTED_STEEL": {
+   "nom": "Acier de corruption",
+   "passif": false
+  },
+  "TAR_RING": {
+   "nom": "Anneau d'inertie",
+   "passif": false
+  },
+  "TAUNT": {
+   "nom": "Provocation",
+   "passif": false
+  },
+  "THORNSAREA": {
+   "nom": "Croissance d'épines",
+   "passif": false
+  },
+  "THREATENINGSMASH": {
+   "nom": "Frappe menaçante",
+   "passif": false
+  },
+  "THREATENINGSTRIKE_HAMMER": {
+   "nom": "Frappe menaçante",
+   "passif": false
+  },
+  "THROWINGBLADES": {
+   "nom": "Lames de lancer",
+   "passif": false
+  },
+  "TIME_FREEZE": {
+   "nom": "Ralentissement du temps",
+   "passif": false
+  },
+  "TORNADO": {
+   "nom": "Tornade",
+   "passif": false
+  },
+  "TRANSLUCENT": {
+   "nom": "Forme éthérée",
+   "passif": false
+  },
+  "TRIDENTTHROW": {
+   "nom": "Trident spectral",
+   "passif": false
+  },
+  "TRIPLECOMBO_DIVEKICK": {
+   "nom": "Combinaison purifiante",
+   "passif": false
+  },
+  "TRIPLE_KICK": {
+   "nom": "Triple tacle",
+   "passif": false
+  },
+  "UNDEADARROWS": {
+   "nom": "Flèches des Morts-vivants",
+   "passif": false
+  },
+  "UNDEADHAND": {
+   "nom": "Étreinte des Morts-vivants",
+   "passif": false
+  },
+  "VACUUMSLASH": {
+   "nom": "Vendetta",
+   "passif": false
+  },
+  "VAULT_ATTACK": {
+   "nom": "Saut voûté",
+   "passif": false
+  },
+  "VOID": {
+   "nom": "Le Vide",
+   "passif": false
+  },
+  "WANDERLUST": {
+   "nom": "Envie d'ailleurs",
+   "passif": false
+  },
+  "WEAPON_SILENCE": {
+   "nom": "Silence",
+   "passif": false
+  },
+  "WEAPON_SPRINT": {
+   "nom": "Élan Brûlant",
+   "passif": false
+  },
+  "WELLOFLIFE2": {
+   "nom": "Puits de vie",
+   "passif": false
+  },
+  "WHIRLING_STAFF": {
+   "nom": "Frappes tourbillonnantes",
+   "passif": false
+  },
+  "WILD_MAGIC": {
+   "nom": "Magie sauvage",
+   "passif": false
+  },
+  "WINDWALL": {
+   "nom": "Bourrasque",
+   "passif": false
+  }
+ },
+ "categories": [
+  {
+   "code": "accessoires_capes_avalon",
+   "nom": "Capes — Avalon",
+   "slot": "cape",
+   "sorts": {
+    "passif": [
+     "PASSIVE_CAPE_AVALON"
+    ]
+   }
+  },
+  {
+   "code": "accessoires_capes_brecilien",
+   "nom": "Capes — Brecilien",
+   "slot": "cape",
+   "sorts": {
+    "passif": [
+     "PASSIVE_CAPE_FEY"
+    ]
+   }
+  },
+  {
+   "code": "accessoires_capes_bridgewatch",
+   "nom": "Capes — Bridgewatch",
+   "slot": "cape",
+   "sorts": {
+    "passif": [
+     "PASSIVE_CAPE_BRIDGEWATCH"
+    ]
+   }
+  },
+  {
+   "code": "accessoires_capes_caerleon",
+   "nom": "Capes — Caerleon",
+   "slot": "cape",
+   "sorts": {
+    "passif": [
+     "PASSIVE_CAPE_CAERLEON"
+    ]
+   }
+  },
+  {
+   "code": "accessoires_capes_capes",
+   "nom": "Capes de cité",
+   "slot": "cape",
+   "sorts": {}
+  },
+  {
+   "code": "accessoires_capes_demon",
+   "nom": "Capes — Démon",
+   "slot": "cape",
+   "sorts": {
+    "passif": [
+     "PASSIVE_CAPE_DEMON"
+    ]
+   }
+  },
+  {
+   "code": "accessoires_capes_fortsterling",
+   "nom": "Capes — Fort Sterling",
+   "slot": "cape",
+   "sorts": {
+    "passif": [
+     "PASSIVE_CAPE_FORTSTERLING"
+    ]
+   }
+  },
+  {
+   "code": "accessoires_capes_heretic",
+   "nom": "Capes — Hérétiques",
+   "slot": "cape",
+   "sorts": {
+    "passif": [
+     "PASSIVE_CAPE_HERETIC"
+    ]
+   }
+  },
+  {
+   "code": "accessoires_capes_keeper",
+   "nom": "Capes — Gardiens",
+   "slot": "cape",
+   "sorts": {
+    "passif": [
+     "PASSIVE_CAPE_KEEPER"
+    ]
+   }
+  },
+  {
+   "code": "accessoires_capes_lymhurst",
+   "nom": "Capes — Lymhurst",
+   "slot": "cape",
+   "sorts": {
+    "passif": [
+     "PASSIVE_CAPE_LYMHURST"
+    ]
+   }
+  },
+  {
+   "code": "accessoires_capes_martlock",
+   "nom": "Capes — Martlock",
+   "slot": "cape",
+   "sorts": {
+    "passif": [
+     "PASSIVE_CAPE_MARTLOCK"
+    ]
+   }
+  },
+  {
+   "code": "accessoires_capes_morgana",
+   "nom": "Capes — Morgane",
+   "slot": "cape",
+   "sorts": {
+    "passif": [
+     "PASSIVE_CAPE_MORGANA"
+    ]
+   }
+  },
+  {
+   "code": "accessoires_capes_smuggler",
+   "nom": "Capes — Contrebandiers",
+   "slot": "cape",
+   "sorts": {
+    "passif": [
+     "PASSIVE_CAPE_SMUGGLER"
+    ]
+   }
+  },
+  {
+   "code": "accessoires_capes_thetford",
+   "nom": "Capes — Thetford",
+   "slot": "cape",
+   "sorts": {
+    "passif": [
+     "PASSIVE_CAPE_THETFORD"
+    ]
+   }
+  },
+  {
+   "code": "accessoires_capes_undead",
+   "nom": "Capes — Morts-vivants",
+   "slot": "cape",
+   "sorts": {
+    "passif": [
+     "PASSIVE_CAPE_UNDEAD"
+    ]
+   }
+  },
+  {
+   "code": "arcanestaff",
+   "nom": "Bâtons arcaniques",
+   "slot": "arme",
+   "sorts": {
+    "passif": [
+     "PASSIVE_ARMOR_CASTER_ARCANESTAFF",
+     "PASSIVE_ATTACKBUFF_ARCANESTAFF",
+     "PASSIVE_ENERGYCHANCE_ARCANESTAFF",
+     "PASSIVE_SILENCECHANCE"
+    ],
+    "sort_1": [
+     "ARCANE_CHAIN_MISSILE",
+     "MAGICSHOCK",
+     "SHIELDFRIENDLY"
+    ],
+    "sort_2": [
+     "CLEANSESPEED2",
+     "EMPOWERBEAM",
+     "ENIGMA_BLADE",
+     "FRAZZLE2",
+     "MIMIC"
+    ]
+   }
+  },
+  {
+   "code": "axe",
+   "nom": "Haches",
+   "slot": "arme",
+   "sorts": {
+    "passif": [
+     "PASSIVE_ARMORCHANCE_AXE",
+     "PASSIVE_BLEEDCHANCE",
+     "PASSIVE_HEALTHCHANCE_AXE",
+     "PASSIVE_SPELLPOWER_CHANCE_AXE"
+    ],
+    "sort_1": [
+     "RENDINGCOMBO",
+     "RENDINGSPIN",
+     "RENDINGSTRIKE"
+    ],
+    "sort_2": [
+     "AXEBOOST",
+     "AXESMASH",
+     "AXE_CHARGE",
+     "BLADE_AURA",
+     "INNERBLEEDING"
+    ]
+   }
+  },
+  {
+   "code": "basemounts",
+   "nom": "Montures",
+   "slot": "monture",
+   "sorts": {
+    "passif": [
+     "MOUNTSPELL_DIREBOAR_FW_LYMHURST_PASSIVE",
+     "MOUNTSPELL_GREYWOLF_FW_CAERLEON_PASSIVE",
+     "MOUNTSPELL_MOABIRD_FW_BRIDGEWATCH_PASSIVE",
+     "MOUNTSPELL_RAM_FW_MARTLOCK_PASSIVE",
+     "MOUNTSPELL_SWAMPDRAGON_FW_THETFORD_PASSIVE",
+     "PASSIVE_DIREBEAR_FW_FORTSTERLING_WINTERLORD",
+     "PASSIVE_MAXLOAD_DIREBOAR",
+     "PASSIVE_MAXLOAD_GIANTSTAG",
+     "PASSIVE_MAXLOAD_HORSE",
+     "PASSIVE_MAXLOAD_SWAMPDRAGON"
+    ]
+   }
+  },
+  {
+   "code": "battle_mount",
+   "nom": "Montures de combat",
+   "slot": "monture",
+   "sorts": {}
+  },
+  {
+   "code": "booktype",
+   "nom": "Grimoires",
+   "slot": "offhand",
+   "sorts": {}
+  },
+  {
+   "code": "bow",
+   "nom": "Arcs",
+   "slot": "arme",
+   "sorts": {
+    "passif": [
+     "PASSIVE_AASPEEDCHANCE_BOW",
+     "PASSIVE_ARMOR_PIERCE_STACK",
+     "PASSIVE_ENERGYCHANCE_BOW",
+     "PASSIVE_SLOWPOISON"
+    ],
+    "sort_1": [
+     "DEADLYSHOT",
+     "MULTISHOT2",
+     "POISONARROW"
+    ],
+    "sort_2": [
+     "BURNINGARROWS",
+     "GROUNDARROW",
+     "JUMPSHOT2",
+     "SPEEDSHOT2"
+    ]
+   }
+  },
+  {
+   "code": "cloth_armor",
+   "nom": "Robes en tissu",
+   "slot": "torse",
+   "sorts": {
+    "passif_1": [
+     "PASSIVE_ARMOR_INCREASED_CASTSPEED",
+     "PASSIVE_ARMOR_INCREASED_DAMAGE",
+     "PASSIVE_ARMOR_REDUCED_ENERGYCOST"
+    ],
+    "sort": [
+     "CASTBUBBLE",
+     "FEAR_AURA",
+     "FROSTSHIELD",
+     "LEVITATE",
+     "LIFESAVIOR",
+     "MAGICCIRCLE",
+     "OUTOFCOMBATHEAL",
+     "PURGINGSHIELD2",
+     "SPEEDCASTER",
+     "SPELLRUSH",
+     "WILD_MAGIC"
+    ]
+   }
+  },
+  {
+   "code": "cloth_helmet",
+   "nom": "Chapeaux en tissu",
+   "slot": "casque",
+   "sorts": {
+    "passif_1": [
+     "PASSIVE_CASTSPEED",
+     "PASSIVE_INCREASED_DAMAGE",
+     "PASSIVE_REDUCED_ENERGYCOST"
+    ],
+    "sort": [
+     "AVALON_BEAM",
+     "ENERGYFIELD",
+     "ENERGYSHIELD2",
+     "ENERGY_BARRIER",
+     "HELMET_FIREBREATH",
+     "HYPER_FOCUS",
+     "ICEBLOCK2",
+     "INNER_CORRUPTION",
+     "PBAOE_KNOCKBACK",
+     "PERPETUALENERGY",
+     "PURGE_HELMET"
+    ]
+   }
+  },
+  {
+   "code": "cloth_shoes",
+   "nom": "Chaussures en tissu",
+   "slot": "bottes",
+   "sorts": {
+    "passif_1": [
+     "PASSIVE_CASTSPEED",
+     "PASSIVE_INCREASED_DAMAGE",
+     "PASSIVE_MAXLOAD_SHOES",
+     "PASSIVE_REDUCED_ENERGYCOST"
+    ],
+    "sort": [
+     "BLINK",
+     "CHANNELED_RUN",
+     "DELAYED_TELEPORT",
+     "DEMONWALK",
+     "DODGE",
+     "FROSTWALK",
+     "GLASS_MOVESPEED",
+     "HOVER_SPRINT",
+     "SPRINTEOT",
+     "SWAP",
+     "TRANSLUCENT"
+    ]
+   }
+  },
+  {
+   "code": "crossbow",
+   "nom": "Arbalètes",
+   "slot": "arme",
+   "sorts": {
+    "passif": [
+     "PASSIVE_CD_RESET_Q",
+     "PASSIVE_ENERGYCHANCE_CROSSBOW",
+     "PASSIVE_KNOCKBACKCHANCE",
+     "PASSIVE_SPELLPOWER_CASTER_CROSSBOW"
+    ],
+    "sort_1": [
+     "AUTOFIRE2",
+     "BOLTSHOT"
+    ],
+    "sort_2": [
+     "ACID_BOMB",
+     "CALTROPS",
+     "KNOCKBACKSHOT2",
+     "SILENCINGBOLT",
+     "SUNDERSHOT"
+    ]
+   }
+  },
+  {
+   "code": "cursestaff",
+   "nom": "Bâtons de malédiction",
+   "slot": "arme",
+   "sorts": {
+    "passif": [
+     "PASSIVE_CURSE",
+     "PASSIVE_ENERGYCHANCE_CURSEDSTAFF",
+     "PASSIVE_MOVESPEED_CHANCE_CURSEDSTAFF",
+     "PASSIVE_SPELLPOWER_CASTER_CURSEDSTAFF"
+    ],
+    "sort_1": [
+     "CURSEBLADE",
+     "CURSEDOT",
+     "CURSED_SPLAT"
+    ],
+    "sort_2": [
+     "ARMORPIERCER",
+     "CURSEDBEAM",
+     "CURSEDHANDS_STACKUP",
+     "CURSENOVA",
+     "DARKMATTER"
+    ]
+   }
+  },
+  {
+   "code": "dagger",
+   "nom": "Dagues",
+   "slot": "arme",
+   "sorts": {
+    "passif": [
+     "PASSIVE_AASPEEDCHANCE_DAGGER",
+     "PASSIVE_BLEEDCHANCE",
+     "PASSIVE_HEALTHCHANCE_DAGGER",
+     "PASSIVE_SPELLPOWER_CHANCE_DAGGER"
+    ],
+    "sort_1": [
+     "ASSASSINSPIRIT",
+     "QDASH",
+     "SUNDERARMOR2"
+    ],
+    "sort_2": [
+     "CHAINDASH",
+     "DEEPCUTS",
+     "GROUNDDASH",
+     "SKILLSHOT_TELEPORT",
+     "THROWINGBLADES"
+    ]
+   }
+  },
+  {
+   "code": "firestaff",
+   "nom": "Bâtons de feu",
+   "slot": "arme",
+   "sorts": {
+    "passif": [
+     "PASSIVE_BURN",
+     "PASSIVE_CASTINGSPEED_CHANCE_FIRESTAFF",
+     "PASSIVE_ENERGYCHANCE_FIRESTAFF",
+     "PASSIVE_SPELLPOWER_CASTER_FIRESTAFF"
+    ],
+    "sort_1": [
+     "FIRESTAFFBOLT2",
+     "FIRESTAFFBOLT_AOE",
+     "SEARING_FLAME"
+    ],
+    "sort_2": [
+     "FIREARTILLERY",
+     "FIRECONE",
+     "FIRESTAFFIGNITE2_SPREAD",
+     "FIREWALL",
+     "SKILLSHOT_FIREBALL"
+    ]
+   }
+  },
+  {
+   "code": "food",
+   "nom": "Nourriture",
+   "slot": "nourriture",
+   "sorts": {}
+  },
+  {
+   "code": "froststaff",
+   "nom": "Bâtons de givre",
+   "slot": "arme",
+   "sorts": {
+    "passif": [
+     "PASSIVE_CASTINGSPEED_CHANCE_FROSTSTAFF",
+     "PASSIVE_ENERGYCHANCE_FROSTSTAFF",
+     "PASSIVE_FROST",
+     "PASSIVE_SPELLPOWER_CASTER_FROSTSTAFF"
+    ],
+    "sort_1": [
+     "FROST_BITE",
+     "ICESHARD",
+     "SHATTER_Q"
+    ],
+    "sort_2": [
+     "FROSTBEAM",
+     "FROSTBOMB_CASTSLOW",
+     "FROSTNOVA",
+     "FROST_LANCE",
+     "ICE_SCULPTURE"
+    ]
+   }
+  },
+  {
+   "code": "hammer",
+   "nom": "Marteaux",
+   "slot": "arme",
+   "sorts": {
+    "passif": [
+     "PASSIVE_CCDURATION_CHANCE_HAMMER",
+     "PASSIVE_ENERGYCHANCE_HAMMER",
+     "PASSIVE_HEALTHCHANCE_HAMMER",
+     "PASSIVE_STUNCHANCE"
+    ],
+    "sort_1": [
+     "HAMMER_SHOVE",
+     "IRONBREAKER",
+     "THREATENINGSTRIKE_HAMMER"
+    ],
+    "sort_2": [
+     "CHARGESLOWAE",
+     "GEYSER",
+     "HAMMER_TREMOR",
+     "KNOCKOUT",
+     "TAR_RING"
+    ]
+   }
+  },
+  {
+   "code": "holystaff",
+   "nom": "Bâtons sacrés",
+   "slot": "arme",
+   "sorts": {
+    "passif": [
+     "PASSIVE_ENERGYCHANCE_HOLYSTAFF",
+     "PASSIVE_HEALPOWERCHANCE",
+     "PASSIVE_HOLY_ASCENDED",
+     "PASSIVE_KNOCKBACK_CASTER_HOLYSTAFF"
+    ],
+    "sort_1": [
+     "GENEROUSHEAL",
+     "HOLYFLASH",
+     "SMITE_AOE"
+    ],
+    "sort_2": [
+     "HEALINGBEAM",
+     "HOLYHOT",
+     "HOLYORB",
+     "PULSINGHEAL",
+     "RESURRECTION"
+    ]
+   }
+  },
+  {
+   "code": "knuckles",
+   "nom": "Gantelets",
+   "slot": "arme",
+   "sorts": {
+    "passif": [
+     "PASSIVE_AASPEEDCHANCE_DAGGER",
+     "PASSIVE_BLEEDCHANCE",
+     "PASSIVE_HEALTHCHANCE_DAGGER",
+     "PASSIVE_KNUCKLE_BRAWLER",
+     "PASSIVE_KNUCKLE_BRAWLER_SPEED",
+     "PASSIVE_KNUCKLE_COMBOBREAKER",
+     "PASSIVE_KNUCKLE_RAGE",
+     "PASSIVE_KNUCKLE_RUSHDOWN",
+     "PASSIVE_SPELLPOWER_CHANCE_DAGGER"
+    ],
+    "sort_1": [
+     "ASSASSINSPIRIT",
+     "CREATE_OPENING",
+     "CROSSSTEP_ROUNDHOUSE",
+     "DASHKICK",
+     "QDASH",
+     "SHOCKWAVE_PUNCH",
+     "SUNDERARMOR2"
+    ],
+    "sort_2": [
+     "BACKHAND_KNOCKBACK",
+     "CHAINDASH",
+     "DEEPCUTS",
+     "GROUNDDASH",
+     "KNUCKLECOMBO",
+     "KNUCKLE_COUNTER",
+     "SKILLSHOT_TELEPORT",
+     "THROWINGBLADES",
+     "TRIPLE_KICK"
+    ]
+   }
+  },
+  {
+   "code": "leather_armor",
+   "nom": "Vestes en cuir",
+   "slot": "torse",
+   "sorts": {
+    "passif_1": [
+     "PASSIVE_ARMOR_BALANCE",
+     "PASSIVE_ARMOR_CD_REDUCTION",
+     "PASSIVE_ARMOR_INCREASED_AASPEED"
+    ],
+    "sort": [
+     "AMBUSH",
+     "BLOODLUST",
+     "BURNAURA",
+     "DYNAMIC_DEFENSE",
+     "FLAMESHIELD",
+     "HASTE",
+     "IMMUNEAREA",
+     "LIFESTEALAURA",
+     "MIST_WALKER",
+     "OUTOFCOMBATHEAL",
+     "ROYAL_BANNER",
+     "STORMSHIELD"
+    ]
+   }
+  },
+  {
+   "code": "leather_helmet",
+   "nom": "Casques en cuir",
+   "slot": "casque",
+   "sorts": {
+    "passif_1": [
+     "PASSIVE_BALANCE",
+     "PASSIVE_CD_REDUCTION",
+     "PASSIVE_INCREASED_AASPEED"
+    ],
+    "sort": [
+     "ARMOR_CD_RESET",
+     "ENERGY_BARRIER",
+     "FLARE",
+     "GROWING_RAGE",
+     "HOWL",
+     "IMMORTAL",
+     "NASTY_WOUNDS",
+     "RETALIATE2",
+     "SELF_CLEANSE",
+     "SMELLOFBLOOD",
+     "SMOKEBOMB",
+     "SUMMONER_CD_REDUCTION"
+    ]
+   }
+  },
+  {
+   "code": "leather_shoes",
+   "nom": "Bottes en cuir",
+   "slot": "bottes",
+   "sorts": {
+    "passif_1": [
+     "PASSIVE_BALANCE",
+     "PASSIVE_CD_REDUCTION",
+     "PASSIVE_INCREASED_AASPEED",
+     "PASSIVE_MAXLOAD_SHOES"
+    ],
+    "sort": [
+     "AFTER_IMAGE",
+     "ASSASSIN_DASH",
+     "BLINDSPOT",
+     "CLEANSE_DASH",
+     "DEATHMARK",
+     "DMG_BLINK",
+     "DODGE",
+     "INVISIBLE_WALK",
+     "JUMP",
+     "OVERSPRINT",
+     "SPRINT_CD_REDUCTION",
+     "WEAPON_SPRINT"
+    ]
+   }
+  },
+  {
+   "code": "mace",
+   "nom": "Masses",
+   "slot": "arme",
+   "sorts": {
+    "passif": [
+     "PASSIVE_CCDURATION_CHANCE_MACE",
+     "PASSIVE_ENERGYCHANCE_MACE",
+     "PASSIVE_HEALTHCHANCE_MACE",
+     "PASSIVE_STUNCHANCE"
+    ],
+    "sort_1": [
+     "DEFENSIVESLAM",
+     "SACRED_GROUND",
+     "THREATENINGSMASH"
+    ],
+    "sort_2": [
+     "CHARGE_ROOT",
+     "GROUNDSHAKER",
+     "GUARDRUNE",
+     "PBAOE_PULL"
+    ]
+   }
+  },
+  {
+   "code": "naturestaff",
+   "nom": "Bâtons de la nature",
+   "slot": "arme",
+   "sorts": {
+    "passif": [
+     "PASSIVE_ARMOR_CASTER_NATURESTAFF",
+     "PASSIVE_ENERGYCHANCE_NATURESTAFF",
+     "PASSIVE_HEALPOWERCHANCE",
+     "PASSIVE_MOVESPEED_CHANCE_NATURESTAFF"
+    ],
+    "sort_1": [
+     "REJUVENATION",
+     "REJUVMUSHROOM_GRENADE",
+     "THORNSAREA"
+    ],
+    "sort_2": [
+     "BRAMBLESEED",
+     "CLEANSEHEAL",
+     "NATURERESILIENCE",
+     "REANIMATE",
+     "REJUVENATING_BREEZE"
+    ]
+   }
+  },
+  {
+   "code": "plate_armor",
+   "nom": "Armures en plaques",
+   "slot": "torse",
+   "sorts": {
+    "passif_1": [
+     "PASSIVE_ARMOR_CCDURATION",
+     "PASSIVE_ARMOR_INCREASED_CCR",
+     "PASSIVE_ARMOR_MR_AR"
+    ],
+    "passif_2": [
+     "PASSIVE_PLATEARMOR_HEALTH_REDUCTION",
+     "PASSIVE_PLATEARMOR_THREATGENERATION"
+    ],
+    "sort": [
+     "ARMORCHAIN",
+     "ARMOR_WEB",
+     "ENFEEBLEAURA",
+     "ENRAGE",
+     "FORCESHIELD",
+     "MANADRAIN",
+     "OUTOFCOMBATHEAL",
+     "REFLECTAREA",
+     "REFLECT_CHANNEL",
+     "TAUNT",
+     "WINDWALL"
+    ]
+   }
+  },
+  {
+   "code": "plate_helmet",
+   "nom": "Casques en plaques",
+   "slot": "casque",
+   "sorts": {
+    "passif_1": [
+     "PASSIVE_CCDURATION",
+     "PASSIVE_INCREASED_CCR",
+     "PASSIVE_MR_AR"
+    ],
+    "sort": [
+     "ARTILLERY_COMMAND",
+     "BLOCK",
+     "DISRUPTIONIMMUNITY",
+     "ELECTRICSHOCK",
+     "EMERGENCY_SHIELD",
+     "ENERGY_BARRIER",
+     "PURIFYING_SMOKE",
+     "SACRIFICE_HEAL",
+     "SPIDER_THREAD",
+     "STONESKIN",
+     "WEAPON_SILENCE"
+    ]
+   }
+  },
+  {
+   "code": "plate_shoes",
+   "nom": "Sabatons en plaques",
+   "slot": "bottes",
+   "sorts": {
+    "passif_1": [
+     "PASSIVE_CCDURATION",
+     "PASSIVE_INCREASED_CCR",
+     "PASSIVE_MAXLOAD_SHOES",
+     "PASSIVE_MR_AR"
+    ],
+    "sort": [
+     "BATTLEFRENZY",
+     "BERSERK_SPRINT",
+     "CC_BLOCK",
+     "CHARGE_IN",
+     "CHARGE_SHIELD",
+     "DODGE",
+     "MAXHEALTHBUFF",
+     "ROYAL_MARCH",
+     "SHOULDERTACKLE",
+     "SPRINTHOT",
+     "WANDERLUST"
+    ]
+   }
+  },
+  {
+   "code": "potions",
+   "nom": "Potions",
+   "slot": "potion",
+   "sorts": {}
+  },
+  {
+   "code": "quarterstaff",
+   "nom": "Bâtons de combat",
+   "slot": "arme",
+   "sorts": {
+    "passif": [
+     "PASSIVE_CCDURATION_CHANCE_QUARTERSTAFF",
+     "PASSIVE_ENERGYCHANCE_QUARTERSTAFF",
+     "PASSIVE_HEALTHCHANCE_QUARTERSTAFF",
+     "PASSIVE_STUNCHANCE_QUARTERSTAFF"
+    ],
+    "sort_1": [
+     "CARTWHEEL",
+     "CONCUSSIVEBLOW_MULTI_1",
+     "WHIRLING_STAFF"
+    ],
+    "sort_2": [
+     "LAUNCHER",
+     "QSTAFF_COMBO",
+     "QS_WHIRLWIND2",
+     "SEPARATING_SLAM",
+     "STUNRUN"
+    ]
+   }
+  },
+  {
+   "code": "raremounts",
+   "nom": "Montures rares",
+   "slot": "monture",
+   "sorts": {
+    "passif": [
+     "MOUNTSPELL_DIREBOAR_FW_LYMHURST_PASSIVE",
+     "MOUNTSPELL_GALLOP_FAKESPELL",
+     "MOUNTSPELL_GREYWOLF_FW_CAERLEON_PASSIVE",
+     "MOUNTSPELL_MOABIRD_FW_BRIDGEWATCH_PASSIVE",
+     "MOUNTSPELL_RAM_FW_MARTLOCK_PASSIVE",
+     "MOUNTSPELL_SWAMPDRAGON_FW_THETFORD_PASSIVE",
+     "PASSIVE_DIREBEAR_FW_FORTSTERLING_WINTERLORD",
+     "PASSIVE_MAXLOAD_DIREBOAR",
+     "PASSIVE_MAXLOAD_DRAKE",
+     "PASSIVE_MAXLOAD_GIANTSTAG",
+     "PASSIVE_MAXLOAD_HORSE",
+     "PASSIVE_MAXLOAD_OWL",
+     "PASSIVE_MAXLOAD_OWL_ELITE",
+     "PASSIVE_MAXLOAD_SWAMPDRAGON"
+    ]
+   }
+  },
+  {
+   "code": "shapeshifterstaff",
+   "nom": "Bâtons de métamorphe",
+   "slot": "arme",
+   "sorts": {
+    "passif": [
+     "PASSIVE_SHAPESHIFT_ATTACK_BUFF",
+     "PASSIVE_SHAPESHIFT_GATHER_CHARGES",
+     "PASSIVE_SHAPESHIFT_Q_CAST_DAMAGE_REDUCE",
+     "PASSIVE_SHAPESHIFT_W_CAST_SPEED_BUFF"
+    ],
+    "sort_1": [
+     "SHAPE_Q_CAST",
+     "SHAPE_Q_CONE_MELEE",
+     "SHAPE_Q_DAMAGE_AND_SHIELD",
+     "SHAPE_Q_SKILLSHOT"
+    ],
+    "sort_2": [
+     "SHAPE_W_AREA_PULL",
+     "SHAPE_W_DAMAGE_AOE",
+     "SHAPE_W_POLYMORPH",
+     "SHAPE_W_TETHERBEAM"
+    ]
+   }
+  },
+  {
+   "code": "shieldtype",
+   "nom": "Boucliers",
+   "slot": "offhand",
+   "sorts": {}
+  },
+  {
+   "code": "spear",
+   "nom": "Lances",
+   "slot": "arme",
+   "sorts": {
+    "passif": [
+     "PASSIVE_AASPEEDCHANCE_SPEAR",
+     "PASSIVE_HEALTHCHANCE_SPEAR",
+     "PASSIVE_SLOWPOISON",
+     "PASSIVE_SPELLPOWER_CHANCE_SPEAR"
+    ],
+    "sort_1": [
+     "SPEAR_LUNGE",
+     "SPIRITSPEAR"
+    ],
+    "sort_2": [
+     "CHARGINGBLADE",
+     "DEFLECTINGSTANCE",
+     "FORESTOFSPEARS",
+     "GROUNDSPEAR",
+     "LEGBREAKER",
+     "SKILLSHOT_PULL"
+    ]
+   }
+  },
+  {
+   "code": "sword",
+   "nom": "Épées",
+   "slot": "arme",
+   "sorts": {
+    "passif": [
+     "PASSIVE_ARMORCHANCE_SWORD",
+     "PASSIVE_BLEEDCHANCE",
+     "PASSIVE_HEROICSTACK",
+     "PASSIVE_REDUCE_DMG_SWORD"
+    ],
+    "sort_1": [
+     "CLEAVE",
+     "HEROICSTRIKE2"
+    ],
+    "sort_2": [
+     "DEFENSERUN",
+     "HAMSTRINGSWORD",
+     "INTERRUPT2",
+     "PARRY",
+     "SPLITTINGSLASH",
+     "SWORD_SPIN"
+    ]
+   }
+  },
+  {
+   "code": "torchtype",
+   "nom": "Torches",
+   "slot": "offhand",
+   "sorts": {}
+  }
+ ],
+ "objets": [
+  {
+   "code": "2H_CLAYMORE_AVALON",
+   "nom": "Adoube-roi",
+   "slot": "arme",
+   "categorie": "sword",
+   "rendu": "T8_2H_CLAYMORE_AVALON",
+   "deux_mains": true,
+   "sort_3": "MAJESTIC_SMASH",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_CROSSBOW",
+   "nom": "Arbalète",
+   "slot": "arme",
+   "categorie": "crossbow",
+   "rendu": "T8_2H_CROSSBOW",
+   "deux_mains": true,
+   "sort_3": "SNIPESHOT_CROSSBOW",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_CROSSBOWLARGE",
+   "nom": "Arbalète lourde",
+   "slot": "arme",
+   "categorie": "crossbow",
+   "rendu": "T8_2H_CROSSBOWLARGE",
+   "deux_mains": true,
+   "sort_3": "CROSSBOW_ARMORPIERCER",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MAIN_1HCROSSBOW",
+   "nom": "Arbalète légère",
+   "slot": "arme",
+   "categorie": "crossbow",
+   "rendu": "T8_MAIN_1HCROSSBOW",
+   "deux_mains": false,
+   "sort_3": "EXPLODING_SHOT",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_REPEATINGCROSSBOW_UNDEAD",
+   "nom": "Arbalète à répétition des larmes",
+   "slot": "arme",
+   "categorie": "crossbow",
+   "rendu": "T8_2H_REPEATINGCROSSBOW_UNDEAD",
+   "deux_mains": true,
+   "sort_3": "GROUNDMINE",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_BOW",
+   "nom": "Arc",
+   "slot": "arme",
+   "categorie": "bow",
+   "rendu": "T8_2H_BOW",
+   "deux_mains": true,
+   "sort_3": "SPEEDARCHER_KITE",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_BOW_CRYSTAL",
+   "nom": "Arc Marche-ciel",
+   "slot": "arme",
+   "categorie": "bow",
+   "rendu": "T8_2H_BOW_CRYSTAL",
+   "deux_mains": true,
+   "sort_3": "AIR_RAID",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_BOW_KEEPER",
+   "nom": "Arc de Badon",
+   "slot": "arme",
+   "categorie": "bow",
+   "rendu": "T8_2H_BOW_KEEPER",
+   "deux_mains": true,
+   "sort_3": "LIGHTNING_ARROW",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_WARBOW",
+   "nom": "Arc de guerre",
+   "slot": "arme",
+   "categorie": "bow",
+   "rendu": "T8_2H_WARBOW",
+   "deux_mains": true,
+   "sort_3": "SKILLSHOT_STUN",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_CROSSBOWLARGE_MORGANA",
+   "nom": "Arc de siège",
+   "slot": "arme",
+   "categorie": "crossbow",
+   "rendu": "T8_2H_CROSSBOWLARGE_MORGANA",
+   "deux_mains": true,
+   "sort_3": "CROSSBOW_CONE_ULTIMATE",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_BOW_HELL",
+   "nom": "Arc gémissant",
+   "slot": "arme",
+   "categorie": "bow",
+   "rendu": "T8_2H_BOW_HELL",
+   "deux_mains": true,
+   "sort_3": "HELL_ARROW",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_LONGBOW",
+   "nom": "Arc long",
+   "slot": "arme",
+   "categorie": "bow",
+   "rendu": "T8_2H_LONGBOW",
+   "deux_mains": true,
+   "sort_3": "ARROWRAIN",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_LONGBOW_UNDEAD",
+   "nom": "Arc murmurant",
+   "slot": "arme",
+   "categorie": "bow",
+   "rendu": "T8_2H_LONGBOW_UNDEAD",
+   "deux_mains": true,
+   "sort_3": "UNDEADARROWS",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_FIRE_RINGPAIR_AVALON",
+   "nom": "Aria de l'aube",
+   "slot": "arme",
+   "categorie": "firestaff",
+   "rendu": "T8_2H_FIRE_RINGPAIR_AVALON",
+   "deux_mains": true,
+   "sort_3": "FIREPHOENIX",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_POLEHAMMER",
+   "nom": "Bec de corbin",
+   "slot": "arme",
+   "categorie": "hammer",
+   "rendu": "T8_2H_POLEHAMMER",
+   "deux_mains": true,
+   "sort_3": "GROUNDBREAKER2",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_KNUCKLES_CRYSTAL",
+   "nom": "Brassards d'Impulsion de Force",
+   "slot": "arme",
+   "categorie": "knuckles",
+   "rendu": "T8_2H_KNUCKLES_CRYSTAL",
+   "deux_mains": true,
+   "sort_3": "CONEPUNCH2",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_KNUCKLES_SET2",
+   "nom": "Brassards de bataille",
+   "slot": "arme",
+   "categorie": "knuckles",
+   "rendu": "T8_2H_KNUCKLES_SET2",
+   "deux_mains": true,
+   "sort_3": "DIVEPUNCH_RISE",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_DAGGER_KATAR_AVALON",
+   "nom": "Brides-furie",
+   "slot": "arme",
+   "categorie": "dagger",
+   "rendu": "T8_2H_DAGGER_KATAR_AVALON",
+   "deux_mains": true,
+   "sort_3": "BACK_SLASH",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_AXE_AVALON",
+   "nom": "Brise-royaume",
+   "slot": "arme",
+   "categorie": "axe",
+   "rendu": "T8_2H_AXE_AVALON",
+   "deux_mains": true,
+   "sort_3": "LETHAL_CLEAVER",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_FROSTSTAFF_CRYSTAL",
+   "nom": "Bâton arctique",
+   "slot": "arme",
+   "categorie": "froststaff",
+   "rendu": "T8_2H_FROSTSTAFF_CRYSTAL",
+   "deux_mains": true,
+   "sort_3": "FROST_TARGETED_CHANNEL",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_INFERNOSTAFF_MORGANA",
+   "nom": "Bâton ardent",
+   "slot": "arme",
+   "categorie": "firestaff",
+   "rendu": "T8_2H_INFERNOSTAFF_MORGANA",
+   "deux_mains": true,
+   "sort_3": "FLAMETORNADO",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_ARCANESTAFF_CRYSTAL",
+   "nom": "Bâton astral",
+   "slot": "arme",
+   "categorie": "arcanestaff",
+   "rendu": "T8_2H_ARCANESTAFF_CRYSTAL",
+   "deux_mains": true,
+   "sort_3": "STARFALL_DOT",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MAIN_FIRESTAFF_KEEPER",
+   "nom": "Bâton braisier",
+   "slot": "arme",
+   "categorie": "firestaff",
+   "rendu": "T8_MAIN_FIRESTAFF_KEEPER",
+   "deux_mains": false,
+   "sort_3": "MAGMASPHERE",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MAIN_HOLYSTAFF",
+   "nom": "Bâton béni",
+   "slot": "arme",
+   "categorie": "holystaff",
+   "rendu": "T8_MAIN_HOLYSTAFF",
+   "deux_mains": false,
+   "sort_3": "HOLYDESPERATEPRAYER2",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_ROCKSTAFF_KEEPER",
+   "nom": "Bâton d'équilibre",
+   "slot": "arme",
+   "categorie": "quarterstaff",
+   "rendu": "T8_2H_ROCKSTAFF_KEEPER",
+   "deux_mains": true,
+   "sort_3": "QS_SLOWROPE",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MAIN_CURSEDSTAFF",
+   "nom": "Bâton damné",
+   "slot": "arme",
+   "categorie": "cursestaff",
+   "rendu": "T8_MAIN_CURSEDSTAFF",
+   "deux_mains": false,
+   "sort_3": "DEATHCURSE2",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MAIN_NATURESTAFF_CRYSTAL",
+   "nom": "Bâton de Forgécorce",
+   "slot": "arme",
+   "categorie": "naturestaff",
+   "rendu": "T8_MAIN_NATURESTAFF_CRYSTAL",
+   "deux_mains": false,
+   "sort_3": "DUAL_NATURE",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MAIN_FIRESTAFF_CRYSTAL",
+   "nom": "Bâton de Marcheflammes",
+   "slot": "arme",
+   "categorie": "firestaff",
+   "rendu": "T8_MAIN_FIRESTAFF_CRYSTAL",
+   "deux_mains": false,
+   "sort_3": "FLAMEDASH",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MAIN_CURSEDSTAFF_CRYSTAL",
+   "nom": "Bâton de Putréfaction",
+   "slot": "arme",
+   "categorie": "cursestaff",
+   "rendu": "T8_MAIN_CURSEDSTAFF_CRYSTAL",
+   "deux_mains": false,
+   "sort_3": "CURSE_SKELETON_BARF_FDHR",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_SHAPESHIFTER_CRYSTAL",
+   "nom": "Bâton de Regard Figé",
+   "slot": "arme",
+   "categorie": "shapeshifterstaff",
+   "rendu": "T8_2H_SHAPESHIFTER_CRYSTAL",
+   "deux_mains": true,
+   "sort_3": "SHAPESHIFT_CRYSTAL_COBRA",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_SHAPESHIFTER_HELL",
+   "nom": "Bâton de créature infernale",
+   "slot": "arme",
+   "categorie": "shapeshifterstaff",
+   "rendu": "T8_2H_SHAPESHIFTER_HELL",
+   "deux_mains": true,
+   "sort_3": "SHAPESHIFT_IMP",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MAIN_FIRESTAFF",
+   "nom": "Bâton de feu",
+   "slot": "arme",
+   "categorie": "firestaff",
+   "rendu": "T8_MAIN_FIRESTAFF",
+   "deux_mains": false,
+   "sort_3": "PYROBLAST_SKILLSHOT",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_NATURESTAFF_HELL",
+   "nom": "Bâton de fléau",
+   "slot": "arme",
+   "categorie": "naturestaff",
+   "rendu": "T8_2H_NATURESTAFF_HELL",
+   "deux_mains": true,
+   "sort_3": "ROTTENVINES",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MAIN_FROSTSTAFF_KEEPER",
+   "nom": "Bâton de gelée blanche",
+   "slot": "arme",
+   "categorie": "froststaff",
+   "rendu": "T8_MAIN_FROSTSTAFF_KEEPER",
+   "deux_mains": false,
+   "sort_3": "ICEROCK_EXPLODE",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MAIN_FROSTSTAFF",
+   "nom": "Bâton de givre",
+   "slot": "arme",
+   "categorie": "froststaff",
+   "rendu": "T8_MAIN_FROSTSTAFF",
+   "deux_mains": false,
+   "sort_3": "FREEZINGWIND",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_CURSEDSTAFF_MORGANA",
+   "nom": "Bâton de la damnation",
+   "slot": "arme",
+   "categorie": "cursestaff",
+   "rendu": "T8_2H_CURSEDSTAFF_MORGANA",
+   "deux_mains": true,
+   "sort_3": "CURSEULTIMATE",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_SHAPESHIFTER_MORGANA",
+   "nom": "Bâton de lune de sang",
+   "slot": "arme",
+   "categorie": "shapeshifterstaff",
+   "rendu": "T8_2H_SHAPESHIFTER_MORGANA",
+   "deux_mains": true,
+   "sort_3": "SHAPESHIFT_WEREWOLF",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MAIN_CURSEDSTAFF_UNDEAD",
+   "nom": "Bâton de malédiction de vie",
+   "slot": "arme",
+   "categorie": "cursestaff",
+   "rendu": "T8_MAIN_CURSEDSTAFF_UNDEAD",
+   "deux_mains": false,
+   "sort_3": "ENFEEBLEBLADES",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_COMBATSTAFF_MORGANA",
+   "nom": "Bâton de moine noir",
+   "slot": "arme",
+   "categorie": "quarterstaff",
+   "rendu": "T8_2H_COMBATSTAFF_MORGANA",
+   "deux_mains": true,
+   "sort_3": "COMBATSTAFF_SLASH",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_HOLYSTAFF_UNDEAD",
+   "nom": "Bâton de rédemption",
+   "slot": "arme",
+   "categorie": "holystaff",
+   "rendu": "T8_2H_HOLYSTAFF_UNDEAD",
+   "deux_mains": true,
+   "sort_3": "CELESTIAL_SPHERE",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MAIN_ARCANESTAFF_UNDEAD",
+   "nom": "Bâton de sorcellerie",
+   "slot": "arme",
+   "categorie": "arcanestaff",
+   "rendu": "T8_MAIN_ARCANESTAFF_UNDEAD",
+   "deux_mains": false,
+   "sort_3": "BLACKHOLE",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_ICEGAUNTLETS_HELL",
+   "nom": "Bâton de stalactite",
+   "slot": "arme",
+   "categorie": "froststaff",
+   "rendu": "T8_2H_ICEGAUNTLETS_HELL",
+   "deux_mains": true,
+   "sort_3": "GLACIALFIELD",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_SHAPESHIFTER_KEEPER",
+   "nom": "Bâton de terre-rune",
+   "slot": "arme",
+   "categorie": "shapeshifterstaff",
+   "rendu": "T8_2H_SHAPESHIFTER_KEEPER",
+   "deux_mains": true,
+   "sort_3": "SHAPESHIFT_ROCK_ELEMENTAL",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MAIN_HOLYSTAFF_MORGANA",
+   "nom": "Bâton de toucher de vie",
+   "slot": "arme",
+   "categorie": "holystaff",
+   "rendu": "T8_MAIN_HOLYSTAFF_MORGANA",
+   "deux_mains": false,
+   "sort_3": "HOLYTOUCH",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_DIVINESTAFF",
+   "nom": "Bâton divin",
+   "slot": "arme",
+   "categorie": "holystaff",
+   "rendu": "T8_2H_DIVINESTAFF",
+   "deux_mains": true,
+   "sort_3": "HOLYSHIELD",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MAIN_NATURESTAFF_KEEPER",
+   "nom": "Bâton druidique",
+   "slot": "arme",
+   "categorie": "naturestaff",
+   "rendu": "T8_MAIN_NATURESTAFF_KEEPER",
+   "deux_mains": false,
+   "sort_3": "NATURE_ULTIMATE_SINGLE",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_HOLYSTAFF_HELL",
+   "nom": "Bâton déchu",
+   "slot": "arme",
+   "categorie": "holystaff",
+   "rendu": "T8_2H_HOLYSTAFF_HELL",
+   "deux_mains": true,
+   "sort_3": "HOLY_ULTIMATE",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_DEMONICSTAFF",
+   "nom": "Bâton démoniaque",
+   "slot": "arme",
+   "categorie": "cursestaff",
+   "rendu": "T8_2H_DEMONICSTAFF",
+   "deux_mains": true,
+   "sort_3": "CURSED_WALL",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_NATURESTAFF_KEEPER",
+   "nom": "Bâton effréné",
+   "slot": "arme",
+   "categorie": "naturestaff",
+   "rendu": "T8_2H_NATURESTAFF_KEEPER",
+   "deux_mains": true,
+   "sort_3": "SPIRITANIMAL",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_SHAPESHIFTER_SET2",
+   "nom": "Bâton enraciné",
+   "slot": "arme",
+   "categorie": "shapeshifterstaff",
+   "rendu": "T8_2H_SHAPESHIFTER_SET2",
+   "deux_mains": true,
+   "sort_3": "SHAPESHIFT_ENT",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_HOLYSTAFF_CRYSTAL",
+   "nom": "Bâton exalté",
+   "slot": "arme",
+   "categorie": "holystaff",
+   "rendu": "T8_2H_HOLYSTAFF_CRYSTAL",
+   "deux_mains": true,
+   "sort_3": "HOLY_DISPEL",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_GLACIALSTAFF",
+   "nom": "Bâton glacial",
+   "slot": "arme",
+   "categorie": "froststaff",
+   "rendu": "T8_2H_GLACIALSTAFF",
+   "deux_mains": true,
+   "sort_3": "ICESTORM2",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_INFERNOSTAFF",
+   "nom": "Bâton infernal",
+   "slot": "arme",
+   "categorie": "firestaff",
+   "rendu": "T8_2H_INFERNOSTAFF",
+   "deux_mains": true,
+   "sort_3": "HUMAN_TORCH",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MAIN_NATURESTAFF",
+   "nom": "Bâton naturel",
+   "slot": "arme",
+   "categorie": "naturestaff",
+   "rendu": "T8_MAIN_NATURESTAFF",
+   "deux_mains": false,
+   "sort_3": "CIRCLEOFLIFE",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_ARCANESTAFF_HELL",
+   "nom": "Bâton occulte",
+   "slot": "arme",
+   "categorie": "arcanestaff",
+   "rendu": "T8_2H_ARCANESTAFF_HELL",
+   "deux_mains": true,
+   "sort_3": "ARCANECORRIDOR",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_SHAPESHIFTER_SET3",
+   "nom": "Bâton primitif",
+   "slot": "arme",
+   "categorie": "shapeshifterstaff",
+   "rendu": "T8_2H_SHAPESHIFTER_SET3",
+   "deux_mains": true,
+   "sort_3": "SHAPESHIFT_BEAR",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_SHAPESHIFTER_SET1",
+   "nom": "Bâton rôdeur",
+   "slot": "arme",
+   "categorie": "shapeshifterstaff",
+   "rendu": "T8_2H_SHAPESHIFTER_SET1",
+   "deux_mains": true,
+   "sort_3": "SHAPESHIFT_PANTHER",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_IRONCLADEDSTAFF",
+   "nom": "Bâton sans faille",
+   "slot": "arme",
+   "categorie": "quarterstaff",
+   "rendu": "T8_2H_IRONCLADEDSTAFF",
+   "deux_mains": true,
+   "sort_3": "QSWHIRLWIND",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_WILDSTAFF",
+   "nom": "Bâton sauvage",
+   "slot": "arme",
+   "categorie": "naturestaff",
+   "rendu": "T8_2H_WILDSTAFF",
+   "deux_mains": true,
+   "sort_3": "WELLOFLIFE2",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MAIN_NATURESTAFF_AVALON",
+   "nom": "Bâton souchefer",
+   "slot": "arme",
+   "categorie": "naturestaff",
+   "rendu": "T8_MAIN_NATURESTAFF_AVALON",
+   "deux_mains": false,
+   "sort_3": "SOUL_LINK",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_FIRESTAFF_HELL",
+   "nom": "Bâton sulfureux",
+   "slot": "arme",
+   "categorie": "firestaff",
+   "rendu": "T8_2H_FIRESTAFF_HELL",
+   "deux_mains": true,
+   "sort_3": "METEOR",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_DOUBLEBLADEDSTAFF",
+   "nom": "Bâton à double tranchant",
+   "slot": "arme",
+   "categorie": "quarterstaff",
+   "rendu": "T8_2H_DOUBLEBLADEDSTAFF",
+   "deux_mains": true,
+   "sort_3": "DASH_KNOCKBACK",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_ENIGMATICSTAFF",
+   "nom": "Bâton énigmatique",
+   "slot": "arme",
+   "categorie": "arcanestaff",
+   "rendu": "T8_2H_ENIGMATICSTAFF",
+   "deux_mains": true,
+   "sort_3": "INVULNERABILITY",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MAIN_ARCANESTAFF",
+   "nom": "Bâton ésotérique",
+   "slot": "arme",
+   "categorie": "arcanestaff",
+   "rendu": "T8_MAIN_ARCANESTAFF",
+   "deux_mains": false,
+   "sort_3": "ARCANEORB2",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_ARCANE_RINGPAIR_AVALON",
+   "nom": "Cercle vesperien",
+   "slot": "arme",
+   "categorie": "arcanestaff",
+   "rendu": "T8_2H_ARCANE_RINGPAIR_AVALON",
+   "deux_mains": true,
+   "sort_3": "ARCANE_METEOR",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_KNUCKLES_MORGANA",
+   "nom": "Cestes-des-freux",
+   "slot": "arme",
+   "categorie": "knuckles",
+   "rendu": "T8_2H_KNUCKLES_MORGANA",
+   "deux_mains": true,
+   "sort_3": "GROWING_PUNCH",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_HARPOON_HELL",
+   "nom": "Chassesprit",
+   "slot": "arme",
+   "categorie": "spear",
+   "rendu": "T8_2H_HARPOON_HELL",
+   "deux_mains": true,
+   "sort_3": "TAINTED_STEEL",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_QUARTERSTAFF_AVALON",
+   "nom": "Cherchegraal",
+   "slot": "arme",
+   "categorie": "quarterstaff",
+   "rendu": "T8_2H_QUARTERSTAFF_AVALON",
+   "deux_mains": true,
+   "sort_3": "SOULSHAKER",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_CLAYMORE",
+   "nom": "Claymore",
+   "slot": "arme",
+   "categorie": "sword",
+   "rendu": "T8_2H_CLAYMORE",
+   "deux_mains": true,
+   "sort_3": "CLAYMORECHARGE",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MAIN_DAGGER_HELL",
+   "nom": "Croc-de-démon",
+   "slot": "arme",
+   "categorie": "dagger",
+   "rendu": "T8_MAIN_DAGGER_HELL",
+   "deux_mains": false,
+   "sort_3": "BLOOD_BLADE",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_SKULLORB_HELL",
+   "nom": "Crâne damné",
+   "slot": "arme",
+   "categorie": "cursestaff",
+   "rendu": "T8_2H_SKULLORB_HELL",
+   "deux_mains": true,
+   "sort_3": "SKULLCURSE",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MAIN_DAGGER",
+   "nom": "Dague",
+   "slot": "arme",
+   "categorie": "dagger",
+   "rendu": "T8_MAIN_DAGGER",
+   "deux_mains": false,
+   "sort_3": "BLOODTHIRSTYBLADE",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MAIN_SPEAR_LANCE_AVALON",
+   "nom": "Diurnebris",
+   "slot": "arme",
+   "categorie": "spear",
+   "rendu": "T8_MAIN_SPEAR_LANCE_AVALON",
+   "deux_mains": false,
+   "sort_3": "LANCE_CHARGE",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_DUALCROSSBOW_CRYSTAL",
+   "nom": "Désintégrateurs de Lumière",
+   "slot": "arme",
+   "categorie": "crossbow",
+   "rendu": "T8_2H_DUALCROSSBOW_CRYSTAL",
+   "deux_mains": true,
+   "sort_3": "CRYSTALXBOW",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_SCYTHE_CRYSTAL",
+   "nom": "Faucheuse de cristal",
+   "slot": "arme",
+   "categorie": "axe",
+   "rendu": "T8_2H_SCYTHE_CRYSTAL",
+   "deux_mains": true,
+   "sort_3": "CRYSTAL_SCYTHE_DASH_ZONE",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_TWINSCYTHE_HELL",
+   "nom": "Fauchâme",
+   "slot": "arme",
+   "categorie": "quarterstaff",
+   "rendu": "T8_2H_TWINSCYTHE_HELL",
+   "deux_mains": true,
+   "sort_3": "TORNADO",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_SCYTHE_HELL",
+   "nom": "Faux infernale",
+   "slot": "arme",
+   "categorie": "axe",
+   "rendu": "T8_2H_SCYTHE_HELL",
+   "deux_mains": true,
+   "sort_3": "SCYTHESWING",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_KNUCKLES_SET1",
+   "nom": "Gantelets de bagarreur",
+   "slot": "arme",
+   "categorie": "knuckles",
+   "rendu": "T8_2H_KNUCKLES_SET1",
+   "deux_mains": true,
+   "sort_3": "BLAZING_GEYSER",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_KNUCKLES_SET3",
+   "nom": "Gantelets à pointes",
+   "slot": "arme",
+   "categorie": "knuckles",
+   "rendu": "T8_2H_KNUCKLES_SET3",
+   "deux_mains": true,
+   "sort_3": "IMPULSE_PUNCH",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_DUALMACE_AVALON",
+   "nom": "Gardes-serment",
+   "slot": "arme",
+   "categorie": "mace",
+   "rendu": "T8_2H_DUALMACE_AVALON",
+   "deux_mains": true,
+   "sort_3": "BLESSED_MACES",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_RAM_KEEPER",
+   "nom": "Gardien du bosquet",
+   "slot": "arme",
+   "categorie": "hammer",
+   "rendu": "T8_2H_RAM_KEEPER",
+   "deux_mains": true,
+   "sort_3": "RAM_CHARGE",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_GLAIVE",
+   "nom": "Glaive",
+   "slot": "arme",
+   "categorie": "spear",
+   "rendu": "T8_2H_GLAIVE",
+   "deux_mains": true,
+   "sort_3": "SHOVEL",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_GLAIVE_CRYSTAL",
+   "nom": "Glaive déchirant",
+   "slot": "arme",
+   "categorie": "spear",
+   "rendu": "T8_2H_GLAIVE_CRYSTAL",
+   "deux_mains": true,
+   "sort_3": "SPEAR_AOE_FINISHER",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_HOLYSTAFF",
+   "nom": "Grand bâton béni",
+   "slot": "arme",
+   "categorie": "holystaff",
+   "rendu": "T8_2H_HOLYSTAFF",
+   "deux_mains": true,
+   "sort_3": "HOLYEXPLOSION",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_CURSEDSTAFF",
+   "nom": "Grand bâton damné",
+   "slot": "arme",
+   "categorie": "cursestaff",
+   "rendu": "T8_2H_CURSEDSTAFF",
+   "deux_mains": true,
+   "sort_3": "AREAOFDECAY",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_FIRESTAFF",
+   "nom": "Grand bâton de feu de l'adepte",
+   "slot": "arme",
+   "categorie": "firestaff",
+   "rendu": "T8_2H_FIRESTAFF",
+   "deux_mains": true,
+   "sort_3": "FLAMEPILLAR",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_FROSTSTAFF",
+   "nom": "Grand bâton de givre",
+   "slot": "arme",
+   "categorie": "froststaff",
+   "rendu": "T8_2H_FROSTSTAFF",
+   "deux_mains": true,
+   "sort_3": "HAIL_MULTI_1",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_NATURESTAFF",
+   "nom": "Grand bâton naturel",
+   "slot": "arme",
+   "categorie": "naturestaff",
+   "rendu": "T8_2H_NATURESTAFF",
+   "deux_mains": true,
+   "sort_3": "BRIEROFLIFE",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_ARCANESTAFF",
+   "nom": "Grand bâton ésotérique",
+   "slot": "arme",
+   "categorie": "arcanestaff",
+   "rendu": "T8_2H_ARCANESTAFF",
+   "deux_mains": true,
+   "sort_3": "TIME_FREEZE",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_HAMMER",
+   "nom": "Grand marteau",
+   "slot": "arme",
+   "categorie": "hammer",
+   "rendu": "T8_2H_HAMMER",
+   "deux_mains": true,
+   "sort_3": "HAMMERTACKLE",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_AXE",
+   "nom": "Grande hache de l'adepte",
+   "slot": "arme",
+   "categorie": "axe",
+   "rendu": "T8_2H_AXE",
+   "deux_mains": true,
+   "sort_3": "AXEWHIRLWIND2",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_CLAWPAIR",
+   "nom": "Griffes",
+   "slot": "arme",
+   "categorie": "dagger",
+   "rendu": "T8_2H_CLAWPAIR",
+   "deux_mains": true,
+   "sort_3": "DISEMBOWEL",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MAIN_AXE",
+   "nom": "Hache de guerre",
+   "slot": "arme",
+   "categorie": "axe",
+   "rendu": "T8_MAIN_AXE",
+   "deux_mains": false,
+   "sort_3": "AXETHROW",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_HALBERD",
+   "nom": "Hallebarde",
+   "slot": "arme",
+   "categorie": "axe",
+   "rendu": "T8_2H_HALBERD",
+   "deux_mains": true,
+   "sort_3": "RENDINGSWING",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MAIN_FROSTSTAFF_AVALON",
+   "nom": "Hurlegivre",
+   "slot": "arme",
+   "categorie": "froststaff",
+   "rendu": "T8_MAIN_FROSTSTAFF_AVALON",
+   "deux_mains": false,
+   "sort_3": "FROZEN_CRYSTAL",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_DAGGERPAIR_CRYSTAL",
+   "nom": "Jumelles tueuses",
+   "slot": "arme",
+   "categorie": "dagger",
+   "rendu": "T8_2H_DAGGERPAIR_CRYSTAL",
+   "deux_mains": true,
+   "sort_3": "CRYSTAL_DAGGER_BLADE_RING",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MAIN_SCIMITAR_MORGANA",
+   "nom": "Lame de Clarent",
+   "slot": "arme",
+   "categorie": "sword",
+   "rendu": "T8_MAIN_SCIMITAR_MORGANA",
+   "deux_mains": false,
+   "sort_3": "MIGHTYSWING",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_DOUBLEBLADEDSTAFF_CRYSTAL",
+   "nom": "Lame double fantôme",
+   "slot": "arme",
+   "categorie": "quarterstaff",
+   "rendu": "T8_2H_DOUBLEBLADEDSTAFF_CRYSTAL",
+   "deux_mains": true,
+   "sort_3": "QS_CRYSTAL_COMBO",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MAIN_SWORD_CRYSTAL",
+   "nom": "Lame infinie",
+   "slot": "arme",
+   "categorie": "sword",
+   "rendu": "T8_MAIN_SWORD_CRYSTAL",
+   "deux_mains": false,
+   "sort_3": "SWORD_BERSERK_RUN_RE",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MAIN_SPEAR",
+   "nom": "Lance",
+   "slot": "arme",
+   "categorie": "spear",
+   "rendu": "T8_MAIN_SPEAR",
+   "deux_mains": false,
+   "sort_3": "DASHDMG",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MAIN_SPEAR_KEEPER",
+   "nom": "Lance de héron",
+   "slot": "arme",
+   "categorie": "spear",
+   "rendu": "T8_MAIN_SPEAR_KEEPER",
+   "deux_mains": false,
+   "sort_3": "SPEARTHROW",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_TRIDENT_UNDEAD",
+   "nom": "Lance de la trinité",
+   "slot": "arme",
+   "categorie": "spear",
+   "rendu": "T8_2H_TRIDENT_UNDEAD",
+   "deux_mains": true,
+   "sort_3": "TRIDENTTHROW",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_DUALCROSSBOW_HELL",
+   "nom": "Lanceurs de foudre",
+   "slot": "arme",
+   "categorie": "crossbow",
+   "rendu": "T8_2H_DUALCROSSBOW_HELL",
+   "deux_mains": true,
+   "sort_3": "DUAL_RAPIDFIRE",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_ENIGMATICORB_MORGANA",
+   "nom": "Locus malveillant",
+   "slot": "arme",
+   "categorie": "arcanestaff",
+   "rendu": "T8_2H_ENIGMATICORB_MORGANA",
+   "deux_mains": true,
+   "sort_3": "VOID",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_QUARTERSTAFF",
+   "nom": "Long bâton",
+   "slot": "arme",
+   "categorie": "quarterstaff",
+   "rendu": "T8_2H_QUARTERSTAFF",
+   "deux_mains": true,
+   "sort_3": "VAULT_ATTACK",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_HAMMER_AVALON",
+   "nom": "Main de justice",
+   "slot": "arme",
+   "categorie": "hammer",
+   "rendu": "T8_2H_HAMMER_AVALON",
+   "deux_mains": true,
+   "sort_3": "SPINNING_SMASH",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_KNUCKLES_HELL",
+   "nom": "Mains infernales",
+   "slot": "arme",
+   "categorie": "knuckles",
+   "rendu": "T8_2H_KNUCKLES_HELL",
+   "deux_mains": true,
+   "sort_3": "BOULDER_TOSS",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_IRONGAUNTLETS_HELL",
+   "nom": "Mains noires",
+   "slot": "arme",
+   "categorie": "knuckles",
+   "rendu": "T8_2H_IRONGAUNTLETS_HELL",
+   "deux_mains": true,
+   "sort_3": "PUNCHCOMBO",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_HALBERD_MORGANA",
+   "nom": "Mande-charogne",
+   "slot": "arme",
+   "categorie": "axe",
+   "rendu": "T8_2H_HALBERD_MORGANA",
+   "deux_mains": true,
+   "sort_3": "SHOCKWAVE",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_SHAPESHIFTER_AVALON",
+   "nom": "Mande-lumière",
+   "slot": "arme",
+   "categorie": "shapeshifterstaff",
+   "rendu": "T8_2H_SHAPESHIFTER_AVALON",
+   "deux_mains": true,
+   "sort_3": "SHAPESHIFT_AVALONIAN_EAGLE",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MAIN_CURSEDSTAFF_AVALON",
+   "nom": "Mande-ténèbres",
+   "slot": "arme",
+   "categorie": "cursestaff",
+   "rendu": "T8_MAIN_CURSEDSTAFF_AVALON",
+   "deux_mains": false,
+   "sort_3": "DYNAMIC_CURSE",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MAIN_HAMMER",
+   "nom": "Marteau",
+   "slot": "arme",
+   "categorie": "hammer",
+   "rendu": "T8_MAIN_HAMMER",
+   "deux_mains": false,
+   "sort_3": "HAMMERWHIRLWIND2",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_HAMMER_CRYSTAL",
+   "nom": "Marteau de Foudre",
+   "slot": "arme",
+   "categorie": "hammer",
+   "rendu": "T8_2H_HAMMER_CRYSTAL",
+   "deux_mains": true,
+   "sort_3": "CRYSTALWAVE",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_DUALHAMMER_HELL",
+   "nom": "Marteaux forgés",
+   "slot": "arme",
+   "categorie": "hammer",
+   "rendu": "T8_2H_DUALHAMMER_HELL",
+   "deux_mains": true,
+   "sort_3": "GIANTSTEPS",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_HAMMER_UNDEAD",
+   "nom": "Martel-tombe",
+   "slot": "arme",
+   "categorie": "hammer",
+   "rendu": "T8_2H_HAMMER_UNDEAD",
+   "deux_mains": true,
+   "sort_3": "UNDEADHAND",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MAIN_MACE",
+   "nom": "Masse",
+   "slot": "arme",
+   "categorie": "mace",
+   "rendu": "T8_MAIN_MACE",
+   "deux_mains": false,
+   "sort_3": "MACELEAP",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MAIN_MACE_HELL",
+   "nom": "Masse d'incube",
+   "slot": "arme",
+   "categorie": "mace",
+   "rendu": "T8_MAIN_MACE_HELL",
+   "deux_mains": false,
+   "sort_3": "SHRINKINGSMASH",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_MACE_MORGANA",
+   "nom": "Masse de Camlann",
+   "slot": "arme",
+   "categorie": "mace",
+   "rendu": "T8_2H_MACE_MORGANA",
+   "deux_mains": true,
+   "sort_3": "VACUUMSLASH",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MAIN_ROCKMACE_KEEPER",
+   "nom": "Masse du soubassement",
+   "slot": "arme",
+   "categorie": "mace",
+   "rendu": "T8_MAIN_ROCKMACE_KEEPER",
+   "deux_mains": false,
+   "sort_3": "PRIMALSLAM",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_MACE",
+   "nom": "Masse lourde",
+   "slot": "arme",
+   "categorie": "mace",
+   "rendu": "T8_2H_MACE",
+   "deux_mains": true,
+   "sort_3": "SHRIEKMACE",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_CROSSBOW_CANNON_AVALON",
+   "nom": "Matrice d'énergie",
+   "slot": "arme",
+   "categorie": "crossbow",
+   "rendu": "T8_2H_CROSSBOW_CANNON_AVALON",
+   "deux_mains": true,
+   "sort_3": "CROSSBOW_DIVINE_SHOT",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MAIN_MACE_CRYSTAL",
+   "nom": "Monarque des tempêtes",
+   "slot": "arme",
+   "categorie": "mace",
+   "rendu": "T8_MAIN_MACE_CRYSTAL",
+   "deux_mains": false,
+   "sort_3": "MACE_CRYSTAL_FRAGMENT_STORM",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_FLAIL",
+   "nom": "Morgenstern",
+   "slot": "arme",
+   "categorie": "mace",
+   "rendu": "T8_2H_FLAIL",
+   "deux_mains": true,
+   "sort_3": "ROOTFIELD",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_DAGGERPAIR",
+   "nom": "Paire de dagues",
+   "slot": "arme",
+   "categorie": "dagger",
+   "rendu": "T8_2H_DAGGERPAIR",
+   "deux_mains": true,
+   "sort_3": "EXECUTEDAGGER",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_DUALSCIMITAR_UNDEAD",
+   "nom": "Paire de galatines",
+   "slot": "arme",
+   "categorie": "sword",
+   "rendu": "T8_2H_DUALSCIMITAR_UNDEAD",
+   "deux_mains": true,
+   "sort_3": "BLADE_AREA",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_DUALAXE_KEEPER",
+   "nom": "Pattes d'ours",
+   "slot": "arme",
+   "categorie": "axe",
+   "rendu": "T8_2H_DUALAXE_KEEPER",
+   "deux_mains": true,
+   "sort_3": "DUALAXE_CRAWLER",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_BOW_AVALON",
+   "nom": "Perce-brume",
+   "slot": "arme",
+   "categorie": "bow",
+   "rendu": "T8_2H_BOW_AVALON",
+   "deux_mains": true,
+   "sort_3": "HAWK_SHOT_MULTI1",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_SPEAR",
+   "nom": "Pique",
+   "slot": "arme",
+   "categorie": "spear",
+   "rendu": "T8_2H_SPEAR",
+   "deux_mains": true,
+   "sort_3": "HALBERDSMASH",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_KNUCKLES_KEEPER",
+   "nom": "Poignes ursines",
+   "slot": "arme",
+   "categorie": "knuckles",
+   "rendu": "T8_2H_KNUCKLES_KEEPER",
+   "deux_mains": true,
+   "sort_3": "PUMMELING_STRIKES",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_KNUCKLES_AVALON",
+   "nom": "Poings d'Avalon",
+   "slot": "arme",
+   "categorie": "knuckles",
+   "rendu": "T8_2H_KNUCKLES_AVALON",
+   "deux_mains": true,
+   "sort_3": "TRIPLECOMBO_DIVEKICK",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_ICECRYSTAL_UNDEAD",
+   "nom": "Prisme de pergélisol",
+   "slot": "arme",
+   "categorie": "froststaff",
+   "rendu": "T8_2H_ICECRYSTAL_UNDEAD",
+   "deux_mains": true,
+   "sort_3": "FROST_ULTIMATE",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_DUALSICKLE_UNDEAD",
+   "nom": "Sacrificateur",
+   "slot": "arme",
+   "categorie": "dagger",
+   "rendu": "T8_2H_DUALSICKLE_UNDEAD",
+   "deux_mains": true,
+   "sort_3": "GHOSTSTRIKE",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MAIN_RAPIER_MORGANA",
+   "nom": "Saigneur",
+   "slot": "arme",
+   "categorie": "dagger",
+   "rendu": "T8_MAIN_RAPIER_MORGANA",
+   "deux_mains": false,
+   "sort_3": "RAPIERSTAB",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MAIN_HOLYSTAFF_AVALON",
+   "nom": "Sanctificateur",
+   "slot": "arme",
+   "categorie": "holystaff",
+   "rendu": "T8_MAIN_HOLYSTAFF_AVALON",
+   "deux_mains": false,
+   "sort_3": "DIVINE_JUMP",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_DUALSWORD",
+   "nom": "Épée double",
+   "slot": "arme",
+   "categorie": "sword",
+   "rendu": "T8_2H_DUALSWORD",
+   "deux_mains": true,
+   "sort_3": "SPINATTACK",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MAIN_SWORD",
+   "nom": "Épée large",
+   "slot": "arme",
+   "categorie": "sword",
+   "rendu": "T8_MAIN_SWORD",
+   "deux_mains": false,
+   "sort_3": "MIGHTYBLOW",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "2H_CLEAVER_HELL",
+   "nom": "Épée tranchante",
+   "slot": "arme",
+   "categorie": "sword",
+   "rendu": "T8_2H_CLEAVER_HELL",
+   "deux_mains": true,
+   "sort_3": "CLAYMORESLASH",
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "SHOES_PLATE_FEY",
+   "nom": "Bottes crépusculaires",
+   "slot": "bottes",
+   "categorie": "plate_shoes",
+   "rendu": "T8_SHOES_PLATE_FEY",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "CHARGE_IN",
+   "passif_defaut": null
+  },
+  {
+   "code": "SHOES_PLATE_AVALON",
+   "nom": "Bottes de bravoure",
+   "slot": "bottes",
+   "categorie": "plate_shoes",
+   "rendu": "T8_SHOES_PLATE_AVALON",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "CC_BLOCK",
+   "passif_defaut": null
+  },
+  {
+   "code": "SHOES_PLATE_SET2",
+   "nom": "Bottes de chevalier",
+   "slot": "bottes",
+   "categorie": "plate_shoes",
+   "rendu": "T8_SHOES_PLATE_SET2",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "CHARGE_SHIELD",
+   "passif_defaut": null
+  },
+  {
+   "code": "SHOES_PLATE_HELL",
+   "nom": "Bottes de démon",
+   "slot": "bottes",
+   "categorie": "plate_shoes",
+   "rendu": "T8_SHOES_PLATE_HELL",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "BERSERK_SPRINT",
+   "passif_defaut": null
+  },
+  {
+   "code": "SHOES_PLATE_UNDEAD",
+   "nom": "Bottes de gardetombe",
+   "slot": "bottes",
+   "categorie": "plate_shoes",
+   "rendu": "T8_SHOES_PLATE_UNDEAD",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "BATTLEFRENZY",
+   "passif_defaut": null
+  },
+  {
+   "code": "SHOES_PLATE_SET3",
+   "nom": "Bottes de gardien",
+   "slot": "bottes",
+   "categorie": "plate_shoes",
+   "rendu": "T8_SHOES_PLATE_SET3",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "MAXHEALTHBUFF",
+   "passif_defaut": null
+  },
+  {
+   "code": "SHOES_PLATE_KEEPER",
+   "nom": "Bottes de judicateur",
+   "slot": "bottes",
+   "categorie": "plate_shoes",
+   "rendu": "T8_SHOES_PLATE_KEEPER",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "SHOULDERTACKLE",
+   "passif_defaut": null
+  },
+  {
+   "code": "SHOES_PLATE_SET1",
+   "nom": "Bottes de soldat",
+   "slot": "bottes",
+   "categorie": "plate_shoes",
+   "rendu": "T8_SHOES_PLATE_SET1",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "WANDERLUST",
+   "passif_defaut": null
+  },
+  {
+   "code": "SHOES_PLATE_ROYAL",
+   "nom": "Bottes royales",
+   "slot": "bottes",
+   "categorie": "plate_shoes",
+   "rendu": "T8_SHOES_PLATE_ROYAL",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "ROYAL_MARCH",
+   "passif_defaut": null
+  },
+  {
+   "code": "SHOES_LEATHER_SET3",
+   "nom": "Chaussures d'assassin",
+   "slot": "bottes",
+   "categorie": "leather_shoes",
+   "rendu": "T8_SHOES_LEATHER_SET3",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "ASSASSIN_DASH",
+   "passif_defaut": null
+  },
+  {
+   "code": "SHOES_LEATHER_DRAGON",
+   "nom": "Chaussures de Tueur de Dragons",
+   "slot": "bottes",
+   "categorie": "leather_shoes",
+   "rendu": "T8_SHOES_LEATHER_DRAGON",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "WEAPON_SPRINT",
+   "passif_defaut": null
+  },
+  {
+   "code": "SHOES_LEATHER_SET2",
+   "nom": "Chaussures de chasseur",
+   "slot": "bottes",
+   "categorie": "leather_shoes",
+   "rendu": "T8_SHOES_LEATHER_SET2",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "OVERSPRINT",
+   "passif_defaut": null
+  },
+  {
+   "code": "SHOES_LEATHER_FEY",
+   "nom": "Chaussures de marcheur des brumes",
+   "slot": "bottes",
+   "categorie": "leather_shoes",
+   "rendu": "T8_SHOES_LEATHER_FEY",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "AFTER_IMAGE",
+   "passif_defaut": null
+  },
+  {
+   "code": "SHOES_LEATHER_SET1",
+   "nom": "Chaussures de mercenaire",
+   "slot": "bottes",
+   "categorie": "leather_shoes",
+   "rendu": "T8_SHOES_LEATHER_SET1",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "CLEANSE_DASH",
+   "passif_defaut": null
+  },
+  {
+   "code": "SHOES_LEATHER_UNDEAD",
+   "nom": "Chaussures de spectre",
+   "slot": "bottes",
+   "categorie": "leather_shoes",
+   "rendu": "T8_SHOES_LEATHER_UNDEAD",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "INVISIBLE_WALK",
+   "passif_defaut": null
+  },
+  {
+   "code": "SHOES_LEATHER_HELL",
+   "nom": "Chaussures de tourmenteur",
+   "slot": "bottes",
+   "categorie": "leather_shoes",
+   "rendu": "T8_SHOES_LEATHER_HELL",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "DEATHMARK",
+   "passif_defaut": null
+  },
+  {
+   "code": "SHOES_LEATHER_MORGANA",
+   "nom": "Chaussures de traqueur",
+   "slot": "bottes",
+   "categorie": "leather_shoes",
+   "rendu": "T8_SHOES_LEATHER_MORGANA",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "DMG_BLINK",
+   "passif_defaut": null
+  },
+  {
+   "code": "SHOES_LEATHER_AVALON",
+   "nom": "Chaussures de ténacité",
+   "slot": "bottes",
+   "categorie": "leather_shoes",
+   "rendu": "T8_SHOES_LEATHER_AVALON",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "BLINDSPOT",
+   "passif_defaut": null
+  },
+  {
+   "code": "SHOES_LEATHER_ROYAL",
+   "nom": "Chaussures royales",
+   "slot": "bottes",
+   "categorie": "leather_shoes",
+   "rendu": "T8_SHOES_LEATHER_ROYAL",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "JUMP",
+   "passif_defaut": null
+  },
+  {
+   "code": "SHOES_CLOTH_SET2",
+   "nom": "Sandales d'ecclésiastique",
+   "slot": "bottes",
+   "categorie": "cloth_shoes",
+   "rendu": "T8_SHOES_CLOTH_SET2",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "BLINK",
+   "passif_defaut": null
+  },
+  {
+   "code": "SHOES_CLOTH_FEY",
+   "nom": "Sandales d'écailles féériques",
+   "slot": "bottes",
+   "categorie": "cloth_shoes",
+   "rendu": "T8_SHOES_CLOTH_FEY",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "TRANSLUCENT",
+   "passif_defaut": null
+  },
+  {
+   "code": "SHOES_CLOTH_SET1",
+   "nom": "Sandales d'érudit",
+   "slot": "bottes",
+   "categorie": "cloth_shoes",
+   "rendu": "T8_SHOES_CLOTH_SET1",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "CHANNELED_RUN",
+   "passif_defaut": null
+  },
+  {
+   "code": "SHOES_CLOTH_MORGANA",
+   "nom": "Sandales de culte",
+   "slot": "bottes",
+   "categorie": "cloth_shoes",
+   "rendu": "T8_SHOES_CLOTH_MORGANA",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "DEMONWALK",
+   "passif_defaut": null
+  },
+  {
+   "code": "SHOES_CLOTH_KEEPER",
+   "nom": "Sandales de druide",
+   "slot": "bottes",
+   "categorie": "cloth_shoes",
+   "rendu": "T8_SHOES_CLOTH_KEEPER",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "FROSTWALK",
+   "passif_defaut": null
+  },
+  {
+   "code": "SHOES_CLOTH_SET3",
+   "nom": "Sandales de mage",
+   "slot": "bottes",
+   "categorie": "cloth_shoes",
+   "rendu": "T8_SHOES_CLOTH_SET3",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "DELAYED_TELEPORT",
+   "passif_defaut": null
+  },
+  {
+   "code": "SHOES_CLOTH_HELL",
+   "nom": "Sandales de monstre",
+   "slot": "bottes",
+   "categorie": "cloth_shoes",
+   "rendu": "T8_SHOES_CLOTH_HELL",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "SWAP",
+   "passif_defaut": null
+  },
+  {
+   "code": "SHOES_CLOTH_AVALON",
+   "nom": "Sandales de pureté",
+   "slot": "bottes",
+   "categorie": "cloth_shoes",
+   "rendu": "T8_SHOES_CLOTH_AVALON",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "HOVER_SPRINT",
+   "passif_defaut": null
+  },
+  {
+   "code": "SHOES_CLOTH_ROYAL",
+   "nom": "Sandales royales",
+   "slot": "bottes",
+   "categorie": "cloth_shoes",
+   "rendu": "T8_SHOES_CLOTH_ROYAL",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "GLASS_MOVESPEED",
+   "passif_defaut": null
+  },
+  {
+   "code": "CAPE",
+   "nom": "Cape",
+   "slot": "cape",
+   "categorie": "accessoires_capes_capes",
+   "rendu": "T8_CAPE",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "CAPEITEM_AVALON",
+   "nom": "Cape avalonienne",
+   "slot": "cape",
+   "categorie": "accessoires_capes_avalon",
+   "rendu": "T8_CAPEITEM_AVALON",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": "PASSIVE_CAPE_AVALON"
+  },
+  {
+   "code": "CAPEITEM_FW_BRECILIEN",
+   "nom": "Cape de Brecilien",
+   "slot": "cape",
+   "categorie": "accessoires_capes_brecilien",
+   "rendu": "T8_CAPEITEM_FW_BRECILIEN",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": "PASSIVE_CAPE_FEY"
+  },
+  {
+   "code": "CAPEITEM_FW_BRIDGEWATCH",
+   "nom": "Cape de Bridgewatch",
+   "slot": "cape",
+   "categorie": "accessoires_capes_bridgewatch",
+   "rendu": "T8_CAPEITEM_FW_BRIDGEWATCH",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": "PASSIVE_CAPE_BRIDGEWATCH"
+  },
+  {
+   "code": "CAPEITEM_FW_CAERLEON",
+   "nom": "Cape de Caerleon",
+   "slot": "cape",
+   "categorie": "accessoires_capes_caerleon",
+   "rendu": "T8_CAPEITEM_FW_CAERLEON",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": "PASSIVE_CAPE_CAERLEON"
+  },
+  {
+   "code": "CAPEITEM_SMUGGLER",
+   "nom": "Cape de Contrebandier",
+   "slot": "cape",
+   "categorie": "accessoires_capes_smuggler",
+   "rendu": "T8_CAPEITEM_SMUGGLER",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": "PASSIVE_CAPE_SMUGGLER"
+  },
+  {
+   "code": "CAPEITEM_FW_FORTSTERLING",
+   "nom": "Cape de Fort Sterling",
+   "slot": "cape",
+   "categorie": "accessoires_capes_fortsterling",
+   "rendu": "T8_CAPEITEM_FW_FORTSTERLING",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": "PASSIVE_CAPE_FORTSTERLING"
+  },
+  {
+   "code": "CAPEITEM_FW_LYMHURST",
+   "nom": "Cape de Lymhurst",
+   "slot": "cape",
+   "categorie": "accessoires_capes_lymhurst",
+   "rendu": "T8_CAPEITEM_FW_LYMHURST",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": "PASSIVE_CAPE_LYMHURST"
+  },
+  {
+   "code": "CAPEITEM_FW_MARTLOCK",
+   "nom": "Cape de Martlock",
+   "slot": "cape",
+   "categorie": "accessoires_capes_martlock",
+   "rendu": "T8_CAPEITEM_FW_MARTLOCK",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": "PASSIVE_CAPE_MARTLOCK"
+  },
+  {
+   "code": "CAPEITEM_MORGANA",
+   "nom": "Cape de Morgana",
+   "slot": "cape",
+   "categorie": "accessoires_capes_morgana",
+   "rendu": "T8_CAPEITEM_MORGANA",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": "PASSIVE_CAPE_MORGANA"
+  },
+  {
+   "code": "CAPEITEM_FW_THETFORD",
+   "nom": "Cape de Thetford",
+   "slot": "cape",
+   "categorie": "accessoires_capes_thetford",
+   "rendu": "T8_CAPEITEM_FW_THETFORD",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": "PASSIVE_CAPE_THETFORD"
+  },
+  {
+   "code": "CAPEITEM_KEEPER",
+   "nom": "Cape des gardiens",
+   "slot": "cape",
+   "categorie": "accessoires_capes_keeper",
+   "rendu": "T8_CAPEITEM_KEEPER",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": "PASSIVE_CAPE_KEEPER"
+  },
+  {
+   "code": "CAPEITEM_HERETIC",
+   "nom": "Cape des hérétiques",
+   "slot": "cape",
+   "categorie": "accessoires_capes_heretic",
+   "rendu": "T8_CAPEITEM_HERETIC",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": "PASSIVE_CAPE_HERETIC"
+  },
+  {
+   "code": "CAPEITEM_UNDEAD",
+   "nom": "Cape des morts-vivants",
+   "slot": "cape",
+   "categorie": "accessoires_capes_undead",
+   "rendu": "T8_CAPEITEM_UNDEAD",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": "PASSIVE_CAPE_UNDEAD"
+  },
+  {
+   "code": "CAPEITEM_DEMON",
+   "nom": "Cape démoniaque",
+   "slot": "cape",
+   "categorie": "accessoires_capes_demon",
+   "rendu": "T8_CAPEITEM_DEMON",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": "PASSIVE_CAPE_DEMON"
+  },
+  {
+   "code": "HEAD_LEATHER_SET3",
+   "nom": "Capuche d'assassin",
+   "slot": "casque",
+   "categorie": "leather_helmet",
+   "rendu": "T8_HEAD_LEATHER_SET3",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "SUMMONER_CD_REDUCTION",
+   "passif_defaut": null
+  },
+  {
+   "code": "HEAD_LEATHER_DRAGON",
+   "nom": "Capuche de Tueur de Dragons",
+   "slot": "casque",
+   "categorie": "leather_helmet",
+   "rendu": "T8_HEAD_LEATHER_DRAGON",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "FLARE",
+   "passif_defaut": null
+  },
+  {
+   "code": "HEAD_LEATHER_SET2",
+   "nom": "Capuche de chasseur",
+   "slot": "casque",
+   "categorie": "leather_helmet",
+   "rendu": "T8_HEAD_LEATHER_SET2",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "RETALIATE2",
+   "passif_defaut": null
+  },
+  {
+   "code": "HEAD_LEATHER_FEY",
+   "nom": "Capuche de marcheur des brumes",
+   "slot": "casque",
+   "categorie": "leather_helmet",
+   "rendu": "T8_HEAD_LEATHER_FEY",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "IMMORTAL",
+   "passif_defaut": null
+  },
+  {
+   "code": "HEAD_LEATHER_SET1",
+   "nom": "Capuche de mercenaire",
+   "slot": "casque",
+   "categorie": "leather_helmet",
+   "rendu": "T8_HEAD_LEATHER_SET1",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "HOWL",
+   "passif_defaut": null
+  },
+  {
+   "code": "HEAD_LEATHER_UNDEAD",
+   "nom": "Capuche de spectre",
+   "slot": "casque",
+   "categorie": "leather_helmet",
+   "rendu": "T8_HEAD_LEATHER_UNDEAD",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "ARMOR_CD_RESET",
+   "passif_defaut": null
+  },
+  {
+   "code": "HEAD_LEATHER_HELL",
+   "nom": "Capuche de tourmenteur",
+   "slot": "casque",
+   "categorie": "leather_helmet",
+   "rendu": "T8_HEAD_LEATHER_HELL",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "SMOKEBOMB",
+   "passif_defaut": null
+  },
+  {
+   "code": "HEAD_LEATHER_MORGANA",
+   "nom": "Capuche de traqueur",
+   "slot": "casque",
+   "categorie": "leather_helmet",
+   "rendu": "T8_HEAD_LEATHER_MORGANA",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "SMELLOFBLOOD",
+   "passif_defaut": null
+  },
+  {
+   "code": "HEAD_LEATHER_AVALON",
+   "nom": "Capuche de ténacité",
+   "slot": "casque",
+   "categorie": "leather_helmet",
+   "rendu": "T8_HEAD_LEATHER_AVALON",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "NASTY_WOUNDS",
+   "passif_defaut": null
+  },
+  {
+   "code": "HEAD_LEATHER_ROYAL",
+   "nom": "Capuche royale",
+   "slot": "casque",
+   "categorie": "leather_helmet",
+   "rendu": "T8_HEAD_LEATHER_ROYAL",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "GROWING_RAGE",
+   "passif_defaut": null
+  },
+  {
+   "code": "HEAD_CLOTH_SET2",
+   "nom": "Capuchon d'ecclésiastique",
+   "slot": "casque",
+   "categorie": "cloth_helmet",
+   "rendu": "T8_HEAD_CLOTH_SET2",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "ICEBLOCK2",
+   "passif_defaut": null
+  },
+  {
+   "code": "HEAD_CLOTH_SET1",
+   "nom": "Capuchon d'érudit",
+   "slot": "casque",
+   "categorie": "cloth_helmet",
+   "rendu": "T8_HEAD_CLOTH_SET1",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "ENERGYSHIELD2",
+   "passif_defaut": null
+  },
+  {
+   "code": "HEAD_CLOTH_MORGANA",
+   "nom": "Capuchon de culte",
+   "slot": "casque",
+   "categorie": "cloth_helmet",
+   "rendu": "T8_HEAD_CLOTH_MORGANA",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "INNER_CORRUPTION",
+   "passif_defaut": null
+  },
+  {
+   "code": "HEAD_CLOTH_KEEPER",
+   "nom": "Capuchon de druide",
+   "slot": "casque",
+   "categorie": "cloth_helmet",
+   "rendu": "T8_HEAD_CLOTH_KEEPER",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "ENERGYFIELD",
+   "passif_defaut": null
+  },
+  {
+   "code": "HEAD_CLOTH_SET3",
+   "nom": "Capuchon de mage",
+   "slot": "casque",
+   "categorie": "cloth_helmet",
+   "rendu": "T8_HEAD_CLOTH_SET3",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "HELMET_FIREBREATH",
+   "passif_defaut": null
+  },
+  {
+   "code": "HEAD_CLOTH_HELL",
+   "nom": "Capuchon de monstre",
+   "slot": "casque",
+   "categorie": "cloth_helmet",
+   "rendu": "T8_HEAD_CLOTH_HELL",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "PURGE_HELMET",
+   "passif_defaut": null
+  },
+  {
+   "code": "HEAD_CLOTH_AVALON",
+   "nom": "Capuchon de pureté",
+   "slot": "casque",
+   "categorie": "cloth_helmet",
+   "rendu": "T8_HEAD_CLOTH_AVALON",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "AVALON_BEAM",
+   "passif_defaut": null
+  },
+  {
+   "code": "HEAD_CLOTH_ROYAL",
+   "nom": "Capuchon royal",
+   "slot": "casque",
+   "categorie": "cloth_helmet",
+   "rendu": "T8_HEAD_CLOTH_ROYAL",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "PERPETUALENERGY",
+   "passif_defaut": null
+  },
+  {
+   "code": "HEAD_PLATE_ROYAL",
+   "nom": "Casque",
+   "slot": "casque",
+   "categorie": "plate_helmet",
+   "rendu": "T8_HEAD_PLATE_ROYAL",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "ARTILLERY_COMMAND",
+   "passif_defaut": null
+  },
+  {
+   "code": "HEAD_PLATE_FEY",
+   "nom": "Casque crépusculaire",
+   "slot": "casque",
+   "categorie": "plate_helmet",
+   "rendu": "T8_HEAD_PLATE_FEY",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "SPIDER_THREAD",
+   "passif_defaut": null
+  },
+  {
+   "code": "HEAD_PLATE_AVALON",
+   "nom": "Casque de bravoure",
+   "slot": "casque",
+   "categorie": "plate_helmet",
+   "rendu": "T8_HEAD_PLATE_AVALON",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "PURIFYING_SMOKE",
+   "passif_defaut": null
+  },
+  {
+   "code": "HEAD_PLATE_SET2",
+   "nom": "Casque de chevalier",
+   "slot": "casque",
+   "categorie": "plate_helmet",
+   "rendu": "T8_HEAD_PLATE_SET2",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "DISRUPTIONIMMUNITY",
+   "passif_defaut": null
+  },
+  {
+   "code": "HEAD_PLATE_HELL",
+   "nom": "Casque de démon",
+   "slot": "casque",
+   "categorie": "plate_helmet",
+   "rendu": "T8_HEAD_PLATE_HELL",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "WEAPON_SILENCE",
+   "passif_defaut": null
+  },
+  {
+   "code": "HEAD_PLATE_UNDEAD",
+   "nom": "Casque de gardetombe",
+   "slot": "casque",
+   "categorie": "plate_helmet",
+   "rendu": "T8_HEAD_PLATE_UNDEAD",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "SACRIFICE_HEAL",
+   "passif_defaut": null
+  },
+  {
+   "code": "HEAD_PLATE_SET3",
+   "nom": "Casque de gardien",
+   "slot": "casque",
+   "categorie": "plate_helmet",
+   "rendu": "T8_HEAD_PLATE_SET3",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "EMERGENCY_SHIELD",
+   "passif_defaut": null
+  },
+  {
+   "code": "HEAD_PLATE_KEEPER",
+   "nom": "Casque de judicateur",
+   "slot": "casque",
+   "categorie": "plate_helmet",
+   "rendu": "T8_HEAD_PLATE_KEEPER",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "ELECTRICSHOCK",
+   "passif_defaut": null
+  },
+  {
+   "code": "HEAD_PLATE_SET1",
+   "nom": "Casque de soldat",
+   "slot": "casque",
+   "categorie": "plate_helmet",
+   "rendu": "T8_HEAD_PLATE_SET1",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "BLOCK",
+   "passif_defaut": null
+  },
+  {
+   "code": "HEAD_CLOTH_FEY",
+   "nom": "Chapeau d'écailles féériques",
+   "slot": "casque",
+   "categorie": "cloth_helmet",
+   "rendu": "T8_HEAD_CLOTH_FEY",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "HYPER_FOCUS",
+   "passif_defaut": null
+  },
+  {
+   "code": "MOUNT_SIEGE_BALLISTA",
+   "nom": "Baliste de siège",
+   "slot": "monture",
+   "categorie": "battle_mount",
+   "rendu": "T6_MOUNT_SIEGE_BALLISTA",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MOUNT_ARMORED_SWAMPDRAGON_BATTLE",
+   "nom": "Basilic Venimeux",
+   "slot": "monture",
+   "categorie": "battle_mount",
+   "rendu": "T7_MOUNT_ARMORED_SWAMPDRAGON_BATTLE",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MOUNT_SWAMPDRAGON_BATTLE",
+   "nom": "Basilic ardent",
+   "slot": "monture",
+   "categorie": "battle_mount",
+   "rendu": "T7_MOUNT_SWAMPDRAGON_BATTLE",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MOUNT_SWAMPDRAGON_AVALON_BASILISK",
+   "nom": "Basilic avalonien",
+   "slot": "monture",
+   "categorie": "raremounts",
+   "rendu": "T7_MOUNT_SWAMPDRAGON_AVALON_BASILISK",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": "PASSIVE_MAXLOAD_SWAMPDRAGON"
+  },
+  {
+   "code": "MOUNT_FROSTRAM_ADC",
+   "nom": "Bélier des neiges",
+   "slot": "monture",
+   "categorie": "raremounts",
+   "rendu": "T6_MOUNT_FROSTRAM_ADC",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": "PASSIVE_MAXLOAD_GIANTSTAG"
+  },
+  {
+   "code": "MOUNT_OX",
+   "nom": "Bœuf de transport",
+   "slot": "monture",
+   "categorie": "basemounts",
+   "rendu": "T8_MOUNT_OX",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MOUNT_ARMORED_HORSE_MORGANA",
+   "nom": "Cauchemar de Morgana",
+   "slot": "monture",
+   "categorie": "raremounts",
+   "rendu": "T8_MOUNT_ARMORED_HORSE_MORGANA",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MOUNT_GIANTSTAG",
+   "nom": "Cerf géant de l'adepte",
+   "slot": "monture",
+   "categorie": "basemounts",
+   "rendu": "T4_MOUNT_GIANTSTAG",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": "PASSIVE_MAXLOAD_GIANTSTAG"
+  },
+  {
+   "code": "MOUNT_ARMORED_HORSE_SKIN_01",
+   "nom": "Cheval de guerre",
+   "slot": "monture",
+   "categorie": "basemounts",
+   "rendu": "T8_MOUNT_ARMORED_HORSE_SKIN_01",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MOUNT_HORSE",
+   "nom": "Cheval de monte",
+   "slot": "monture",
+   "categorie": "basemounts",
+   "rendu": "T8_MOUNT_HORSE",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": "PASSIVE_MAXLOAD_HORSE"
+  },
+  {
+   "code": "MOUNT_ARMORED_HORSE",
+   "nom": "Cheval protégé",
+   "slot": "monture",
+   "categorie": "basemounts",
+   "rendu": "T8_MOUNT_ARMORED_HORSE",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MOUNT_HORSE_UNDEAD",
+   "nom": "Cheval squelettique spectral",
+   "slot": "monture",
+   "categorie": "raremounts",
+   "rendu": "T8_MOUNT_HORSE_UNDEAD",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": "PASSIVE_MAXLOAD_HORSE"
+  },
+  {
+   "code": "MOUNT_OWL_FW_BRECILIEN",
+   "nom": "Chouette mystique sellée",
+   "slot": "monture",
+   "categorie": "raremounts",
+   "rendu": "T5_MOUNT_OWL_FW_BRECILIEN",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": "PASSIVE_MAXLOAD_OWL"
+  },
+  {
+   "code": "MOUNT_OWL_FW_BRECILIEN_ELITE",
+   "nom": "Chouette mystique élite",
+   "slot": "monture",
+   "categorie": "raremounts",
+   "rendu": "T8_MOUNT_OWL_FW_BRECILIEN_ELITE",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": "PASSIVE_MAXLOAD_OWL_ELITE"
+  },
+  {
+   "code": "MOUNT_SWAMPDRAGON",
+   "nom": "Dragon des marais sellé",
+   "slot": "monture",
+   "categorie": "basemounts",
+   "rendu": "T7_MOUNT_SWAMPDRAGON",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": "PASSIVE_MAXLOAD_SWAMPDRAGON"
+  },
+  {
+   "code": "MOUNT_DRAKE_FIRE",
+   "nom": "Drake d'Aile-de-Feu",
+   "slot": "monture",
+   "categorie": "raremounts",
+   "rendu": "T8_MOUNT_DRAKE_FIRE",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": "PASSIVE_MAXLOAD_DRAKE"
+  },
+  {
+   "code": "MOUNT_HUSKY_ADC",
+   "nom": "Husky des neiges",
+   "slot": "monture",
+   "categorie": "raremounts",
+   "rendu": "T7_MOUNT_HUSKY_ADC",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MOUNT_RABBIT_EASTER_DARK",
+   "nom": "Lapin de Caerleon",
+   "slot": "monture",
+   "categorie": "raremounts",
+   "rendu": "T8_MOUNT_RABBIT_EASTER_DARK",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MOUNT_RABBIT_EASTER",
+   "nom": "Lapin de printemps",
+   "slot": "monture",
+   "categorie": "raremounts",
+   "rendu": "T8_MOUNT_RABBIT_EASTER",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MOUNT_GREYWOLF_FW_CAERLEON",
+   "nom": "Loup-gris sellé",
+   "slot": "monture",
+   "categorie": "basemounts",
+   "rendu": "T5_MOUNT_GREYWOLF_FW_CAERLEON",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": "MOUNTSPELL_GREYWOLF_FW_CAERLEON_PASSIVE"
+  },
+  {
+   "code": "MOUNT_GREYWOLF_FW_CAERLEON_ELITE",
+   "nom": "Loup-gris élite",
+   "slot": "monture",
+   "categorie": "raremounts",
+   "rendu": "T8_MOUNT_GREYWOLF_FW_CAERLEON_ELITE",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": "MOUNTSPELL_GREYWOLF_FW_CAERLEON_PASSIVE"
+  },
+  {
+   "code": "MOUNT_MONITORLIZARD_ADC",
+   "nom": "Lézard purulent",
+   "slot": "monture",
+   "categorie": "raremounts",
+   "rendu": "T7_MOUNT_MONITORLIZARD_ADC",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": "PASSIVE_MAXLOAD_SWAMPDRAGON"
+  },
+  {
+   "code": "MOUNT_MAMMOTH_BATTLE",
+   "nom": "Mammouth de commandement du sage",
+   "slot": "monture",
+   "categorie": "battle_mount",
+   "rendu": "T8_MOUNT_MAMMOTH_BATTLE",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MOUNT_MAMMOTH_TRANSPORT",
+   "nom": "Mammouth de transport du sage",
+   "slot": "monture",
+   "categorie": "basemounts",
+   "rendu": "T8_MOUNT_MAMMOTH_TRANSPORT",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MOUNT_MOABIRD_FW_BRIDGEWATCH",
+   "nom": "Moa sellée",
+   "slot": "monture",
+   "categorie": "basemounts",
+   "rendu": "T5_MOUNT_MOABIRD_FW_BRIDGEWATCH",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": "MOUNTSPELL_MOABIRD_FW_BRIDGEWATCH_PASSIVE"
+  },
+  {
+   "code": "MOUNT_RAM_FW_MARTLOCK",
+   "nom": "Mouflon sellé",
+   "slot": "monture",
+   "categorie": "basemounts",
+   "rendu": "T5_MOUNT_RAM_FW_MARTLOCK",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": "MOUNTSPELL_RAM_FW_MARTLOCK_PASSIVE"
+  },
+  {
+   "code": "MOUNT_RAM_FW_MARTLOCK_ELITE",
+   "nom": "Mouflon élite",
+   "slot": "monture",
+   "categorie": "raremounts",
+   "rendu": "T8_MOUNT_RAM_FW_MARTLOCK_ELITE",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": "MOUNTSPELL_RAM_FW_MARTLOCK_PASSIVE"
+  },
+  {
+   "code": "MOUNT_MULE",
+   "nom": "Mulet d'apprenti",
+   "slot": "monture",
+   "categorie": "basemounts",
+   "rendu": "T2_MOUNT_MULE",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": "PASSIVE_MAXLOAD_HORSE"
+  },
+  {
+   "code": "MOUNT_TERRORBIRD_ADC",
+   "nom": "Oiseau de terreur sellé",
+   "slot": "monture",
+   "categorie": "raremounts",
+   "rendu": "T7_MOUNT_TERRORBIRD_ADC",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MOUNT_MOABIRD_FW_BRIDGEWATCH_ELITE",
+   "nom": "Oiseau-de-terreur élite",
+   "slot": "monture",
+   "categorie": "raremounts",
+   "rendu": "T8_MOUNT_MOABIRD_FW_BRIDGEWATCH_ELITE",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": "MOUNTSPELL_MOABIRD_FW_BRIDGEWATCH_PASSIVE"
+  },
+  {
+   "code": "MOUNT_DIREBEAR_FW_FORTSTERLING",
+   "nom": "Ours de l'hiver sellé",
+   "slot": "monture",
+   "categorie": "basemounts",
+   "rendu": "T5_MOUNT_DIREBEAR_FW_FORTSTERLING",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": "PASSIVE_DIREBEAR_FW_FORTSTERLING_WINTERLORD"
+  },
+  {
+   "code": "MOUNT_DIREBEAR_FW_FORTSTERLING_ELITE",
+   "nom": "Ours de l'hiver élite",
+   "slot": "monture",
+   "categorie": "raremounts",
+   "rendu": "T8_MOUNT_DIREBEAR_FW_FORTSTERLING_ELITE",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": "PASSIVE_DIREBEAR_FW_FORTSTERLING_WINTERLORD"
+  },
+  {
+   "code": "MOUNT_SWAMPDRAGON_FW_THETFORD",
+   "nom": "Salamandre des marais sellée",
+   "slot": "monture",
+   "categorie": "basemounts",
+   "rendu": "T5_MOUNT_SWAMPDRAGON_FW_THETFORD",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": "MOUNTSPELL_SWAMPDRAGON_FW_THETFORD_PASSIVE"
+  },
+  {
+   "code": "MOUNT_SWAMPDRAGON_FW_THETFORD_ELITE",
+   "nom": "Salamandre des marais élite",
+   "slot": "monture",
+   "categorie": "raremounts",
+   "rendu": "T8_MOUNT_SWAMPDRAGON_FW_THETFORD_ELITE",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": "MOUNTSPELL_SWAMPDRAGON_FW_THETFORD_PASSIVE"
+  },
+  {
+   "code": "MOUNT_DIREBOAR_FW_LYMHURST",
+   "nom": "Sanglier sauvage sellé",
+   "slot": "monture",
+   "categorie": "basemounts",
+   "rendu": "T5_MOUNT_DIREBOAR_FW_LYMHURST",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": "MOUNTSPELL_DIREBOAR_FW_LYMHURST_PASSIVE"
+  },
+  {
+   "code": "MOUNT_DIREBOAR_FW_LYMHURST_ELITE",
+   "nom": "Sanglier sauvage élite",
+   "slot": "monture",
+   "categorie": "raremounts",
+   "rendu": "T8_MOUNT_DIREBOAR_FW_LYMHURST_ELITE",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": "MOUNTSPELL_DIREBOAR_FW_LYMHURST_PASSIVE"
+  },
+  {
+   "code": "MOUNT_DIREWOLF",
+   "nom": "Sombre-loup",
+   "slot": "monture",
+   "categorie": "basemounts",
+   "rendu": "T6_MOUNT_DIREWOLF",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MOUNT_DIREBEAR",
+   "nom": "Sombre-ours sellé",
+   "slot": "monture",
+   "categorie": "basemounts",
+   "rendu": "T8_MOUNT_DIREBEAR",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MOUNT_DIREBOAR",
+   "nom": "Sombre-sanglier sellé",
+   "slot": "monture",
+   "categorie": "basemounts",
+   "rendu": "T7_MOUNT_DIREBOAR",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": "PASSIVE_MAXLOAD_DIREBOAR"
+  },
+  {
+   "code": "MOUNT_SPIDER_HELL",
+   "nom": "Tisseur",
+   "slot": "monture",
+   "categorie": "raremounts",
+   "rendu": "T8_MOUNT_SPIDER_HELL",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MOUNT_COUGAR_KEEPER",
+   "nom": "Vivegriffe",
+   "slot": "monture",
+   "categorie": "raremounts",
+   "rendu": "T8_MOUNT_COUGAR_KEEPER",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "MOUNT_GIANTSTAG_MOOSE",
+   "nom": "Élan",
+   "slot": "monture",
+   "categorie": "basemounts",
+   "rendu": "T6_MOUNT_GIANTSTAG_MOOSE",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": "PASSIVE_MAXLOAD_GIANTSTAG"
+  },
+  {
+   "code": "T8_MEAL_SPECIAL_FOOD_DRAKE_EGG",
+   "nom": "Biscuits aux Œufs de Drake",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T8_MEAL_SPECIAL_FOOD_DRAKE_EGG",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T3_MEAL_ROAST_FISH",
+   "nom": "Lutjan albruine rôti",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T3_MEAL_ROAST_FISH",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T5_MEAL_ROAST_FISH",
+   "nom": "Lutjan clairebrumasse rôti",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T5_MEAL_ROAST_FISH",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T7_MEAL_ROAST_FISH",
+   "nom": "Lutjan purebrume rôti",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T7_MEAL_ROAST_FISH",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T5_MEAL_ROAST",
+   "nom": "Oie rôtie",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T5_MEAL_ROAST",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T7_MEAL_OMELETTE_DRAGONAREA",
+   "nom": "Omelette au Tellurfin Draconique",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T7_MEAL_OMELETTE_DRAGONAREA",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T3_MEAL_OMELETTE_DRAGONAREA",
+   "nom": "Omelette au Tellurfin Serein",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T3_MEAL_OMELETTE_DRAGONAREA",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T5_MEAL_OMELETTE_DRAGONAREA",
+   "nom": "Omelette au Tellurfin Âme-Lumière",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T5_MEAL_OMELETTE_DRAGONAREA",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T5_MEAL_OMELETTE_FISH",
+   "nom": "Omelette au crabe de rivière",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T5_MEAL_OMELETTE_FISH",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T3_MEAL_OMELETTE_FISH",
+   "nom": "Omelette au crabe fouisseur",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T3_MEAL_OMELETTE_FISH",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T7_MEAL_OMELETTE_FISH",
+   "nom": "Omelette au crabe mantou",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T7_MEAL_OMELETTE_FISH",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T7_MEAL_OMELETTE",
+   "nom": "Omelette au porc",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T7_MEAL_OMELETTE",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T7_MEAL_OMELETTE_AVALON",
+   "nom": "Omelette au porc avalonienne",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T7_MEAL_OMELETTE_AVALON",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T3_MEAL_OMELETTE",
+   "nom": "Omelette au poulet",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T3_MEAL_OMELETTE",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T3_MEAL_OMELETTE_AVALON",
+   "nom": "Omelette au poulet avalonienne",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T3_MEAL_OMELETTE_AVALON",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T5_MEAL_OMELETTE_AVALON",
+   "nom": "Omelette d'oie avalonienne",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T5_MEAL_OMELETTE_AVALON",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T5_MEAL_OMELETTE",
+   "nom": "Omelette à l'oie",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T5_MEAL_OMELETTE",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T1_MEAL_GRILLEDFISH",
+   "nom": "Poisson grillé",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T1_MEAL_GRILLEDFISH",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T7_MEAL_ROAST",
+   "nom": "Porc rôti",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T7_MEAL_ROAST",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T3_MEAL_ROAST",
+   "nom": "Poulet rôti",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T3_MEAL_ROAST",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T8_MEAL_STEW_FISH",
+   "nom": "Ragoût d'anguille morteaux",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T8_MEAL_STEW_FISH",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T6_MEAL_STEW_FISH",
+   "nom": "Ragoût d'anguille rosée",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T6_MEAL_STEW_FISH",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T4_MEAL_STEW_FISH",
+   "nom": "Ragoût d'anguille verte",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T4_MEAL_STEW_FISH",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T8_MEAL_STEW",
+   "nom": "Ragoût de bœuf",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T8_MEAL_STEW",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T8_MEAL_STEW_AVALON",
+   "nom": "Ragoût de bœuf avalonien",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T8_MEAL_STEW_AVALON",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T4_MEAL_STEW",
+   "nom": "Ragoût de chèvre",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T4_MEAL_STEW",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T4_MEAL_STEW_AVALON",
+   "nom": "Ragoût de chèvre avalonien",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T4_MEAL_STEW_AVALON",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T6_MEAL_STEW",
+   "nom": "Ragoût de mouton",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T6_MEAL_STEW",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T6_MEAL_STEW_AVALON",
+   "nom": "Ragoût de mouton avalonien",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T6_MEAL_STEW_AVALON",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T1_MEAL_SEAWEEDSALAD",
+   "nom": "Salade d'algues",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T1_MEAL_SEAWEEDSALAD",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T2_MEAL_SALAD_FISH",
+   "nom": "Salade de calamars des récifs",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T2_MEAL_SALAD_FISH",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T2_MEAL_SALAD",
+   "nom": "Salade de haricots",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T2_MEAL_SALAD",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T6_MEAL_SALAD_FISH",
+   "nom": "Salade de krakens des profondeurs",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T6_MEAL_SALAD_FISH",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T4_MEAL_SALAD",
+   "nom": "Salade de navets",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T4_MEAL_SALAD",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T6_MEAL_SALAD",
+   "nom": "Salade de patates",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T6_MEAL_SALAD",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T4_MEAL_SALAD_FISH",
+   "nom": "Salade de petites pieuvres",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T4_MEAL_SALAD_FISH",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T8_MEAL_SANDWICH",
+   "nom": "Sandwich au bœuf",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T8_MEAL_SANDWICH",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T8_MEAL_SANDWICH_AVALON",
+   "nom": "Sandwich au bœuf avalonien",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T8_MEAL_SANDWICH_AVALON",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T6_MEAL_SANDWICH",
+   "nom": "Sandwich au mouton",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T6_MEAL_SANDWICH",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T6_MEAL_SANDWICH_AVALON",
+   "nom": "Sandwich au mouton avalonien",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T6_MEAL_SANDWICH_AVALON",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T4_MEAL_SANDWICH",
+   "nom": "Sandwich à la chèvre",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T4_MEAL_SANDWICH",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T4_MEAL_SANDWICH_AVALON",
+   "nom": "Sandwich à la chèvre avalonien",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T4_MEAL_SANDWICH_AVALON",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T6_MEAL_SANDWICH_FISH",
+   "nom": "Sandwich à la loche franche",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T6_MEAL_SANDWICH_FISH",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T8_MEAL_SANDWICH_FISH",
+   "nom": "Sandwich à la loche léopard",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T8_MEAL_SANDWICH_FISH",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T4_MEAL_SANDWICH_FISH",
+   "nom": "Sandwich à la loche pétrée",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T4_MEAL_SANDWICH_FISH",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T5_MEAL_SOUP",
+   "nom": "Soupe aux choux",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T5_MEAL_SOUP",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T3_MEAL_SOUP",
+   "nom": "Soupe de blé",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T3_MEAL_SOUP",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T1_MEAL_SOUP",
+   "nom": "Soupe de carottes",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T1_MEAL_SOUP",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T1_MEAL_SOUP_FISH",
+   "nom": "Soupe de clovisses blanches",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T1_MEAL_SOUP_FISH",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T5_MEAL_SOUP_FISH",
+   "nom": "Soupe de palourdes noirebières",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T5_MEAL_SOUP_FISH",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T3_MEAL_SOUP_FISH",
+   "nom": "Soupe de palourdes vaseuses",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T3_MEAL_SOUP_FISH",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T5_MEAL_PIE_FISH",
+   "nom": "Tourte au cavernicole montagneux",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T5_MEAL_PIE_FISH",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T7_MEAL_PIE",
+   "nom": "Tourte au porc",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T7_MEAL_PIE",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T3_MEAL_PIE",
+   "nom": "Tourte au poulet",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T3_MEAL_PIE",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T7_MEAL_PIE_FISH",
+   "nom": "Tourte au sar boréal",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T7_MEAL_PIE_FISH",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T3_MEAL_PIE_FISH",
+   "nom": "Tourte au sar noirtête",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T3_MEAL_PIE_FISH",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T5_MEAL_PIE",
+   "nom": "Tourte à l'oie",
+   "slot": "nourriture",
+   "categorie": "food",
+   "rendu": "T5_MEAL_PIE",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "OFF_SHIELD_CRYSTAL",
+   "nom": "Barrière Incassable",
+   "slot": "offhand",
+   "categorie": "shieldtype",
+   "rendu": "T8_OFF_SHIELD_CRYSTAL",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "OFF_SHIELD",
+   "nom": "Bouclier",
+   "slot": "offhand",
+   "categorie": "shieldtype",
+   "rendu": "T8_OFF_SHIELD",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "OFF_SHIELD_HELL",
+   "nom": "Bouclier de scélérat",
+   "slot": "offhand",
+   "categorie": "shieldtype",
+   "rendu": "T8_OFF_SHIELD_HELL",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "OFF_LAMP_UNDEAD",
+   "nom": "Bougie de la crypte",
+   "slot": "offhand",
+   "categorie": "torchtype",
+   "rendu": "T8_OFF_LAMP_UNDEAD",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "OFF_SPIKEDSHIELD_MORGANA",
+   "nom": "Brise-face",
+   "slot": "offhand",
+   "categorie": "shieldtype",
+   "rendu": "T8_OFF_SPIKEDSHIELD_MORGANA",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "OFF_JESTERCANE_HELL",
+   "nom": "Canne grimaçante",
+   "slot": "offhand",
+   "categorie": "torchtype",
+   "rendu": "T8_OFF_JESTERCANE_HELL",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "OFF_CENSER_AVALON",
+   "nom": "Encens céleste",
+   "slot": "offhand",
+   "categorie": "booktype",
+   "rendu": "T8_OFF_CENSER_AVALON",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "OFF_TOME_CRYSTAL",
+   "nom": "Grimoire Chronostatique",
+   "slot": "offhand",
+   "categorie": "booktype",
+   "rendu": "T8_OFF_TOME_CRYSTAL",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "OFF_HORN_KEEPER",
+   "nom": "Mandebrume",
+   "slot": "offhand",
+   "categorie": "torchtype",
+   "rendu": "T8_OFF_HORN_KEEPER",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "OFF_DEMONSKULL_HELL",
+   "nom": "Miniaturisé",
+   "slot": "offhand",
+   "categorie": "booktype",
+   "rendu": "T8_OFF_DEMONSKULL_HELL",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "OFF_TOTEM_KEEPER",
+   "nom": "Racine pivot",
+   "slot": "offhand",
+   "categorie": "booktype",
+   "rendu": "T8_OFF_TOTEM_KEEPER",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "OFF_TOWERSHIELD_UNDEAD",
+   "nom": "Sarcophage",
+   "slot": "offhand",
+   "categorie": "shieldtype",
+   "rendu": "T8_OFF_TOWERSHIELD_UNDEAD",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "OFF_TALISMAN_AVALON",
+   "nom": "Sceptre sacré",
+   "slot": "offhand",
+   "categorie": "torchtype",
+   "rendu": "T8_OFF_TALISMAN_AVALON",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "OFF_BOOK",
+   "nom": "Tome de sorts de l'apprenti",
+   "slot": "offhand",
+   "categorie": "booktype",
+   "rendu": "T8_OFF_BOOK",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "OFF_TORCH",
+   "nom": "Torche",
+   "slot": "offhand",
+   "categorie": "torchtype",
+   "rendu": "T8_OFF_TORCH",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "OFF_TORCH_CRYSTAL",
+   "nom": "Torche Flammebleue",
+   "slot": "offhand",
+   "categorie": "torchtype",
+   "rendu": "T8_OFF_TORCH_CRYSTAL",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "OFF_SHIELD_AVALON",
+   "nom": "Égide astrale",
+   "slot": "offhand",
+   "categorie": "shieldtype",
+   "rendu": "T8_OFF_SHIELD_AVALON",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "OFF_ORB_MORGANA",
+   "nom": "Œil des secrets",
+   "slot": "offhand",
+   "categorie": "booktype",
+   "rendu": "T8_OFF_ORB_MORGANA",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T5_POTION_SLOWFIELD",
+   "nom": "Potion collante",
+   "slot": "potion",
+   "categorie": "potions",
+   "rendu": "T5_POTION_SLOWFIELD",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T7_POTION_SLOWFIELD",
+   "nom": "Potion collante majeure",
+   "slot": "potion",
+   "categorie": "potions",
+   "rendu": "T7_POTION_SLOWFIELD",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T3_POTION_SLOWFIELD",
+   "nom": "Potion collante mineure",
+   "slot": "potion",
+   "categorie": "potions",
+   "rendu": "T3_POTION_SLOWFIELD",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T5_POTION_ACID",
+   "nom": "Potion d'acide",
+   "slot": "potion",
+   "categorie": "potions",
+   "rendu": "T5_POTION_ACID",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T7_POTION_ACID",
+   "nom": "Potion d'acide majeure",
+   "slot": "potion",
+   "categorie": "potions",
+   "rendu": "T7_POTION_ACID",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T3_POTION_ACID",
+   "nom": "Potion d'acide mineure",
+   "slot": "potion",
+   "categorie": "potions",
+   "rendu": "T3_POTION_ACID",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T8_POTION_CLEANSE",
+   "nom": "Potion d'invisibilité",
+   "slot": "potion",
+   "categorie": "potions",
+   "rendu": "T8_POTION_CLEANSE",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T4_POTION_ENERGY",
+   "nom": "Potion d'énergie",
+   "slot": "potion",
+   "categorie": "potions",
+   "rendu": "T4_POTION_ENERGY",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T6_POTION_ENERGY",
+   "nom": "Potion d'énergie majeure",
+   "slot": "potion",
+   "categorie": "potions",
+   "rendu": "T6_POTION_ENERGY",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T2_POTION_ENERGY",
+   "nom": "Potion d'énergie mineure",
+   "slot": "potion",
+   "categorie": "potions",
+   "rendu": "T2_POTION_ENERGY",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T6_POTION_LIFEWARD",
+   "nom": "Potion de Garde-Vie",
+   "slot": "potion",
+   "categorie": "potions",
+   "rendu": "T6_POTION_LIFEWARD",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T8_POTION_LIFEWARD",
+   "nom": "Potion de Garde-Vie Majeure",
+   "slot": "potion",
+   "categorie": "potions",
+   "rendu": "T8_POTION_LIFEWARD",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T4_POTION_LIFEWARD",
+   "nom": "Potion de Garde-Vie Mineure",
+   "slot": "potion",
+   "categorie": "potions",
+   "rendu": "T4_POTION_LIFEWARD",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T6_POTION_BERSERK",
+   "nom": "Potion de berserker",
+   "slot": "potion",
+   "categorie": "potions",
+   "rendu": "T6_POTION_BERSERK",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T8_POTION_BERSERK",
+   "nom": "Potion de berserker majeure",
+   "slot": "potion",
+   "categorie": "potions",
+   "rendu": "T8_POTION_BERSERK",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T4_POTION_BERSERK",
+   "nom": "Potion de berserker mineure",
+   "slot": "potion",
+   "categorie": "potions",
+   "rendu": "T4_POTION_BERSERK",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T5_POTION_MOB_RESET",
+   "nom": "Potion de calme",
+   "slot": "potion",
+   "categorie": "potions",
+   "rendu": "T5_POTION_MOB_RESET",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T7_POTION_MOB_RESET",
+   "nom": "Potion de calme majeure",
+   "slot": "potion",
+   "categorie": "potions",
+   "rendu": "T7_POTION_MOB_RESET",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T3_POTION_MOB_RESET",
+   "nom": "Potion de calme mineure",
+   "slot": "potion",
+   "categorie": "potions",
+   "rendu": "T3_POTION_MOB_RESET",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T6_POTION_LAVA",
+   "nom": "Potion de feu infernal",
+   "slot": "potion",
+   "categorie": "potions",
+   "rendu": "T6_POTION_LAVA",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T8_POTION_LAVA",
+   "nom": "Potion de feu infernal majeure",
+   "slot": "potion",
+   "categorie": "potions",
+   "rendu": "T8_POTION_LAVA",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T4_POTION_LAVA",
+   "nom": "Potion de feu infernal mineure",
+   "slot": "potion",
+   "categorie": "potions",
+   "rendu": "T4_POTION_LAVA",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T5_POTION_REVIVE",
+   "nom": "Potion de gigantisme",
+   "slot": "potion",
+   "categorie": "potions",
+   "rendu": "T5_POTION_REVIVE",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T7_POTION_REVIVE",
+   "nom": "Potion de gigantisme majeure",
+   "slot": "potion",
+   "categorie": "potions",
+   "rendu": "T7_POTION_REVIVE",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T3_POTION_REVIVE",
+   "nom": "Potion de gigantisme mineure",
+   "slot": "potion",
+   "categorie": "potions",
+   "rendu": "T3_POTION_REVIVE",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T6_POTION_COOLDOWN",
+   "nom": "Potion de poison",
+   "slot": "potion",
+   "categorie": "potions",
+   "rendu": "T6_POTION_COOLDOWN",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T8_POTION_COOLDOWN",
+   "nom": "Potion de poison majeure",
+   "slot": "potion",
+   "categorie": "potions",
+   "rendu": "T8_POTION_COOLDOWN",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T4_POTION_COOLDOWN",
+   "nom": "Potion de poison mineure",
+   "slot": "potion",
+   "categorie": "potions",
+   "rendu": "T4_POTION_COOLDOWN",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T5_POTION_CLEANSE2",
+   "nom": "Potion de purification",
+   "slot": "potion",
+   "categorie": "potions",
+   "rendu": "T5_POTION_CLEANSE2",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T7_POTION_CLEANSE2",
+   "nom": "Potion de purification majeure",
+   "slot": "potion",
+   "categorie": "potions",
+   "rendu": "T7_POTION_CLEANSE2",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T3_POTION_CLEANSE2",
+   "nom": "Potion de purification mineure",
+   "slot": "potion",
+   "categorie": "potions",
+   "rendu": "T3_POTION_CLEANSE2",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T6_POTION_GATHER",
+   "nom": "Potion de récolte",
+   "slot": "potion",
+   "categorie": "potions",
+   "rendu": "T6_POTION_GATHER",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T8_POTION_GATHER",
+   "nom": "Potion de récolte majeure",
+   "slot": "potion",
+   "categorie": "potions",
+   "rendu": "T8_POTION_GATHER",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T4_POTION_GATHER",
+   "nom": "Potion de récolte mineure",
+   "slot": "potion",
+   "categorie": "potions",
+   "rendu": "T4_POTION_GATHER",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T5_POTION_STONESKIN",
+   "nom": "Potion de résistance",
+   "slot": "potion",
+   "categorie": "potions",
+   "rendu": "T5_POTION_STONESKIN",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T7_POTION_STONESKIN",
+   "nom": "Potion de résistance majeure",
+   "slot": "potion",
+   "categorie": "potions",
+   "rendu": "T7_POTION_STONESKIN",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T3_POTION_STONESKIN",
+   "nom": "Potion de résistance mineure",
+   "slot": "potion",
+   "categorie": "potions",
+   "rendu": "T3_POTION_STONESKIN",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T4_POTION_HEAL",
+   "nom": "Potion de soin",
+   "slot": "potion",
+   "categorie": "potions",
+   "rendu": "T4_POTION_HEAL",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T6_POTION_HEAL",
+   "nom": "Potion de soin majeure",
+   "slot": "potion",
+   "categorie": "potions",
+   "rendu": "T6_POTION_HEAL",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T2_POTION_HEAL",
+   "nom": "Potion de soin mineure",
+   "slot": "potion",
+   "categorie": "potions",
+   "rendu": "T2_POTION_HEAL",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T6_POTION_TORNADO",
+   "nom": "Tornade en bouteille",
+   "slot": "potion",
+   "categorie": "potions",
+   "rendu": "T6_POTION_TORNADO",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T8_POTION_TORNADO",
+   "nom": "Tornade en bouteille majeure",
+   "slot": "potion",
+   "categorie": "potions",
+   "rendu": "T8_POTION_TORNADO",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "T4_POTION_TORNADO",
+   "nom": "Tornade en bouteille mineure",
+   "slot": "potion",
+   "categorie": "potions",
+   "rendu": "T4_POTION_TORNADO",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": null,
+   "passif_defaut": null
+  },
+  {
+   "code": "ARMOR_PLATE_FEY",
+   "nom": "Armure crépusculaire",
+   "slot": "torse",
+   "categorie": "plate_armor",
+   "rendu": "T8_ARMOR_PLATE_FEY",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "ARMOR_WEB",
+   "passif_defaut": null
+  },
+  {
+   "code": "ARMOR_PLATE_AVALON",
+   "nom": "Armure de bravoure",
+   "slot": "torse",
+   "categorie": "plate_armor",
+   "rendu": "T8_ARMOR_PLATE_AVALON",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "REFLECT_CHANNEL",
+   "passif_defaut": null
+  },
+  {
+   "code": "ARMOR_PLATE_SET2",
+   "nom": "Armure de chevalier",
+   "slot": "torse",
+   "categorie": "plate_armor",
+   "rendu": "T8_ARMOR_PLATE_SET2",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "WINDWALL",
+   "passif_defaut": null
+  },
+  {
+   "code": "ARMOR_PLATE_HELL",
+   "nom": "Armure de démon",
+   "slot": "torse",
+   "categorie": "plate_armor",
+   "rendu": "T8_ARMOR_PLATE_HELL",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "REFLECTAREA",
+   "passif_defaut": null
+  },
+  {
+   "code": "ARMOR_PLATE_UNDEAD",
+   "nom": "Armure de gardetombe",
+   "slot": "torse",
+   "categorie": "plate_armor",
+   "rendu": "T8_ARMOR_PLATE_UNDEAD",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "ARMORCHAIN",
+   "passif_defaut": null
+  },
+  {
+   "code": "ARMOR_PLATE_SET3",
+   "nom": "Armure de gardien",
+   "slot": "torse",
+   "categorie": "plate_armor",
+   "rendu": "T8_ARMOR_PLATE_SET3",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "ENFEEBLEAURA",
+   "passif_defaut": null
+  },
+  {
+   "code": "ARMOR_PLATE_KEEPER",
+   "nom": "Armure de judicateur",
+   "slot": "torse",
+   "categorie": "plate_armor",
+   "rendu": "T8_ARMOR_PLATE_KEEPER",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "FORCESHIELD",
+   "passif_defaut": null
+  },
+  {
+   "code": "ARMOR_PLATE_SET1",
+   "nom": "Armure de soldat",
+   "slot": "torse",
+   "categorie": "plate_armor",
+   "rendu": "T8_ARMOR_PLATE_SET1",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "ENRAGE",
+   "passif_defaut": null
+  },
+  {
+   "code": "ARMOR_PLATE_ROYAL",
+   "nom": "Armure royale",
+   "slot": "torse",
+   "categorie": "plate_armor",
+   "rendu": "T8_ARMOR_PLATE_ROYAL",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "MANADRAIN",
+   "passif_defaut": null
+  },
+  {
+   "code": "ARMOR_CLOTH_SET2",
+   "nom": "Robe d'ecclésiastique",
+   "slot": "torse",
+   "categorie": "cloth_armor",
+   "rendu": "T8_ARMOR_CLOTH_SET2",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "LIFESAVIOR",
+   "passif_defaut": null
+  },
+  {
+   "code": "ARMOR_CLOTH_FEY",
+   "nom": "Robe d'écailles féériques",
+   "slot": "torse",
+   "categorie": "cloth_armor",
+   "rendu": "T8_ARMOR_CLOTH_FEY",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "WILD_MAGIC",
+   "passif_defaut": null
+  },
+  {
+   "code": "ARMOR_CLOTH_SET1",
+   "nom": "Robe d'érudit",
+   "slot": "torse",
+   "categorie": "cloth_armor",
+   "rendu": "T8_ARMOR_CLOTH_SET1",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "SPEEDCASTER",
+   "passif_defaut": null
+  },
+  {
+   "code": "ARMOR_CLOTH_MORGANA",
+   "nom": "Robe de culte",
+   "slot": "torse",
+   "categorie": "cloth_armor",
+   "rendu": "T8_ARMOR_CLOTH_MORGANA",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "LEVITATE",
+   "passif_defaut": null
+  },
+  {
+   "code": "ARMOR_CLOTH_KEEPER",
+   "nom": "Robe de druide",
+   "slot": "torse",
+   "categorie": "cloth_armor",
+   "rendu": "T8_ARMOR_CLOTH_KEEPER",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "SPELLRUSH",
+   "passif_defaut": null
+  },
+  {
+   "code": "ARMOR_CLOTH_SET3",
+   "nom": "Robe de mage",
+   "slot": "torse",
+   "categorie": "cloth_armor",
+   "rendu": "T8_ARMOR_CLOTH_SET3",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "PURGINGSHIELD2",
+   "passif_defaut": null
+  },
+  {
+   "code": "ARMOR_CLOTH_HELL",
+   "nom": "Robe de monstre",
+   "slot": "torse",
+   "categorie": "cloth_armor",
+   "rendu": "T8_ARMOR_CLOTH_HELL",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "FEAR_AURA",
+   "passif_defaut": null
+  },
+  {
+   "code": "ARMOR_CLOTH_AVALON",
+   "nom": "Robe de pureté",
+   "slot": "torse",
+   "categorie": "cloth_armor",
+   "rendu": "T8_ARMOR_CLOTH_AVALON",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "CASTBUBBLE",
+   "passif_defaut": null
+  },
+  {
+   "code": "ARMOR_CLOTH_ROYAL",
+   "nom": "Robe royale",
+   "slot": "torse",
+   "categorie": "cloth_armor",
+   "rendu": "T8_ARMOR_CLOTH_ROYAL",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "MAGICCIRCLE",
+   "passif_defaut": null
+  },
+  {
+   "code": "ARMOR_LEATHER_SET3",
+   "nom": "Veste d'assassin",
+   "slot": "torse",
+   "categorie": "leather_armor",
+   "rendu": "T8_ARMOR_LEATHER_SET3",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "AMBUSH",
+   "passif_defaut": null
+  },
+  {
+   "code": "ARMOR_LEATHER_DRAGON",
+   "nom": "Veste de Tueur de Dragons",
+   "slot": "torse",
+   "categorie": "leather_armor",
+   "rendu": "T8_ARMOR_LEATHER_DRAGON",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "IMMUNEAREA",
+   "passif_defaut": null
+  },
+  {
+   "code": "ARMOR_LEATHER_SET2",
+   "nom": "Veste de chasseur",
+   "slot": "torse",
+   "categorie": "leather_armor",
+   "rendu": "T8_ARMOR_LEATHER_SET2",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "HASTE",
+   "passif_defaut": null
+  },
+  {
+   "code": "ARMOR_LEATHER_FEY",
+   "nom": "Veste de marcheur des brumes",
+   "slot": "torse",
+   "categorie": "leather_armor",
+   "rendu": "T8_ARMOR_LEATHER_FEY",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "MIST_WALKER",
+   "passif_defaut": null
+  },
+  {
+   "code": "ARMOR_LEATHER_SET1",
+   "nom": "Veste de mercenaire",
+   "slot": "torse",
+   "categorie": "leather_armor",
+   "rendu": "T8_ARMOR_LEATHER_SET1",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "BLOODLUST",
+   "passif_defaut": null
+  },
+  {
+   "code": "ARMOR_LEATHER_UNDEAD",
+   "nom": "Veste de spectre",
+   "slot": "torse",
+   "categorie": "leather_armor",
+   "rendu": "T8_ARMOR_LEATHER_UNDEAD",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "BURNAURA",
+   "passif_defaut": null
+  },
+  {
+   "code": "ARMOR_LEATHER_HELL",
+   "nom": "Veste de tourmenteur",
+   "slot": "torse",
+   "categorie": "leather_armor",
+   "rendu": "T8_ARMOR_LEATHER_HELL",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "LIFESTEALAURA",
+   "passif_defaut": null
+  },
+  {
+   "code": "ARMOR_LEATHER_MORGANA",
+   "nom": "Veste de traqueur",
+   "slot": "torse",
+   "categorie": "leather_armor",
+   "rendu": "T8_ARMOR_LEATHER_MORGANA",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "STORMSHIELD",
+   "passif_defaut": null
+  },
+  {
+   "code": "ARMOR_LEATHER_AVALON",
+   "nom": "Veste de ténacité",
+   "slot": "torse",
+   "categorie": "leather_armor",
+   "rendu": "T8_ARMOR_LEATHER_AVALON",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "DYNAMIC_DEFENSE",
+   "passif_defaut": null
+  },
+  {
+   "code": "ARMOR_LEATHER_ROYAL",
+   "nom": "Veste royale",
+   "slot": "torse",
+   "categorie": "leather_armor",
+   "rendu": "T8_ARMOR_LEATHER_ROYAL",
+   "deux_mains": false,
+   "sort_3": null,
+   "sort_defaut": "ROYAL_BANNER",
+   "passif_defaut": null
+  }
+ ]
+}
