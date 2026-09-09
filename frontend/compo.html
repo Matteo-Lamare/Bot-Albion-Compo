@@ -44,6 +44,9 @@
 
       <div class="actions" style="margin-bottom:24px">
         <button type="button" id="ajouter-ligne">+ Ajouter un build</button>
+        <button type="button" id="bouton-importer">Importer un fichier Excel</button>
+        <a class="bouton" href="/api/compos/modele-tableur" download>Modèle Excel</a>
+        <input type="file" id="fichier-tableur" accept=".xlsx,.xlsm,.csv" hidden>
         <button type="button" id="tout-replier" class="mini">Tout replier</button>
         <button type="button" id="tout-deplier" class="mini">Tout déplier</button>
       </div>
@@ -59,7 +62,7 @@
 
     <div id="zone-apercu" hidden>
       <h2>Aperçu du message Discord</h2>
-      <p class="sous-titre">Chaque build part avec son image et son bloc d'inscription.</p>
+      <p class="sous-titre">Un en-tête, puis l'image de chaque build en pièce jointe.</p>
       <div id="contenu-apercu"></div>
     </div>
   </main>

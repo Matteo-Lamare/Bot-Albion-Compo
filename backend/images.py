@@ -1,12 +1,13 @@
 """Rendu d'un build en image PNG (icones officielles Albion).
 
-L'image est ce qui part sur Discord en piece jointe : une planche 3x3 reprenant
-la disposition de l'ecran d'equipement du jeu, chaque objet accompagne de ses
-sorts et passifs. Les icones viennent de render.albiononline.com et sont mises
-en cache sur disque, donc un second envoi ne retelecharge rien.
+L'image est tout ce qui part sur Discord : une planche 3x3 reprenant la
+disposition de l'ecran d'equipement du jeu, chaque objet accompagne de ses sorts
+et passifs. La case en haut a gauche reste vide et la monture n'y figure pas.
+Les icones viennent de render.albiononline.com et sont mises en cache sur
+disque, donc un second envoi ne retelecharge rien.
 
-Pillow est facultatif : sans lui (ou sans reseau), la fonction rend un
-dictionnaire vide et l'envoi Discord retombe sur le rendu texte.
+Pillow est facultatif : sans lui, la fonction rend un dictionnaire vide et le
+message Discord se contente de nommer les builds.
 """
 from __future__ import annotations
 
@@ -51,14 +52,15 @@ CONTOUR_PASSIF = (201, 162, 39, 255)
 
 # Emplacement de chaque slot dans la planche + sorts a afficher dessous.
 # (colonne, ligne) sur une grille 3x3, comme l'ecran d'equipement du jeu.
+# La case (0, 0) reste volontairement vide ; la monture n'apparait pas sur la
+# planche (elle reste saisissable sur le site).
 CASES: tuple[tuple[int, int, str, str, tuple[str, ...]], ...] = (
-    (0, 0, "cape", "Cape", ("cape_passif",)),
     (1, 0, "casque", "Casque", ("casque_sort", "casque_passif")),
-    (2, 0, "potion", "Potion", ()),
+    (2, 0, "cape", "Cape", ("cape_passif",)),
     (0, 1, "arme", "Arme", ("arme_sort_1", "arme_sort_2", "arme_sort_3", "arme_passif")),
-    (1, 1, "torse", "Torse", ("torse_sort", "torse_passif_1", "torse_passif_2")),
+    (1, 1, "torse", "Armure", ("torse_sort", "torse_passif_1", "torse_passif_2")),
     (2, 1, "offhand", "Off-hand", ()),
-    (0, 2, "monture", "Monture", ("monture_sort",)),
+    (0, 2, "potion", "Potion", ()),
     (1, 2, "bottes", "Bottes", ("bottes_sort", "bottes_passif")),
     (2, 2, "nourriture", "Nourriture", ()),
 )

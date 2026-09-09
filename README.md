@@ -2,14 +2,14 @@
 
 Site web interne + envoi Discord pour gérer les **compositions PvP** d'une guilde Albion Online.
 Les compos sont créées et stockées sur le site, puis publiées dans un salon Discord en un clic :
-chaque build part avec **son image** (la planche d'équipement, icônes officielles) et son bloc
-d'inscription.
+le message se résume à un en-tête et à **l'image de chaque build** (la planche d'équipement,
+icônes officielles) — aucun descriptif textuel, l'image dit tout.
 
 L'équipement se choisit dans le **vrai catalogue du jeu** : menus déroulants avec recherche par
 nom et vignettes officielles, sorts et passifs limités à ceux que l'objet peut réellement porter.
+Les builds peuvent aussi être **importés depuis un fichier Excel**.
 
-Assigner un joueur est **facultatif** : une compo peut n'être qu'une liste de builds, sur lesquels
-chacun **s'inscrit** ensuite. Le message Discord déjà posté se met alors à jour tout seul.
+Assigner un joueur est **facultatif** : une compo peut n'être qu'une liste de builds.
 
 **Stack** : FastAPI (Python) · SQLite · HTML/CSS/JS sans framework · Webhook Discord.
 
@@ -17,8 +17,9 @@ chacun **s'inscrit** ensuite. Le message Discord déjà posté se met alors à j
 
 ## 1. Installation
 
-Prérequis : **Python 3.11+**. Pillow (dans `requirements.txt`) sert à composer les images de
-build ; sans lui, le message Discord part en texte seul, tout le reste fonctionne à l'identique.
+Prérequis : **Python 3.11+**. Deux dépendances de `requirements.txt` sont facultatives :
+**Pillow** compose les images de build (sans lui, le message Discord ne porte que le nom des
+builds) et **openpyxl** lit et produit les fichiers `.xlsx` (sans lui, l'import se limite au CSV).
 
 ```bash
 # 1. Environnement virtuel
@@ -38,7 +39,7 @@ cp .env.example .env
 | --- | --- |
 | `SECRET_KEY` | Signe les cookies de session. **À changer** : `python -c "import secrets; print(secrets.token_hex(32))"` |
 | `DISCORD_WEBHOOK_URL` | Webhook du salon où poster les compos (modifiable aussi depuis `/admin`) |
-| `APP_BASE_URL` | Adresse publique du site, insérée dans le message Discord pour que chacun clique et s'inscrive |
+| `APP_BASE_URL` | Adresse publique du site, ajoutée à l'en-tête du message Discord (laisser vide pour ne poster aucun lien) |
 | `ADMIN_PSEUDO` / `ADMIN_PASSWORD` | Compte admin créé au premier démarrage, si la base est vide |
 | `DATABASE_URL` | Par défaut `sqlite:///./database/compos.db` |
 | `COOKIE_SECURE` | `true` uniquement derrière HTTPS |
@@ -78,17 +79,18 @@ python manage.py images <compo_id> [dossier]       # exporte les images de build
 backend/
   config.py       Configuration (.env)
   database.py     Moteur SQLAlchemy + session SQLite
-  models.py       Catalogue Albion + Membre, Compo, LigneCompo, Inscription, Setting
+  models.py       Catalogue Albion + Membre, Compo, LigneCompo, Setting
   catalogue.py    Import du catalogue, index en mémoire et règles par slot
   validation.py   Règles métier : sorts autorisés, sorts imposés (source de vérité)
   schemas.py      Schémas Pydantic (forme des données)
   auth.py         Hachage scrypt + session par cookie signé
-  discord.py      Embeds, envoi au webhook et mise à jour des messages postés
+  discord.py      En-tête du message et envoi des images au webhook
   images.py       Rendu d'un build en PNG (icônes officielles, cache disque)
+  tableur.py      Import de builds depuis Excel / CSV + génération du modèle
   routers/
     auth.py       Connexion / déconnexion / session courante
     catalogue.py  Catalogue et règles consommés par le formulaire
-    compos.py     CRUD, duplication, aperçu, images, inscriptions et envoi Discord
+    compos.py     CRUD, duplication, aperçu, images, import tableur et envoi Discord
     admin.py      Membres et configuration du webhook
   main.py         Application FastAPI, init de la base, service du frontend
 frontend/
@@ -149,7 +151,7 @@ le formulaire pour le confort de saisie.
 | Slot | Objet | Sorts | Passifs |
 | --- | --- | --- | --- |
 | **Arme** | obligatoire | sorts 1 et 2 au choix **dans sa catégorie** ; **sort 3 imposé par l'arme** | 1, au choix dans sa catégorie |
-| **Off-hand** | facultatif | *aucun champ* | *aucun champ* |
+| **Off-hand** | facultatif, **interdit si l'arme se tient à deux mains** | *aucun champ* | *aucun champ* |
 | **Casque** | obligatoire | 1 sort : natif de la pièce, échangeable dans sa catégorie | 1, au choix dans sa catégorie |
 | **Torse** | obligatoire | idem casque | passif 1 obligatoire ; passif 2 **uniquement si la catégorie en propose deux** (torses en plaques) |
 | **Bottes** | obligatoire | idem casque | 1, au choix dans sa catégorie |
@@ -178,6 +180,8 @@ Autres garanties :
 - un slot facultatif est soit entièrement vide, soit renseigné ; un sort de monture sans
   monture est ignoré ;
 - les deux passifs d'un torse doivent être différents ;
+- une **arme à deux mains** occupe aussi l'emplacement d'off-hand : le slot se vide et se
+  verrouille dans le formulaire, et le serveur refuse la ligne si le client insiste ;
 - une compo contient **au moins une ligne**, et l'ordre des lignes est normalisé à
   l'enregistrement.
 
@@ -191,55 +195,57 @@ Une erreur de validation renvoie un `422` avec un corps exploitable par le front
 
 ### Envoi Discord
 
-Le bouton **Envoyer sur Discord** poste un embed d'en-tête (type, taille, notes, lien
-d'inscription) puis **un embed par build**, chacun accompagné de son image en pièce jointe.
-Le découpage respecte les limites de l'API Discord — 10 embeds, 10 pièces jointes et
-6000 caractères par message — donc une compo ZvZ de 30 builds part en plusieurs messages, et les
-`429` (rate limit) sont réessayés. En cas de succès, la compo passe au statut **envoyée**, la date
-d'envoi est horodatée et les identifiants des messages sont mémorisés.
+Le bouton **Envoyer sur Discord** poste un premier message avec l'en-tête de la compo
+(nom, type, taille, auteur, notes et lien vers le site si `APP_BASE_URL` est renseigné), puis
+**les images des builds en pièces jointes**, par paquets de 10 — la limite de l'API Discord.
+Aucun embed, aucune description textuelle : l'image porte l'équipement, les sorts et les passifs.
+Une compo ZvZ de 30 builds part donc en 3 messages, et les `429` (rate limit) sont réessayés.
+En cas de succès, la compo passe au statut **envoyée** et la date d'envoi est horodatée.
 
-Le bouton **Aperçu Discord** affiche le rendu exact — images comprises — avant publication.
+Le bouton **Aperçu Discord** affiche le rendu exact — en-tête et images — avant publication.
 
 **L'image d'un build** reprend la disposition de l'écran d'équipement (3 × 3), chaque objet
-surmontant ses sorts et passifs (liseré bleu pour un sort actif, doré pour un passif). Les icônes
-viennent de `render.albiononline.com` et sont mises en cache dans `.cache/icones/` : seul le
-premier rendu télécharge quelque chose. Le médaillon de tier gravé dans le cadre officiel est
-effacé, l'outil ne manipulant plus les tiers.
-
-Texte accompagnant un build (l'image porte les objets, le texte porte les sorts) :
+surmontant ses sorts et passifs (liseré bleu pour un sort actif, doré pour un passif) :
 
 ```
-#1 — Tank / Initiateur
-⚔️ **Masse** — Frappe défensive · Charge piégée · Grande enjambée · Combat effroyable
-🪖 **Casque de soldat** — Défense · Autorité
-🥋 **Armure de gardetombe** — Chaîne d'âme · Autorité
-🥾 **Bottes de soldat** — Envie d'ailleurs · Autorité
-🧣 **Cape de Martlock** — Bouclier de protection
-🛡️ Bouclier · 🐎 Cheval de guerre · 🧪 Potion de soin · 🍲 Ragoût de bœuf
-
-🙋 Inscrits (1)
-**Matteo**
+                casque          cape
+     arme       armure       off-hand
+    potion      bottes      nourriture
 ```
 
-Le torse affiche un second passif quand son armure en propose un (torses en plaques). Un build
-sans volontaire s'affiche en gris avec « Personne pour l'instant ».
+La case en haut à gauche reste vide et **la monture n'apparaît pas sur la planche** ; elle reste
+saisissable sur le site. Le titre gravé en haut de l'image (« #1 — Tank / Initiateur ») est ce qui
+identifie le build dans le salon. Les icônes viennent de `render.albiononline.com` et sont mises en
+cache dans `.cache/icones/` : seul le premier rendu télécharge quelque chose. Le médaillon de tier
+gravé dans le cadre officiel est effacé, l'outil ne manipulant plus les tiers.
 
-### Inscriptions : chacun choisit son build
+Sans Pillow, aucune image n'est composée : le message se contente alors de nommer les builds.
 
-Un build n'a pas besoin d'être attribué à l'avance. Sur la page de la compo, chaque build porte un
-bouton **« Je joue ce build »** ; le lien mis dans le message Discord (`APP_BASE_URL`) y renvoie
-directement. Un membre ne tient qu'**un seul build par compo** : s'inscrire ailleurs y déplace son
-inscription. Les inscrits sont conservés lorsque la compo est modifiée (ils suivent le rang du
-build).
+### Importer des builds depuis Excel
 
-À chaque inscription, les messages Discord déjà postés sont **ré-édités** : le compteur, la liste
-des volontaires et la couleur de l'embed suivent, images comprises. Si Discord est injoignable,
-l'inscription est quand même enregistrée et repartira au prochain envoi.
+Le formulaire de compo propose **Modèle Excel** (télécharge un `.xlsx` à remplir) et
+**Importer un fichier Excel** (relit le fichier rempli). Le `.csv` est accepté aussi, séparateur
+`;`. Rien n'est enregistré à l'import : les builds arrivent dans le formulaire, où ils peuvent
+encore être relus et corrigés avant l'enregistrement.
 
-> Pourquoi pas des boutons directement dans Discord ? Un webhook ne peut que **poster** et
-> **éditer** des messages : recevoir un clic exige une application Discord connectée en
-> permanence, hors périmètre du MVP (cf. § 9). Le lien + la ré-édition du message donnent le même
-> résultat visible dans le salon, sans bot à héberger.
+Le modèle contient deux feuilles :
+
+- **Builds** — une ligne par build, une colonne par emplacement :
+  `joueur`, `arme`, `arme_sort_1`, `arme_sort_2`, `arme_passif`, `offhand`, `casque`,
+  `casque_sort`, `casque_passif`, `torse`, `torse_sort`, `torse_passif_1`, `torse_passif_2`,
+  `bottes`, `bottes_sort`, `bottes_passif`, `cape`, `monture`, `potion`, `nourriture` ;
+- **Catalogue** — tous les noms valides, slot par slot, branchés en **menus déroulants** sur les
+  colonnes d'objets de la feuille Builds.
+
+Les cellules se remplissent avec le **nom français de l'objet ou du sort** (« Masse », « Casque de
+soldat ») : la casse, les accents et les espaces superflus sont ignorés. Les colonnes de sorts
+laissées vides sont complétées comme dans le formulaire (sort imposé par l'objet, sort natif d'une
+armure, sinon premier choix de sa catégorie), et les sorts imposés n'ont pas de colonne du tout.
+Les colonnes inconnues sont ignorées, avec un avertissement.
+
+Le fichier repasse par les mêmes règles que la saisie manuelle : un nom absent du catalogue, un
+slot obligatoire vide ou une off-hand posée sous une arme à deux mains renvoient une erreur qui
+nomme **la ligne du fichier** et la colonne fautive.
 
 ## 6. API
 
@@ -258,12 +264,11 @@ Toutes les routes exigent une session, sauf `POST /api/auth/login`.
 | `PUT` | `/api/compos/{id}` | Modification (auteur ou admin) |
 | `DELETE` | `/api/compos/{id}` | Suppression (auteur ou admin) |
 | `POST` | `/api/compos/{id}/dupliquer` | Duplication (la copie repart en brouillon, au nom du duplicateur) |
-| `GET` | `/api/compos/{id}/apercu-discord` | Aperçu des embeds, avec l'URL de l'image de chaque build |
+| `GET` | `/api/compos/{id}/apercu-discord` | Aperçu du message : en-tête + URL de l'image de chaque build |
 | `GET` | `/api/compos/{id}/lignes/{ordre}/image.png` | Image du build (PNG), telle qu'elle part en pièce jointe |
 | `POST` | `/api/compos/{id}/envoyer-discord` | Envoi + passage au statut « envoyée » |
-| `GET` | `/api/compos/{id}/inscriptions` | Qui joue quel build |
-| `POST` | `/api/compos/{id}/lignes/{ligne_id}/inscription` | S'inscrire sur un build (et re-éditer le message Discord) |
-| `DELETE` | `/api/compos/{id}/lignes/{ligne_id}/inscription` | Se désinscrire (`?membre_id=` réservé aux admins) |
+| `GET` | `/api/compos/modele-tableur` | Modèle Excel à remplir (CSV si openpyxl est absent) |
+| `POST` | `/api/compos/importer-tableur` | Lit un `.xlsx` / `.csv` et renvoie les builds (rien n'est enregistré) |
 | `GET` | `/api/membres` | Liste des membres (sert au filtre « auteur ») |
 | `POST`/`PUT`/`DELETE` | `/api/membres[/{id}]` | Gestion des membres (**admin**) |
 | `GET`/`PUT` | `/api/settings` | URL du webhook Discord (**admin**) |
@@ -271,12 +276,13 @@ Toutes les routes exigent une session, sauf `POST /api/auth/login`.
 ## 7. Tests
 
 ```bash
-# Backend : auth, CRUD, validation par slot, images, inscriptions, découpage et envoi Discord
+# Backend : auth, CRUD, validation par slot, images, import tableur et envoi Discord
 # (un faux webhook local reçoit les messages et les pièces jointes ; aucun accès réseau)
 python tests/test_api.py
 
 # Frontend (optionnel) : pilote les vraies pages dans jsdom (formulaire, enregistrement,
-# inscriptions, aperçu, filtres, administration). Écrit dans la base visée : à réserver au dev.
+# règle des armes à deux mains, aperçu, filtres, administration).
+# Écrit dans la base visée : à réserver au dev.
 npm install jsdom
 uvicorn backend.main:app --port 8123 &   # dans un autre terminal
 python manage.py seed-demo               # la compo n°1 sert de support aux tests
@@ -294,8 +300,7 @@ et à sauvegarder régulièrement `database/compos.db`.
 
 ## 9. Prévu pour la V2 (hors périmètre du MVP)
 
-- Vrai bot Discord avec commandes slash et **boutons d'inscription dans le salon**
-  (aujourd'hui l'inscription se fait sur le site, via le lien du message, qui se met à jour)
-- Validation automatique de cohérence des builds (arme à deux mains + off-hand, nombre de
-  sorts actifs simultanés, etc. — le catalogue expose déjà l'indicateur `deux_mains`)
+- Vrai bot Discord avec commandes slash (un webhook ne sait que poster et éditer)
+- Validation plus fine de la cohérence d'un build (nombre de sorts actifs simultanés,
+  compatibilité arme / armure...)
 - Statistiques et historique de versions des compos

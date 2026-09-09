@@ -1,4 +1,4 @@
-"""Tests de bout en bout : auth, catalogue, CRUD, regles, images, inscriptions, Discord."""
+"""Tests de bout en bout : auth, catalogue, CRUD, regles, images, tableur, Discord."""
 from __future__ import annotations
 
 import email
@@ -25,8 +25,7 @@ from backend import images as module_images  # noqa: E402
 from backend.main import app  # noqa: E402
 from backend.routers import compos as routeur_compos  # noqa: E402
 
-RECUS: list[dict] = []     # messages postes sur le webhook
-EDITIONS: list[dict] = []  # messages re-edites (PATCH), apres inscription
+RECUS: list[dict] = []  # messages postes sur le webhook
 
 
 async def _icones_hors_ligne(_urls) -> dict:
@@ -76,12 +75,6 @@ class FauxWebhook(BaseHTTPRequestHandler):
                 {"id": str(9000 + index), "filename": nom} for index, nom in enumerate(fichiers)
             ],
         })
-
-    def do_PATCH(self) -> None:  # noqa: N802
-        charge, _ = self._lire()
-        charge["chemin"] = self.path
-        EDITIONS.append(charge)
-        self._repondre({"id": self.path.rsplit("/", 1)[-1]})
 
     def log_message(self, *args) -> None:
         pass
@@ -260,7 +253,12 @@ def main() -> None:
         # --- Refus attendus ---
         sort_epee = cat.pool(epee, "sort_1")[0]
         sort_tissu = cat.pool(torse_tissu, "sort")[0]
+        masse_lourde = cat.objet("arme", "Masse lourde")
+        verifier(masse_lourde["deux_mains"] and not masse["deux_mains"],
+                 "Le catalogue distingue les armes a deux mains")
+        avec_deux_mains = cat.remplir(ligne_valide(cat), "arme", masse_lourde)
         cas = [
+            ("off-hand avec une arme a deux mains", dict(avec_deux_mains)),
             ("sort 1 d'une autre catégorie d'arme", ligne_valide(cat, arme_sort_1_id=sort_epee)),
             ("sort 2 pris dans le pool des sorts 1",
              ligne_valide(cat, arme_sort_2_id=cat.pool(masse, "sort_1")[0])),
@@ -294,6 +292,13 @@ def main() -> None:
             corps["erreurs"][0]["champ"] == "lignes.0.arme_sort_1_id"
             and "Masse" in corps["erreurs"][0]["message"],
             "Message d'erreur exploitable, nommant l'objet fautif",
+        )
+
+        verifier(
+            client.post("/api/compos", json=compo_valide(
+                cat, nom="Deux mains", lignes=[dict(avec_deux_mains, offhand_id=None)])
+            ).status_code == 201,
+            "La meme arme a deux mains passe sans off-hand",
         )
 
         # --- Champs optionnels et pools vides ---
@@ -402,17 +407,16 @@ def main() -> None:
 
         # --- Apercu + envoi Discord ---
         apercu = client.get(f"/api/compos/{compo_id}/apercu-discord").json()
-        verifier(apercu["embeds"][0]["title"].startswith("📋"), "Embed d'entete")
-        verifier(len(apercu["embeds"]) == 3, "Un embed d'entete + un embed par build")
-        premier = apercu["apercu"][0]["corps"]
-        verifier("Masse" in premier and "🪖" in premier, "Le texte nomme les objets et leurs sorts")
+        verifier(apercu["entete"].startswith("📋"), "Entete du message")
         verifier(
-            "T4." not in premier and "T8." not in premier and "`" not in premier,
-            "Plus aucun tier dans le rendu Discord",
+            "ZvZ - Ligne de front v2" in apercu["entete"] and "admin" in apercu["entete"],
+            "L'entete nomme la compo et son auteur",
         )
+        verifier("embeds" not in apercu, "Plus aucun embed dans le message Discord")
+        verifier(len(apercu["apercu"]) == 2, "Un bloc d'apercu par build")
         verifier(
-            apercu["embeds"][0]["thumbnail"]["url"].startswith("https://render.albiononline.com"),
-            "L'embed porte l'icone de l'arme",
+            all("corps" not in build for build in apercu["apercu"]),
+            "Plus de description textuelle des builds : l'image suffit",
         )
         verifier(
             apercu["apercu"][0]["image"] == f"/api/compos/{compo_id}/lignes/0/image.png",
@@ -440,15 +444,14 @@ def main() -> None:
         verifier(reponse.status_code == 200, "Envoi sur le webhook")
         verifier(reponse.json()["messages_envoyes"] == 1, "Un seul message pour 2 builds")
         verifier(reponse.json()["images_jointes"] == 2, "Une image jointe par build")
-        verifier(len(RECUS) == 1 and len(RECUS[0]["embeds"]) == 3, "Payload Discord bien forme")
+        verifier(len(RECUS) == 1 and "embeds" not in RECUS[0], "Payload sans aucun embed")
         verifier(
             RECUS[0]["fichiers"] == ["build_1.png", "build_2.png"],
             "Les images partent en pieces jointes nommees par build",
         )
         verifier(
-            [e["image"]["url"] for e in RECUS[0]["embeds"][1:]]
-            == ["attachment://build_1.png", "attachment://build_2.png"],
-            "Chaque embed de build affiche son image",
+            RECUS[0]["content"].startswith("📋") and "Masse" not in RECUS[0]["content"],
+            "Le seul texte est l'entete de la compo, pas le detail des builds",
         )
         verifier(
             RECUS[0]["attachments"] == [{"id": 0, "filename": "build_1.png"},
@@ -459,97 +462,102 @@ def main() -> None:
         verifier(relue["statut"] == "envoyée", "Statut passe a 'envoyee'")
         verifier(relue["date_envoi"] is not None, "Horodatage d'envoi enregistre")
 
-        # --- Inscriptions sur un build ---
-        ligne_1, ligne_2 = relue["lignes"][0]["id"], relue["lignes"][1]["id"]
-        verifier(
-            client.get(f"/api/compos/{compo_id}/inscriptions").json()["lignes"][0]["inscrits"] == [],
-            "Aucun inscrit au depart",
-        )
-        EDITIONS.clear()
-        resultat = client.post(f"/api/compos/{compo_id}/lignes/{ligne_1}/inscription").json()
-        verifier(
-            [i["pseudo"] for i in resultat["lignes"][0]["inscrits"]] == ["admin"],
-            "Inscription enregistree sur le build choisi",
-        )
-        verifier(resultat["discord_mis_a_jour"], "Le message Discord deja poste est re-edite")
-        verifier(len(EDITIONS) == 1 and EDITIONS[0]["chemin"].endswith("/messages/1001"),
-                 "L'edition vise le message realement poste")
-        verifier(
-            "Inscrits (1)" in json.dumps(EDITIONS[0]["embeds"], ensure_ascii=False),
-            "Le message mis a jour annonce l'inscrit",
-        )
-        verifier(
-            [p["id"] for p in EDITIONS[0]["attachments"]] == ["9000", "9001"],
-            "Les images sont conservees lors de l'edition",
-        )
-        verifier(
-            EDITIONS[0]["embeds"][1]["image"]["url"] == "attachment://build_1.png",
-            "L'embed re-edite pointe toujours vers son image",
-        )
-
-        client.post(f"/api/compos/{compo_id}/lignes/{ligne_1}/inscription")
-        verifier(
-            len(client.get(f"/api/compos/{compo_id}/inscriptions").json()["lignes"][0]["inscrits"])
-            == 1,
-            "S'inscrire deux fois ne cree pas de doublon",
-        )
-        etat = client.post(f"/api/compos/{compo_id}/lignes/{ligne_2}/inscription").json()["lignes"]
-        verifier(
-            etat[0]["inscrits"] == [] and len(etat[1]["inscrits"]) == 1,
-            "Un membre ne tient qu'un seul build : l'inscription se deplace",
-        )
-        verifier(
-            client.post(f"/api/compos/{compo_id}/lignes/999999/inscription").status_code == 404,
-            "Inscription sur un build inexistant refusee",
-        )
-
-        # Les inscrits survivent a une modification de la compo.
-        client.put(f"/api/compos/{compo_id}", json=compo_valide(
-            cat, nom="ZvZ - Ligne de front v3", statut="validée"))
-        apres = client.get(f"/api/compos/{compo_id}").json()
-        verifier(
-            [i["pseudo"] for i in apres["lignes"][1]["inscriptions"]] == ["admin"],
-            "Editer la compo ne perd pas les inscrits du build",
-        )
-        nouvelle_ligne_2 = apres["lignes"][1]["id"]
-        etat = client.delete(
-            f"/api/compos/{compo_id}/lignes/{nouvelle_ligne_2}/inscription"
-        ).json()["lignes"]
-        verifier(all(not ligne["inscrits"] for ligne in etat), "Desinscription effective")
-
         # Grosse compo : decoupage en plusieurs messages
         grosse = compo_valide(cat, nom="ZvZ - 30", taille_groupe=30,
                               lignes=[ligne_valide(cat, role_ou_joueur=f"Joueur {i}") for i in range(30)])
         id_grosse = client.post("/api/compos", json=grosse).json()["id"]
         RECUS.clear()
         reponse = client.post(f"/api/compos/{id_grosse}/envoyer-discord")
-        embeds = [embed for message in RECUS for embed in message["embeds"]]
         verifier(reponse.status_code == 200, "Envoi d'une compo de 30 builds")
-        verifier(all(len(m["embeds"]) <= 10 for m in RECUS), "Max 10 embeds par message")
+        verifier(len(RECUS) == 3, "30 builds : trois messages de 10 images")
         verifier(all(len(m["fichiers"]) <= 10 for m in RECUS), "Max 10 images par message")
         verifier(
-            all(len(champ["value"]) <= 1024 for embed in embeds for champ in embed.get("fields", [])),
-            "Champs sous la limite de 1024 caracteres",
+            all(len(m["content"]) <= 2000 for m in RECUS),
+            "Chaque message reste sous la limite de 2000 caracteres",
+        )
+        verifier(
+            [m["content"] != "" for m in RECUS] == [True, False, False],
+            "Seul le premier message porte l'entete",
+        )
+        fichiers = [nom for message in RECUS for nom in message["fichiers"]]
+        verifier(len(fichiers) == len(set(fichiers)) == 30, "Chaque build emporte son image, une fois")
+
+        # --- Import de builds depuis un tableur ---
+        XLSX = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        reponse = client.get("/api/compos/modele-tableur")
+        verifier(
+            reponse.status_code == 200 and reponse.content[:2] == b"PK",
+            "Modele Excel telecharge",
+        )
+        verifier(
+            "modele_builds.xlsx" in reponse.headers["content-disposition"],
+            "Le modele est propose en telechargement",
+        )
+        reponse = client.post(
+            "/api/compos/importer-tableur",
+            files={"fichier": ("modele_builds.xlsx", reponse.content, XLSX)},
+        )
+        verifier(
+            reponse.status_code == 200 and len(reponse.json()["lignes"]) == 1,
+            "Le modele se relit tel quel : sa ligne d'exemple est un build valide",
         )
 
-        def poids(embed: dict) -> int:
-            """Compte les caracteres comme Discord : titre + description + champs."""
-            return (
-                len(embed.get("title", ""))
-                + len(embed.get("description", ""))
-                + len(embed.get("footer", {}).get("text", ""))
-                + sum(len(c["name"]) + len(c["value"]) for c in embed.get("fields", []))
+        nom_sort_1 = cat.sorts[cat.pool(masse, "sort_1")[0]]["nom"]
+        entetes = ("joueur;arme;arme_sort_1;offhand;casque;torse;bottes;cape;potion\n")
+        csv_valide = entetes + (
+            f"Tank;masse;{nom_sort_1};Bouclier;casque de soldat;Armure de gardetombe;"
+            "Bottes de soldat;Cape de Martlock;Potion de soin\n"
+        )
+        reponse = client.post(
+            "/api/compos/importer-tableur",
+            files={"fichier": ("builds.csv", csv_valide.encode("utf-8"), "text/csv")},
+        )
+        verifier(reponse.status_code == 200, "Import CSV accepte")
+        importee = reponse.json()["lignes"][0]
+        verifier(
+            importee["arme_id"] == masse["id"] and importee["offhand_id"] is not None,
+            "Les objets sont retrouves par leur nom, sans tenir compte de la casse",
+        )
+        verifier(
+            importee["arme_sort_1_id"] == cat.pool(masse, "sort_1")[0],
+            "Un sort nomme dans le fichier est retenu",
+        )
+        verifier(
+            importee["arme_sort_3_id"] == masse["sort_impose_id"]
+            and importee["casque_sort_id"] is not None
+            and importee["torse_passif_1_id"] is not None,
+            "Les sorts non precises sont completes comme dans le formulaire",
+        )
+        verifier(
+            client.post("/api/compos", json=compo_valide(
+                cat, nom="Depuis Excel", lignes=[importee])).status_code == 201,
+            "Une ligne importee s'enregistre telle quelle",
+        )
+
+        refuses = [
+            ("objet inconnu", entetes + "Tank;Marteau magique;;;;;;;\n"),
+            ("arme manquante", entetes + "Tank;;;Bouclier;Casque de soldat;;;;\n"),
+            ("off-hand avec une arme a deux mains",
+             entetes + "Tank;Masse lourde;;Bouclier;Casque de soldat;"
+                       "Armure de gardetombe;Bottes de soldat;Cape de Martlock;\n"),
+            ("fichier sans colonne reconnue", "a;b;c\n1;2;3\n"),
+        ]
+        for libelle, contenu in refuses:
+            reponse = client.post(
+                "/api/compos/importer-tableur",
+                files={"fichier": ("builds.csv", contenu.encode("utf-8"), "text/csv")},
             )
-
+            verifier(reponse.status_code == 422, f"Import refuse : {libelle}")
+            verifier(
+                all("Fichier ligne" in erreur["champ"] or erreur["champ"] == "fichier"
+                    for erreur in reponse.json()["erreurs"]),
+                f"Erreur situee dans le fichier : {libelle}",
+            )
         verifier(
-            all(sum(poids(e) for e in message["embeds"]) <= 6000 for message in RECUS),
-            "Chaque message reste sous la limite globale de 6000 caracteres",
-        )
-        titres = [embed["title"] for embed in embeds if embed["title"].startswith("#")]
-        verifier(len(titres) == 30, "Les 30 builds sont presents une seule fois")
-        verifier(
-            sum(len(message["fichiers"]) for message in RECUS) == 30,
-            "Chaque build emporte son image",
+            client.post("/api/compos/importer-tableur",
+                        files={"fichier": ("builds.pdf", b"%PDF", "application/pdf")}
+                        ).status_code == 422,
+            "Import refuse : format de fichier inconnu",
         )
 
         # --- Droits ---

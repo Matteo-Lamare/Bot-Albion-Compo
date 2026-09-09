@@ -22,8 +22,8 @@ class Settings:
         # Webhook par defaut ; l'admin peut le surcharger depuis l'interface
         # (la valeur en base prend le pas sur celle-ci).
         self.discord_webhook_url: str = os.getenv("DISCORD_WEBHOOK_URL", "")
-        # Adresse publique du site, utilisee dans le message Discord pour
-        # renvoyer les joueurs vers la page d'inscription.
+        # Adresse publique du site, ajoutee a l'entete du message Discord pour
+        # retrouver la compo. Vide = aucun lien poste.
         self.app_base_url: str = os.getenv("APP_BASE_URL", "").rstrip("/")
         self.admin_pseudo: str = os.getenv("ADMIN_PSEUDO", "admin")
         self.admin_password: str = os.getenv("ADMIN_PASSWORD", "admin")

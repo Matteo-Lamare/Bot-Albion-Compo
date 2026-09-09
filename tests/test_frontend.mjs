@@ -314,40 +314,26 @@ async function ouvrir(chemin) {
     "Le second passif du torse en tissu n'est pas enregistré"
   );
 
-  // --- Inscriptions : chacun choisit le build qu'il veut jouer ---
-  const bloc = carte.querySelector(".slot.inscriptions");
-  verifier(bloc && !bloc.hidden, "Bloc d'inscription affiché sur une compo enregistrée");
+  // --- Arme à deux mains : l'off-hand se verrouille ---
+  await choisirDansMenu("offhand_id", "Bouclier");
   verifier(
-    carte.boutonInscription.textContent === "Je joue ce build",
-    "Le bouton propose de s'inscrire"
+    selecteur("offhand_id").valeur !== null,
+    "Off-hand choisie librement avec une arme à une main"
   );
-  clic(carte.boutonInscription);
-  await attendre(700);
+  await choisirDansMenu("arme_id", "Masse lourde");
   verifier(
-    carte.inscrits.length === 1 && carte.inscrits[0].pseudo === PSEUDO,
-    "Inscription enregistrée depuis l'interface"
-  );
-  verifier(
-    carte.querySelector(".badge.inscrit")?.textContent === PSEUDO,
-    "Le pseudo de l'inscrit apparaît sur le build"
+    selecteur("offhand_id").valeur === null &&
+      selecteur("offhand_id").querySelector(".selecteur-valeur").disabled,
+    "Arme à deux mains : l'off-hand est vidée et verrouillée"
   );
   verifier(
-    carte.boutonInscription.textContent.startsWith("Me retirer"),
-    "Le bouton bascule sur le retrait"
+    !carte.querySelector(".note-offhand").hidden,
+    "Le formulaire explique pourquoi l'off-hand est bloquée"
   );
-
-  clic(cartes[1].boutonInscription);
-  await attendre(700);
+  await choisirDansMenu("arme_id", "Épée large");
   verifier(
-    carte.inscrits.length === 0 && cartes[1].inscrits.length === 1,
-    "Un membre ne tient qu'un build : l'inscription se déplace"
-  );
-  clic(cartes[1].boutonInscription);
-  await attendre(700);
-  verifier(
-    cartes[1].inscrits.length === 0 &&
-      cartes[1].querySelector(".liste-inscrits").textContent.includes("Personne"),
-    "Désinscription depuis l'interface"
+    !selecteur("offhand_id").querySelector(".selecteur-valeur").disabled,
+    "Revenir à une arme à une main rouvre l'off-hand"
   );
 
   // --- Aperçu du message Discord : le build en image ---
@@ -360,19 +346,18 @@ async function ouvrir(chemin) {
     "L'aperçu pointe vers l'image du build"
   );
   verifier(
-    doc.getElementById("contenu-apercu").textContent.includes("🙋"),
-    "L'aperçu montre le bloc d'inscription tel qu'il partira sur Discord"
+    doc.querySelector("#contenu-apercu .entete-apercu").textContent.includes("📋"),
+    "L'aperçu montre l'en-tête du message Discord"
+  );
+  verifier(
+    !doc.getElementById("contenu-apercu").textContent.includes("Épée large"),
+    "L'aperçu ne décrit plus les builds en texte : l'image suffit"
   );
 
   // Ajout d'une ligne
   doc.getElementById("ajouter-ligne").dispatchEvent(new window.Event("click", { bubbles: true }));
   await attendre(150);
   verifier(doc.querySelectorAll(".ligne-compo").length === 3, "Ajout d'un build");
-  const neuve = doc.querySelectorAll(".ligne-compo")[2];
-  verifier(
-    neuve.querySelector(".slot.inscriptions").hidden,
-    "Un build pas encore enregistré n'accepte pas d'inscription"
-  );
   window.close();
 }
 
@@ -389,6 +374,12 @@ async function ouvrir(chemin) {
   verifier(
     doc.getElementById("bouton-discord").disabled,
     "Envoi Discord désactivé tant que la compo n'est pas enregistrée"
+  );
+  verifier(
+    doc.getElementById("bouton-importer") !== null &&
+      doc.getElementById("fichier-tableur") !== null &&
+      doc.querySelector('a[href="/api/compos/modele-tableur"]') !== null,
+    "Import Excel et modèle proposés sur le formulaire"
   );
   window.close();
 }

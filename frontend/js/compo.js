@@ -63,6 +63,9 @@ async function demarrer() {
   document.getElementById("bouton-discord").addEventListener("click", envoyerDiscord);
   document.getElementById("bouton-dupliquer").addEventListener("click", dupliquer);
   document.getElementById("taille_groupe").addEventListener("input", majCompteur);
+  const fichier = document.getElementById("fichier-tableur");
+  document.getElementById("bouton-importer").addEventListener("click", () => fichier.click());
+  fichier.addEventListener("change", importerTableur);
 
   if (compoId) {
     await chargerCompo(compoId);
@@ -135,8 +138,7 @@ function ajouterLigne(donnees = null, replie = false) {
   const corps = document.createElement("div");
   corps.className = "ligne-corps";
 
-  // Nommer le build est facultatif : sans nom, il s'affiche « Build #n » et
-  // attend qu'un joueur s'inscrive dessus.
+  // Nommer le build est facultatif : sans nom, il s'affiche « Build #n ».
   const blocRole = document.createElement("div");
   blocRole.className = "slot";
   blocRole.innerHTML =
@@ -148,8 +150,6 @@ function ajouterLigne(donnees = null, replie = false) {
   blocRole.appendChild(champRole);
   corps.appendChild(blocRole);
   carte.champRole = champRole;
-
-  corps.appendChild(creerBlocInscription(carte));
 
   cat.slots.forEach((slot) => corps.appendChild(creerSlot(carte, slot)));
 
@@ -187,95 +187,9 @@ function ajouterLigne(donnees = null, replie = false) {
   });
 
   champRole.addEventListener("input", () => majResume(carte));
+  majOffhand(carte);
   majResume(carte);
   return carte;
-}
-
-// --- Inscriptions : qui joue quel build ------------------------------------
-
-function creerBlocInscription(carte) {
-  const bloc = document.createElement("div");
-  bloc.className = "slot inscriptions";
-  // Tant que le build n'est pas enregistré, il n'y a rien sur quoi s'inscrire :
-  // majInscriptions() révèle le bloc dès que la ligne a un identifiant.
-  bloc.hidden = true;
-  bloc.innerHTML = '<h3>🙋 Inscrits <span class="badge compte">0</span></h3>';
-
-  const liste = document.createElement("div");
-  liste.className = "liste-inscrits";
-  bloc.appendChild(liste);
-
-  const bouton = document.createElement("button");
-  bouton.type = "button";
-  bouton.className = "mini";
-  bouton.addEventListener("click", () => basculerInscription(carte));
-  bloc.appendChild(bouton);
-
-  carte.blocInscription = bloc;
-  carte.listeInscrits = liste;
-  carte.boutonInscription = bouton;
-  carte.inscrits = [];
-  return bloc;
-}
-
-function estInscrit(carte) {
-  return carte.inscrits.some((inscrit) => inscrit.membre_id === membreCourant.id);
-}
-
-function majInscriptions(carte, inscrits) {
-  carte.inscrits = inscrits || [];
-  carte.blocInscription.hidden = !compoId || !carte.ligneId;
-  carte.querySelector(".compte").textContent = carte.inscrits.length;
-  carte.listeInscrits.innerHTML = "";
-  if (!carte.inscrits.length) {
-    const vide = document.createElement("span");
-    vide.className = "facultatif";
-    vide.textContent = "Personne pour l'instant — ce build est à pourvoir.";
-    carte.listeInscrits.appendChild(vide);
-  }
-  carte.inscrits.forEach((inscrit) => {
-    const pastille = document.createElement("span");
-    pastille.className = "badge inscrit";
-    pastille.textContent = inscrit.pseudo;
-    carte.listeInscrits.appendChild(pastille);
-  });
-  carte.boutonInscription.textContent = estInscrit(carte)
-    ? "Me retirer de ce build"
-    : "Je joue ce build";
-  carte.boutonInscription.classList.toggle("principal", !estInscrit(carte));
-  majResume(carte);
-}
-
-async function basculerInscription(carte) {
-  cacherMessage("message");
-  carte.boutonInscription.disabled = true;
-  try {
-    const retrait = estInscrit(carte);
-    const resultat = retrait
-      ? await api.desinscrire(compoId, carte.ligneId)
-      : await api.inscrire(compoId, carte.ligneId);
-    appliquerInscriptions(resultat, retrait);
-  } catch (erreur) {
-    afficherMessage("message", erreur.message, "erreur", erreur.erreurs);
-  } finally {
-    carte.boutonInscription.disabled = false;
-  }
-}
-
-/** Un membre ne tient qu'un build par compo : toutes les cartes sont rafraîchies. */
-function appliquerInscriptions(resultat, retrait) {
-  const parLigne = new Map(resultat.lignes.map((ligne) => [ligne.ligne_id, ligne.inscrits]));
-  document.querySelectorAll(".ligne-compo").forEach((carte) => {
-    majInscriptions(carte, parLigne.get(carte.ligneId) || []);
-  });
-  afficherMessage(
-    "message",
-    (retrait ? "Inscription retirée." : "Inscription enregistrée.") +
-      (resultat.discord_mis_a_jour
-        ? " Le message Discord a été mis à jour."
-        : " (Le message Discord sera à jour au prochain envoi.)"),
-    "succes"
-  );
 }
 
 function creerSlot(carte, slot) {
@@ -300,6 +214,7 @@ function creerSlot(carte, slot) {
     placeholder: slot.obligatoire ? "Choisir un objet…" : "Aucun",
     onChange: () => {
       majChampsSlot(carte, slot);
+      majOffhand(carte);
       majResume(carte);
     },
   });
@@ -314,9 +229,19 @@ function creerSlot(carte, slot) {
     effacer.addEventListener("click", () => {
       selecteurObjet.valeur = null;
       majChampsSlot(carte, slot);
+      majOffhand(carte);
       majResume(carte);
     });
     titre.appendChild(effacer);
+  }
+
+  // Une arme à deux mains occupe les deux emplacements : le slot se verrouille.
+  if (slot.slot === "offhand") {
+    const note = document.createElement("p");
+    note.className = "note-offhand facultatif";
+    note.textContent = "Arme à deux mains : elle occupe aussi cet emplacement.";
+    note.hidden = true;
+    bloc.appendChild(note);
   }
 
   // Sorts choisis dans le pool de la catégorie
@@ -343,6 +268,24 @@ function creerSlot(carte, slot) {
 
   return bloc;
 }
+
+/** Verrouille (et vide) l'off-hand quand l'arme choisie se tient à deux mains. */
+function majOffhand(carte) {
+  const selecteurOffhand = carte.selecteurs.offhand_id;
+  if (!selecteurOffhand) return;
+  const armeId = carte.selecteurs.arme_id?.valeur;
+  const deuxMains = Boolean(armeId && cat.objets[armeId]?.deux_mains);
+
+  if (deuxMains && selecteurOffhand.valeur) selecteurOffhand.valeur = null;
+  selecteurOffhand.definirVerrou(deuxMains);
+
+  const bloc = selecteurOffhand.closest(".slot");
+  bloc.classList.toggle("verrouille", deuxMains);
+  bloc.querySelector(".note-offhand").hidden = !deuxMains;
+  const effacer = bloc.querySelector(".effacer-slot");
+  if (effacer) effacer.hidden = deuxMains;
+}
+
 
 function champ(libelle, selecteur, obligatoire) {
   const bloc = document.createElement("div");
@@ -392,11 +335,11 @@ function majChampsSlot(carte, slot, valeurs = null) {
 function remplirLigne(carte, donnees) {
   carte.ligneId = donnees.id ?? null;
   carte.champRole.value = donnees.role_ou_joueur || "";
-  majInscriptions(carte, donnees.inscriptions || []);
   cat.slots.forEach((slot) => {
     carte.selecteurs[slot.champ].valeur = donnees[slot.champ] ?? null;
     majChampsSlot(carte, slot, donnees);
   });
+  majOffhand(carte);
   majResume(carte);
 }
 
@@ -476,6 +419,10 @@ function validerFormulaire() {
       signaler(carte.selecteurs.torse_passif_2_id, "Torse · Passif 2",
         "les deux passifs doivent être différents");
     }
+    if (donnees.offhand_id && cat.objets[donnees.arme_id]?.deux_mains) {
+      signaler(carte.selecteurs.offhand_id, "Off-hand",
+        "l'arme se tient à deux mains : pas d'off-hand");
+    }
   });
 
   return erreurs;
@@ -518,13 +465,10 @@ async function enregistrer(evenement) {
       location.href = `/compo?id=${compo.id}`;
       return;
     }
-    // Les lignes sont réécrites en base : on récupère leurs nouveaux
-    // identifiants (les inscrits, eux, suivent le rang du build).
+    // Les lignes sont réécrites en base : on récupère leurs nouveaux identifiants.
     const cartes = [...document.querySelectorAll(".ligne-compo")];
     compo.lignes.forEach((ligne, index) => {
-      if (!cartes[index]) return;
-      cartes[index].ligneId = ligne.id;
-      majInscriptions(cartes[index], ligne.inscriptions || []);
+      if (cartes[index]) cartes[index].ligneId = ligne.id;
     });
     afficherMessage("message", "Compo enregistrée.", "succes");
     document.getElementById("info-compo").textContent =
@@ -555,35 +499,29 @@ async function apercu() {
     const zone = document.getElementById("zone-apercu");
     const contenu = document.getElementById("contenu-apercu");
     contenu.innerHTML = "";
-    resultat.apercu.forEach((champApercu) => {
+
+    // Le message Discord se résume à cet en-tête, puis aux images des builds.
+    const entete = document.createElement("div");
+    entete.className = "apercu entete-apercu";
+    entete.textContent = resultat.entete;
+    contenu.appendChild(entete);
+
+    resultat.apercu.forEach((build) => {
       const bloc = document.createElement("div");
       bloc.className = "apercu";
-      const titre = document.createElement("div");
-      titre.className = "titre-champ";
-      titre.textContent = champApercu.titre;
-      bloc.appendChild(titre);
-
-      // L'image est celle qui partira en pièce jointe sur Discord.
       if (resultat.images_disponibles) {
         const image = document.createElement("img");
         image.className = "image-build";
         image.loading = "lazy";
-        image.alt = `Build ${champApercu.titre}`;
-        image.src = champApercu.image;
+        image.alt = build.titre;
+        image.src = build.image;
         bloc.appendChild(image);
+      } else {
+        const secours = document.createElement("div");
+        secours.className = "titre-champ";
+        secours.textContent = `${build.titre} (image indisponible : Pillow n'est pas installé)`;
+        bloc.appendChild(secours);
       }
-
-      const corps = document.createElement("div");
-      corps.textContent = champApercu.corps;
-      bloc.appendChild(corps);
-
-      const inscrits = document.createElement("div");
-      inscrits.className = "titre-champ";
-      inscrits.textContent = champApercu.inscrits.length
-        ? `🙋 Inscrits (${champApercu.inscrits.length}) : ${champApercu.inscrits.join(", ")}`
-        : "🙋 Personne pour l'instant";
-      bloc.appendChild(inscrits);
-
       contenu.appendChild(bloc);
     });
     zone.hidden = false;
@@ -612,6 +550,32 @@ async function envoyerDiscord() {
     afficherMessage("message", erreur.message, "erreur", erreur.erreurs);
   } finally {
     bouton.disabled = false;
+  }
+}
+
+/** Import d'un classeur Excel / CSV : les builds arrivent dans le formulaire. */
+async function importerTableur(evenement) {
+  const fichier = evenement.target.files[0];
+  evenement.target.value = "";   // le même fichier peut être ré-importé
+  if (!fichier) return;
+  cacherMessage("message");
+  try {
+    const resultat = await api.importerTableur(fichier);
+    // Les builds encore vierges (aucune arme choisie) laissent la place.
+    document.querySelectorAll(".ligne-compo").forEach((carte) => {
+      if (!carte.selecteurs.arme_id.valeur) carte.remove();
+    });
+    resultat.lignes.forEach((ligne) => ajouterLigne(ligne, true));
+    majCompteur();
+    afficherMessage(
+      "message",
+      `${resultat.lignes.length} build(s) importés depuis « ${fichier.name} ». ` +
+        "Vérifiez-les puis enregistrez la compo.",
+      "succes",
+      resultat.avertissements.map((texte) => ({ message: texte }))
+    );
+  } catch (erreur) {
+    afficherMessage("message", erreur.message, "erreur", erreur.erreurs);
   }
 }
 

@@ -1,10 +1,10 @@
-"""CRUD des compos, duplication, apercu, images, inscriptions et envoi Discord."""
+"""CRUD des compos, duplication, apercu, images, import tableur et envoi Discord."""
 from __future__ import annotations
 
 import json
 from datetime import date, datetime, time, timezone
 
-from fastapi import APIRouter, Depends, HTTPException, Query, Response, status
+from fastapi import APIRouter, Depends, File, HTTPException, Query, Response, UploadFile, status
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session, selectinload
 
@@ -12,18 +12,10 @@ from ..auth import membre_courant
 from ..catalogue import index as index_catalogue
 from ..config import settings
 from ..database import get_db
-from ..discord import (
-    DiscordError,
-    construire_embeds,
-    envoyer_webhook,
-    formater_ligne,
-    inscrits_de_ligne,
-    mettre_a_jour_messages,
-)
+from ..discord import DiscordError, envoyer_webhook, texte_entete
 from ..images import DISPONIBLE as IMAGES_DISPONIBLES, image_de_ligne
 from ..models import (
     Compo,
-    Inscription,
     LigneCompo,
     Membre,
     RoleMembre,
@@ -36,10 +28,10 @@ from ..schemas import (
     CompoResume,
     CompoWrite,
     EnvoiDiscordResultat,
-    InscriptionResultat,
+    ImportLignes,
     LigneCompoBase,
-    LigneCompoInscriptions,
 )
+from ..tableur import XLSX_DISPONIBLE, importer_lignes, modele_csv, modele_xlsx
 from ..validation import valider_lignes
 from .admin import webhook_configure
 
@@ -67,53 +59,9 @@ def _verifier_droit_ecriture(compo: Compo, membre: Membre) -> None:
         )
 
 
-def _lien_inscription(compo: Compo) -> str:
+def _lien_compo(compo: Compo) -> str:
     """Lien public vers la page de la compo, ou chaine vide si le site n'a pas d'adresse."""
     return f"{settings.app_base_url}/compo?id={compo.id}" if settings.app_base_url else ""
-
-
-def _memoire_discord(compo: Compo) -> list[dict]:
-    try:
-        return json.loads(compo.discord_messages) if compo.discord_messages else []
-    except json.JSONDecodeError:
-        return []
-
-
-async def _resynchroniser_discord(db: Session, compo: Compo) -> bool:
-    """Re-edite les messages Discord deja postes. Sans jamais bloquer l'appelant.
-
-    Une inscription reste valable meme si Discord est injoignable : on se
-    contente alors de ne pas rafraichir le message.
-    """
-    memoire = _memoire_discord(compo)
-    if not memoire:
-        return False
-    try:
-        modifies = await mettre_a_jour_messages(
-            webhook_configure(db),
-            compo,
-            compo.auteur.pseudo if compo.auteur else "?",
-            memoire,
-            _lien_inscription(compo),
-        )
-    except (DiscordError, OSError):
-        return False
-    return modifies > 0
-
-
-def _etat_inscriptions(compo: Compo) -> list[LigneCompoInscriptions]:
-    return [
-        LigneCompoInscriptions(
-            ligne_id=ligne.id,
-            ordre=ligne.ordre,
-            libelle=ligne.libelle,
-            inscrits=[
-                {"membre_id": i.membre_id, "pseudo": i.pseudo, "date_creation": i.date_creation}
-                for i in ligne.inscriptions
-            ],
-        )
-        for ligne in compo.lignes
-    ]
 
 
 def _serialiser(compo: Compo) -> CompoRead:
@@ -126,25 +74,16 @@ def _appliquer_lignes(db: Session, compo: Compo, lignes: list[LigneCompoBase]) -
     """Valide les lignes contre le catalogue puis remplace celles de la compo.
 
     Les suppressions sont ecrites avant les insertions, sinon la contrainte
-    d'unicite (compo_id, ordre) saute pendant le flush. Les inscrits sont
-    rattaches au build de meme rang : editer une compo ne fait pas perdre les
-    volontaires deja declares.
+    d'unicite (compo_id, ordre) saute pendant le flush.
     """
     validees = valider_lignes(index_catalogue(db), [l.model_dump() for l in lignes])
 
-    inscrits = {
-        ligne.ordre: [inscription.membre_id for inscription in ligne.inscriptions]
-        for ligne in compo.lignes
-    }
     if compo.lignes:
         compo.lignes.clear()
         db.flush()
     for position, valeurs in enumerate(validees):
         valeurs["ordre"] = position
-        nouvelle = LigneCompo(**valeurs)
-        for membre_id in inscrits.get(position, []):
-            nouvelle.inscriptions.append(Inscription(membre_id=membre_id))
-        compo.lignes.append(nouvelle)
+        compo.lignes.append(LigneCompo(**valeurs))
 
 
 @router.get("", response_model=list[CompoResume])
@@ -210,6 +149,60 @@ def creer_compo(
     _appliquer_lignes(db, compo, payload.lignes)
     db.commit()
     return _serialiser(_lire_compo(db, compo.id))
+
+
+# --------------------------------------------------------------------------
+# Import de builds depuis un tableur (Excel / CSV)
+# --------------------------------------------------------------------------
+# Ces deux routes sont declarees avant « /{compo_id} » : sinon FastAPI tenterait
+# de lire « modele-tableur » comme un identifiant de compo.
+
+
+@router.get(
+    "/modele-tableur",
+    response_class=Response,
+    responses={200: {"content": {
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {}}}},
+)
+def modele_tableur(
+    _: Membre = Depends(membre_courant), db: Session = Depends(get_db)
+) -> Response:
+    """Fichier a remplir : une ligne par build, menus deroulants du catalogue."""
+    catalogue = index_catalogue(db)
+    if XLSX_DISPONIBLE:
+        return Response(
+            content=modele_xlsx(catalogue),
+            media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            headers={"Content-Disposition": 'attachment; filename="modele_builds.xlsx"'},
+        )
+    return Response(
+        content=modele_csv(catalogue),
+        media_type="text/csv; charset=utf-8",
+        headers={"Content-Disposition": 'attachment; filename="modele_builds.csv"'},
+    )
+
+
+@router.post("/importer-tableur", response_model=ImportLignes)
+async def importer_tableur(
+    fichier: UploadFile = File(..., description="Classeur .xlsx ou fichier .csv"),
+    _: Membre = Depends(membre_courant),
+    db: Session = Depends(get_db),
+) -> ImportLignes:
+    """Lit un fichier de builds et renvoie les lignes correspondantes.
+
+    Rien n'est enregistre ici : les lignes remontent au formulaire, ou elles
+    peuvent encore etre relues et corrigees avant d'etre sauvegardees.
+    """
+    contenu = await fichier.read()
+    if len(contenu) > 2_000_000:
+        raise HTTPException(
+            status.HTTP_413_REQUEST_ENTITY_TOO_LARGE, "Fichier trop volumineux (2 Mo maximum)."
+        )
+    lignes, avertissements = importer_lignes(index_catalogue(db), contenu, fichier.filename or "")
+    return ImportLignes(
+        lignes=[LigneCompoBase(**valeurs) for valeurs in lignes],
+        avertissements=avertissements,
+    )
 
 
 @router.get("/{compo_id}", response_model=CompoRead)
@@ -283,23 +276,23 @@ def apercu_discord(
     _: Membre = Depends(membre_courant),
     db: Session = Depends(get_db),
 ) -> dict:
-    """Rendu de ce qui sera poste, pour verification avant envoi."""
+    """Rendu de ce qui sera poste, pour verification avant envoi.
+
+    Le message se resume a un entete et aux images des builds : pas d'embed,
+    pas de description textuelle.
+    """
     compo = _lire_compo(db, compo_id)
     pseudo = compo.auteur.pseudo if compo.auteur else "?"
     return {
-        "embeds": construire_embeds(compo, pseudo, _lien_inscription(compo)),
+        "entete": texte_entete(compo, pseudo, _lien_compo(compo)),
         "images_disponibles": IMAGES_DISPONIBLES,
         "apercu": [
             {
                 "ordre": ligne.ordre,
-                "titre": titre,
-                "corps": corps,
+                "titre": f"#{ligne.ordre + 1} — {ligne.libelle}",
                 "image": f"/api/compos/{compo.id}/lignes/{ligne.ordre}/image.png",
-                "inscrits": inscrits_de_ligne(ligne),
             }
-            for ligne, (titre, corps) in (
-                (ligne, formater_ligne(ligne)) for ligne in compo.lignes
-            )
+            for ligne in compo.lignes
         ],
     }
 
@@ -345,14 +338,14 @@ async def envoyer_sur_discord(
             url,
             compo,
             compo.auteur.pseudo if compo.auteur else "?",
-            _lien_inscription(compo),
+            _lien_compo(compo),
         )
     except DiscordError as erreur:
         raise HTTPException(status.HTTP_502_BAD_GATEWAY, str(erreur)) from erreur
 
     compo.statut = StatutCompo.envoyee
     compo.date_envoi = utcnow()
-    # Memorise les messages postes pour pouvoir les re-editer a chaque inscription.
+    # Trace de ce qui est parti sur le salon.
     compo.discord_messages = json.dumps(resultat["memoire"])
     db.commit()
     return EnvoiDiscordResultat(
@@ -360,91 +353,4 @@ async def envoyer_sur_discord(
         date_envoi=compo.date_envoi.replace(tzinfo=timezone.utc),
         messages_envoyes=resultat["messages"],
         images_jointes=resultat["images"],
-    )
-
-
-# --------------------------------------------------------------------------
-# Inscriptions : chacun choisit le build qu'il veut jouer
-# --------------------------------------------------------------------------
-
-
-def _ligne_de_compo(compo: Compo, ligne_id: int) -> LigneCompo:
-    ligne = next((l for l in compo.lignes if l.id == ligne_id), None)
-    if ligne is None:
-        raise HTTPException(status.HTTP_404_NOT_FOUND, "Build introuvable dans cette compo.")
-    return ligne
-
-
-@router.get("/{compo_id}/inscriptions", response_model=InscriptionResultat)
-def lire_inscriptions(
-    compo_id: int,
-    _: Membre = Depends(membre_courant),
-    db: Session = Depends(get_db),
-) -> InscriptionResultat:
-    return InscriptionResultat(lignes=_etat_inscriptions(_lire_compo(db, compo_id)))
-
-
-@router.post("/{compo_id}/lignes/{ligne_id}/inscription", response_model=InscriptionResultat)
-async def s_inscrire(
-    compo_id: int,
-    ligne_id: int,
-    membre: Membre = Depends(membre_courant),
-    db: Session = Depends(get_db),
-) -> InscriptionResultat:
-    """Declare le membre volontaire sur ce build.
-
-    Un membre ne tient qu'un build par compo : s'inscrire ailleurs deplace
-    simplement son inscription.
-    """
-    compo = _lire_compo(db, compo_id)
-    ligne = _ligne_de_compo(compo, ligne_id)
-
-    deja = False
-    for autre in compo.lignes:
-        for inscription in list(autre.inscriptions):
-            if inscription.membre_id == membre.id:
-                if autre.id == ligne.id:
-                    deja = True
-                else:
-                    autre.inscriptions.remove(inscription)
-    if not deja:
-        ligne.inscriptions.append(Inscription(membre_id=membre.id))
-    db.commit()
-    db.refresh(compo)
-
-    return InscriptionResultat(
-        lignes=_etat_inscriptions(compo),
-        discord_mis_a_jour=await _resynchroniser_discord(db, compo),
-    )
-
-
-@router.delete("/{compo_id}/lignes/{ligne_id}/inscription", response_model=InscriptionResultat)
-async def se_desinscrire(
-    compo_id: int,
-    ligne_id: int,
-    membre_id: int | None = Query(None, description="Reserve aux admins : liberer la place d'un autre"),
-    membre: Membre = Depends(membre_courant),
-    db: Session = Depends(get_db),
-) -> InscriptionResultat:
-    compo = _lire_compo(db, compo_id)
-    ligne = _ligne_de_compo(compo, ligne_id)
-
-    cible = membre.id
-    if membre_id is not None and membre_id != membre.id:
-        if membre.role != RoleMembre.admin:
-            raise HTTPException(
-                status.HTTP_403_FORBIDDEN,
-                "Seul un administrateur peut desinscrire quelqu'un d'autre.",
-            )
-        cible = membre_id
-
-    for inscription in list(ligne.inscriptions):
-        if inscription.membre_id == cible:
-            ligne.inscriptions.remove(inscription)
-    db.commit()
-    db.refresh(compo)
-
-    return InscriptionResultat(
-        lignes=_etat_inscriptions(compo),
-        discord_mis_a_jour=await _resynchroniser_discord(db, compo),
     )

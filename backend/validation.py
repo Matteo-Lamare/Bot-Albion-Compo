@@ -9,7 +9,8 @@ Regles appliquees (elles font autorite ; le formulaire ne fait que les refleter)
 
 Les slots facultatifs (off-hand, monture, potion, nourriture) sont soit vides,
 soit renseignes ; le passif d'une cape et le sort d'une monture sont imposes par
-l'objet, donc jamais choisis.
+l'objet, donc jamais choisis. Une arme a deux mains occupe les deux emplacements :
+elle interdit l'off-hand.
 """
 from __future__ import annotations
 
@@ -127,6 +128,15 @@ def valider_lignes(index: IndexCatalogue, lignes: list[dict]) -> list[dict]:
                         "torse_passif_2_id",
                         "Torse : les deux passifs doivent être différents.",
                     )
+
+        # --- Une arme a deux mains occupe aussi l'emplacement d'off-hand ---
+        arme = index.objets.get(donnees.get("arme_id"))
+        if arme is not None and arme.deux_mains and donnees.get("offhand_id") is not None:
+            erreurs.append({
+                "champ": f"{prefixe}.offhand_id",
+                "message": f"Off-hand : « {arme.nom} » est une arme à deux mains, "
+                           "elle occupe les deux emplacements.",
+            })
 
         normalisees.append(donnees)
 

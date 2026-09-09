@@ -51,8 +51,7 @@ LIGNES_DEMO = [
         "nourriture": ("food", "Ragoût de bœuf"),
     },
     {
-        # Un build peut rester a pourvoir : le nom du joueur est facultatif et
-        # quelqu'un s'inscrira dessus depuis le site ou le message Discord.
+        # Un build peut rester a pourvoir : le nom du joueur est facultatif.
         "role_ou_joueur": "",
         "arme": ("holystaff", None),
         "casque": ("cloth_helmet", None),

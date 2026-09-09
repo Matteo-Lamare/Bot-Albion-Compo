@@ -75,12 +75,14 @@ const api = {
   dupliquerCompo: (id) => appelApi(`/api/compos/${id}/dupliquer`, { method: "POST" }),
   supprimerCompo: (id) => appelApi(`/api/compos/${id}`, { method: "DELETE" }),
   apercuDiscord: (id) => appelApi(`/api/compos/${id}/apercu-discord`),
-  inscriptions: (id) => appelApi(`/api/compos/${id}/inscriptions`),
-  inscrire: (id, ligneId) =>
-    appelApi(`/api/compos/${id}/lignes/${ligneId}/inscription`, { method: "POST" }),
-  desinscrire: (id, ligneId) =>
-    appelApi(`/api/compos/${id}/lignes/${ligneId}/inscription`, { method: "DELETE" }),
   envoyerDiscord: (id) => appelApi(`/api/compos/${id}/envoyer-discord`, { method: "POST" }),
+  // Le navigateur pose lui-meme le Content-Type multipart (avec sa frontiere) :
+  // on lui laisse la main en vidant les en-tetes par defaut.
+  importerTableur: (fichier) => {
+    const corps = new FormData();
+    corps.append("fichier", fichier);
+    return appelApi("/api/compos/importer-tableur", { method: "POST", body: corps, headers: {} });
+  },
 };
 
 // --- Utilitaires d'interface ---

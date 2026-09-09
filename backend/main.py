@@ -27,10 +27,17 @@ COLONNES_AJOUTEES = {
     "compos": {"discord_messages": "TEXT"},
 }
 
+# Tables devenues inutiles : les inscriptions sur un build ont ete retirees.
+TABLES_SUPPRIMEES = ("inscriptions",)
+
 
 def migrer_schema() -> None:
-    """Ajoute les colonnes manquantes des bases creees par une version anterieure."""
+    """Met a niveau les bases creees par une version anterieure."""
     with engine.begin() as connexion:
+        for table in TABLES_SUPPRIMEES:
+            if connexion.exec_driver_sql(f"PRAGMA table_info({table})").fetchall():
+                connexion.exec_driver_sql(f"DROP TABLE {table}")
+                print(f"[init] Table supprimee : {table}")
         for table, colonnes in COLONNES_AJOUTEES.items():
             existantes = {
                 ligne[1]

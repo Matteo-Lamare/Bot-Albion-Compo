@@ -42,8 +42,8 @@ class LigneCompoBase(BaseModel):
     (sort 3 d'une arme, passif d'une cape, sort d'une monture) sont ignores a
     l'entree et reposes par le serveur.
 
-    Le nom du joueur est facultatif : une ligne vaut d'abord pour son build, et
-    l'attribution peut se faire plus tard, par inscription sur Discord.
+    Le nom du joueur est facultatif : une ligne vaut d'abord pour son build,
+    l'attribution pouvant se faire plus tard.
     """
 
     model_config = ConfigDict(from_attributes=True)
@@ -95,20 +95,9 @@ class LigneCompoBase(BaseModel):
         return "" if valeur is None else valeur
 
 
-class InscriptionRead(BaseModel):
-    """Un volontaire declare sur un build."""
-
-    model_config = ConfigDict(from_attributes=True)
-
-    membre_id: int
-    pseudo: str
-    date_creation: datetime
-
-
 class LigneCompoRead(LigneCompoBase):
     id: int
     libelle: str = ""
-    inscriptions: list[InscriptionRead] = []
 
 
 class CompoBase(BaseModel):
@@ -144,13 +133,6 @@ class CompoRead(CompoBase):
     date_modification: datetime
     date_envoi: datetime | None = None
     lignes: list[LigneCompoRead] = []
-
-
-class LigneCompoInscriptions(BaseModel):
-    ligne_id: int
-    ordre: int
-    libelle: str
-    inscrits: list[InscriptionRead] = []
 
 
 class CompoResume(BaseModel):
@@ -227,8 +209,8 @@ class EnvoiDiscordResultat(BaseModel):
     images_jointes: int = 0
 
 
-class InscriptionResultat(BaseModel):
-    """Etat des inscriptions apres un clic sur « Je joue ce build »."""
+class ImportLignes(BaseModel):
+    """Builds lus dans un fichier Excel / CSV, prets a etre injectes au formulaire."""
 
-    lignes: list[LigneCompoInscriptions]
-    discord_mis_a_jour: bool = False
+    lignes: list[LigneCompoBase]
+    avertissements: list[str] = []

@@ -5,6 +5,11 @@ pydantic>=2.7
 python-dotenv>=1.0
 httpx>=0.27
 itsdangerous>=2.2
+# Reception du fichier de builds envoye au formulaire (multipart).
+python-multipart>=0.0.9
 # Rendu des images de build jointes au message Discord.
 # Facultatif : sans Pillow, le message part en texte seul.
 Pillow>=10.1
+# Import et modele de builds au format Excel.
+# Facultatif : sans openpyxl, seul le CSV est accepte.
+openpyxl>=3.1

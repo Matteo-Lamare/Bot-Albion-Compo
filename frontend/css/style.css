@@ -240,10 +240,10 @@ tbody tr:hover { background: var(--fond-3); }
 .slot h3 .effacer-slot { margin-left: auto; }
 .champ-role { max-width: 420px; }
 
-/* --- Inscriptions sur un build --- */
-.slot.inscriptions .liste-inscrits { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
-.badge.inscrit { color: var(--vert); border-color: var(--vert); }
-.slot.inscriptions .facultatif { color: var(--texte-doux); font-size: 12px; }
+/* --- Slot verrouille (arme a deux mains : pas d'off-hand) --- */
+.slot.verrouille { opacity: 0.6; }
+.note-offhand { margin: 6px 0 0; font-size: 12px; }
+.entete-apercu { white-space: pre-wrap; }
 
 /* --- Image de build (aperçu Discord) --- */
 .apercu .image-build {
