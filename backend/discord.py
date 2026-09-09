@@ -1,9 +1,4 @@
-"""Message Discord d'une compo : entete court et images de build en pieces jointes.
-
-Un envoi poste un premier message portant le titre de la compo, puis les images
-des builds (cf. backend/images.py) en pieces jointes brutes : pas d'embed, pas
-de description textuelle des builds, l'image porte deja tout l'equipement.
-"""
+"""Message Discord d'une compo avec grille adaptative des builds."""
 from __future__ import annotations
 
 import asyncio
@@ -12,12 +7,12 @@ from typing import Any
 
 import httpx
 
+from .grid import composer_grille
 from .images import images_des_lignes
 from .models import Compo, LigneCompo
 
-# Limites imposees par l'API Discord
-MAX_FICHIERS_PAR_MESSAGE = 10
 MAX_CHARS_CONTENU = 2000
+NOM_GRILLE = "compo_grille.png"
 
 
 class DiscordError(RuntimeError):
@@ -28,17 +23,8 @@ def _tronquer(texte: str, limite: int) -> str:
     return texte if len(texte) <= limite else texte[: limite - 1] + "…"
 
 
-def nom_fichier_image(ligne: LigneCompo) -> str:
-    return f"build_{ligne.ordre + 1}.png"
-
-
-# --------------------------------------------------------------------------
-# Contenu des messages
-# --------------------------------------------------------------------------
-
-
 def texte_entete(compo: Compo, auteur_pseudo: str, lien: str = "") -> str:
-    """Seul texte du message : de quoi identifier la compo, pas les builds."""
+    """Texte de secours / contexte de la compo."""
     lignes = [
         f"📋 **{compo.nom}** — {compo.type_contenu.value} · "
         f"{compo.taille_groupe} joueurs · {len(compo.lignes)} builds · par {auteur_pseudo}"
@@ -50,32 +36,23 @@ def texte_entete(compo: Compo, auteur_pseudo: str, lien: str = "") -> str:
     return _tronquer("\n".join(lignes), MAX_CHARS_CONTENU)
 
 
-def repartir_lignes(compo: Compo) -> list[list[LigneCompo]]:
-    """Groupe les builds par message : Discord accepte 10 pieces jointes."""
-    lignes = list(compo.lignes)
-    lots = [
-        lignes[depart:depart + MAX_FICHIERS_PAR_MESSAGE]
-        for depart in range(0, len(lignes), MAX_FICHIERS_PAR_MESSAGE)
-    ]
-    return lots or [[]]
-
-
-def _legende(lignes: list[LigneCompo], images: dict[int, bytes]) -> str:
-    """Repli quand une image manque (Pillow absent) : au moins le nom du build."""
-    manquants = [ligne for ligne in lignes if ligne.ordre not in images]
+def _legende_manquants(compo: Compo, images: dict[int, bytes]) -> str:
+    """Signale les builds dont le rendu d'image n'a pas pu etre produit."""
+    manquants = [ligne for ligne in compo.lignes if ligne.ordre not in images]
     if not manquants:
         return ""
     return "\n".join(
-        f"#{ligne.ordre + 1} — {ligne.libelle} (image indisponible)" for ligne in manquants
+        f"#{ligne.ordre + 1} — {ligne.libelle} (image indisponible)"
+        for ligne in manquants
     )
 
 
-# --------------------------------------------------------------------------
-# Envoi
-# --------------------------------------------------------------------------
-
-
-async def _appeler(client: httpx.AsyncClient, methode: str, url: str, **options) -> httpx.Response:
+async def _appeler(
+    client: httpx.AsyncClient,
+    methode: str,
+    url: str,
+    **options,
+) -> httpx.Response:
     """Appel au webhook avec gestion du 429 (limitation de debit)."""
     for _ in range(3):
         reponse = await client.request(methode, url, **options)
@@ -104,7 +81,7 @@ async def envoyer_webhook(
     auteur_pseudo: str,
     lien: str = "",
 ) -> dict[str, Any]:
-    """Poste la compo : un entete, puis les images des builds par paquets de 10."""
+    """Poste toute la compo en un message avec une grille 1 a 40 builds."""
     if not url:
         raise DiscordError(
             "Aucune URL de webhook Discord configuree. "
@@ -112,57 +89,63 @@ async def envoyer_webhook(
         )
 
     images = await images_des_lignes(compo.lignes)
-    lots = repartir_lignes(compo)
-    memoire: list[dict[str, Any]] = []
-    envoyes = 0
+    donnees_grille = composer_grille(
+        [images[ligne.ordre] for ligne in compo.lignes if ligne.ordre in images]
+    )
+    legende = _legende_manquants(compo, images)
+    contenu = texte_entete(compo, auteur_pseudo, lien)
+    if legende:
+        contenu = _tronquer(f"{contenu}\n{legende}".strip(), MAX_CHARS_CONTENU)
+
+    charge: dict[str, Any] = {
+        "username": "Compos Albion",
+        "content": contenu,
+    }
+
+    fichiers: list[tuple[str, tuple[str, bytes, str]]] = []
+    if donnees_grille:
+        fichiers.append(
+            ("files[0]", (NOM_GRILLE, donnees_grille, "image/png"))
+        )
+        charge["embeds"] = [
+            {
+                "title": compo.nom,
+                "description": (
+                    f"{len(compo.lignes)} builds — grille automatique sans déformation"
+                ),
+                "image": {"url": f"attachment://{NOM_GRILLE}"},
+            }
+        ]
+        charge["attachments"] = [{"id": 0, "filename": NOM_GRILLE}]
 
     async with httpx.AsyncClient(timeout=60.0) as client:
-        for index, lot in enumerate(lots):
-            fichiers: list[tuple[str, tuple[str, bytes, str]]] = []
-            for ligne in lot:
-                image = images.get(ligne.ordre)
-                if image is not None:
-                    fichiers.append((
-                        f"files[{len(fichiers)}]",
-                        (nom_fichier_image(ligne), image, "image/png"),
-                    ))
+        if fichiers:
+            reponse = await _appeler(
+                client,
+                "POST",
+                url,
+                params={"wait": "true"},
+                data={"payload_json": json.dumps(charge, ensure_ascii=False)},
+                files=fichiers,
+            )
+        else:
+            reponse = await _appeler(
+                client,
+                "POST",
+                url,
+                params={"wait": "true"},
+                json=charge,
+            )
 
-            contenu = texte_entete(compo, auteur_pseudo, lien) if index == 0 else ""
-            legende = _legende(lot, images)
-            if legende:
-                contenu = _tronquer(f"{contenu}\n{legende}".strip(), MAX_CHARS_CONTENU)
-
-            charge: dict[str, Any] = {"content": contenu}
-            if index == 0:
-                charge["username"] = "Compos Albion"
-            if fichiers:
-                # Association explicite fichier -> piece jointe, comme le font les
-                # bibliotheques Discord.
-                charge["attachments"] = [
-                    {"id": position, "filename": contenu_fichier[0]}
-                    for position, (_, contenu_fichier) in enumerate(fichiers)
-                ]
-
-            if fichiers:
-                reponse = await _appeler(
-                    client, "POST", url, params={"wait": "true"},
-                    data={"payload_json": json.dumps(charge)}, files=fichiers,
-                )
-            else:
-                reponse = await _appeler(
-                    client, "POST", url, params={"wait": "true"}, json=charge
-                )
-
-            corps = _corps_json(reponse)
-            memoire.append({
-                "message_id": corps.get("id"),
-                "entete": index == 0,
-                "ordres": [ligne.ordre for ligne in lot],
-            })
-            envoyes += 1
-
+    corps = _corps_json(reponse)
     return {
-        "messages": envoyes,
-        "images": sum(1 for ligne in compo.lignes if ligne.ordre in images),
-        "memoire": memoire,
+        "messages": 1,
+        "images": len(images),
+        "memoire": [
+            {
+                "message_id": corps.get("id"),
+                "entete": True,
+                "ordres": [ligne.ordre for ligne in compo.lignes],
+            }
+        ],
     }
