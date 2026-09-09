@@ -1,4 +1,4 @@
-"""Modeles SQLAlchemy : Membre, Compo, LigneCompo, Setting."""
+"""Modeles SQLAlchemy : Membre, Compo, LigneCompo, Inscription, Setting."""
 from __future__ import annotations
 
 import enum
@@ -217,6 +217,10 @@ class Compo(Base):
         index=True,
     )
     notes: Mapped[str | None] = mapped_column(Text, nullable=True)
+    # Messages postes sur Discord, au format JSON : identifiant du message,
+    # pieces jointes a conserver et lignes qu'il contient. C'est ce qui permet
+    # de reediter le message quand quelqu'un s'inscrit sur un build.
+    discord_messages: Mapped[str | None] = mapped_column(Text, nullable=True)
 
     auteur: Mapped["Membre"] = relationship(back_populates="compos")
     lignes: Mapped[list["LigneCompo"]] = relationship(
@@ -244,7 +248,9 @@ class LigneCompo(Base):
         ForeignKey("compos.id", ondelete="CASCADE"), nullable=False, index=True
     )
     ordre: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
-    role_ou_joueur: Mapped[str] = mapped_column(String(120), nullable=False)
+    # Facultatif : une ligne est d'abord un build. Vide, elle s'affiche
+    # « Build #n » et attend que quelqu'un s'inscrive dessus.
+    role_ou_joueur: Mapped[str] = mapped_column(String(120), nullable=False, default="")
 
     def _objet(nullable: bool = False):
         return mapped_column(
@@ -297,6 +303,17 @@ class LigneCompo(Base):
     del _objet, _sort
 
     compo: Mapped["Compo"] = relationship(back_populates="lignes")
+    inscriptions: Mapped[list["Inscription"]] = relationship(
+        back_populates="ligne",
+        cascade="all, delete-orphan",
+        order_by="Inscription.date_creation",
+        lazy="selectin",
+    )
+
+    @property
+    def libelle(self) -> str:
+        """Intitule affichable de la ligne, meme sans joueur assigne."""
+        return self.role_ou_joueur.strip() or f"Build #{self.ordre + 1}"
 
     arme: Mapped["ObjetAlbion"] = relationship(foreign_keys=[arme_id], lazy="selectin")
     offhand: Mapped["ObjetAlbion | None"] = relationship(foreign_keys=[offhand_id], lazy="selectin")
@@ -335,6 +352,33 @@ class LigneCompo(Base):
     monture_sort: Mapped["SortAlbion | None"] = relationship(
         foreign_keys=[monture_sort_id], lazy="selectin"
     )
+
+
+class Inscription(Base):
+    """Un membre qui se declare volontaire pour jouer un build de la compo.
+
+    Un membre ne tient qu'un seul build par compo (verifie par l'API), et un
+    meme build peut accueillir plusieurs volontaires.
+    """
+
+    __tablename__ = "inscriptions"
+    __table_args__ = (UniqueConstraint("ligne_id", "membre_id", name="uq_inscription"),)
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    ligne_id: Mapped[int] = mapped_column(
+        ForeignKey("lignes_compo.id", ondelete="CASCADE"), nullable=False, index=True
+    )
+    membre_id: Mapped[int] = mapped_column(
+        ForeignKey("membres.id", ondelete="CASCADE"), nullable=False, index=True
+    )
+    date_creation: Mapped[datetime] = mapped_column(DateTime, default=utcnow, nullable=False)
+
+    ligne: Mapped["LigneCompo"] = relationship(back_populates="inscriptions")
+    membre: Mapped["Membre"] = relationship(lazy="selectin")
+
+    @property
+    def pseudo(self) -> str:
+        return self.membre.pseudo if self.membre is not None else "?"
 
 
 class Setting(Base):

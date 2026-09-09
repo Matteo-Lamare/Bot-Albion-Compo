@@ -135,17 +135,21 @@ function ajouterLigne(donnees = null, replie = false) {
   const corps = document.createElement("div");
   corps.className = "ligne-corps";
 
+  // Nommer le build est facultatif : sans nom, il s'affiche « Build #n » et
+  // attend qu'un joueur s'inscrive dessus.
   const blocRole = document.createElement("div");
   blocRole.className = "slot";
-  blocRole.innerHTML = "<h3>🎮 Joueur / rôle</h3>";
+  blocRole.innerHTML =
+    '<h3>🎮 Rôle / joueur <span class="facultatif">(facultatif)</span></h3>';
   const champRole = document.createElement("input");
   champRole.className = "champ-role";
   champRole.maxLength = 120;
-  champRole.placeholder = "Rôle ou pseudo du joueur";
-  champRole.dataset.requis = "1";
+  champRole.placeholder = "Ex. Tank principal — laissez vide pour un build à pourvoir";
   blocRole.appendChild(champRole);
   corps.appendChild(blocRole);
   carte.champRole = champRole;
+
+  corps.appendChild(creerBlocInscription(carte));
 
   cat.slots.forEach((slot) => corps.appendChild(creerSlot(carte, slot)));
 
@@ -175,7 +179,9 @@ function ajouterLigne(donnees = null, replie = false) {
   });
   entete.querySelector('[data-action="copier"]').addEventListener("click", () => {
     const copie = lireLigne(carte);
-    copie.role_ou_joueur = `${copie.role_ou_joueur} (copie)`.slice(0, 120);
+    if (copie.role_ou_joueur) {
+      copie.role_ou_joueur = `${copie.role_ou_joueur} (copie)`.slice(0, 120);
+    }
     ajouterLigne(copie);
     majCompteur();
   });
@@ -183,6 +189,93 @@ function ajouterLigne(donnees = null, replie = false) {
   champRole.addEventListener("input", () => majResume(carte));
   majResume(carte);
   return carte;
+}
+
+// --- Inscriptions : qui joue quel build ------------------------------------
+
+function creerBlocInscription(carte) {
+  const bloc = document.createElement("div");
+  bloc.className = "slot inscriptions";
+  // Tant que le build n'est pas enregistré, il n'y a rien sur quoi s'inscrire :
+  // majInscriptions() révèle le bloc dès que la ligne a un identifiant.
+  bloc.hidden = true;
+  bloc.innerHTML = '<h3>🙋 Inscrits <span class="badge compte">0</span></h3>';
+
+  const liste = document.createElement("div");
+  liste.className = "liste-inscrits";
+  bloc.appendChild(liste);
+
+  const bouton = document.createElement("button");
+  bouton.type = "button";
+  bouton.className = "mini";
+  bouton.addEventListener("click", () => basculerInscription(carte));
+  bloc.appendChild(bouton);
+
+  carte.blocInscription = bloc;
+  carte.listeInscrits = liste;
+  carte.boutonInscription = bouton;
+  carte.inscrits = [];
+  return bloc;
+}
+
+function estInscrit(carte) {
+  return carte.inscrits.some((inscrit) => inscrit.membre_id === membreCourant.id);
+}
+
+function majInscriptions(carte, inscrits) {
+  carte.inscrits = inscrits || [];
+  carte.blocInscription.hidden = !compoId || !carte.ligneId;
+  carte.querySelector(".compte").textContent = carte.inscrits.length;
+  carte.listeInscrits.innerHTML = "";
+  if (!carte.inscrits.length) {
+    const vide = document.createElement("span");
+    vide.className = "facultatif";
+    vide.textContent = "Personne pour l'instant — ce build est à pourvoir.";
+    carte.listeInscrits.appendChild(vide);
+  }
+  carte.inscrits.forEach((inscrit) => {
+    const pastille = document.createElement("span");
+    pastille.className = "badge inscrit";
+    pastille.textContent = inscrit.pseudo;
+    carte.listeInscrits.appendChild(pastille);
+  });
+  carte.boutonInscription.textContent = estInscrit(carte)
+    ? "Me retirer de ce build"
+    : "Je joue ce build";
+  carte.boutonInscription.classList.toggle("principal", !estInscrit(carte));
+  majResume(carte);
+}
+
+async function basculerInscription(carte) {
+  cacherMessage("message");
+  carte.boutonInscription.disabled = true;
+  try {
+    const retrait = estInscrit(carte);
+    const resultat = retrait
+      ? await api.desinscrire(compoId, carte.ligneId)
+      : await api.inscrire(compoId, carte.ligneId);
+    appliquerInscriptions(resultat, retrait);
+  } catch (erreur) {
+    afficherMessage("message", erreur.message, "erreur", erreur.erreurs);
+  } finally {
+    carte.boutonInscription.disabled = false;
+  }
+}
+
+/** Un membre ne tient qu'un build par compo : toutes les cartes sont rafraîchies. */
+function appliquerInscriptions(resultat, retrait) {
+  const parLigne = new Map(resultat.lignes.map((ligne) => [ligne.ligne_id, ligne.inscrits]));
+  document.querySelectorAll(".ligne-compo").forEach((carte) => {
+    majInscriptions(carte, parLigne.get(carte.ligneId) || []);
+  });
+  afficherMessage(
+    "message",
+    (retrait ? "Inscription retirée." : "Inscription enregistrée.") +
+      (resultat.discord_mis_a_jour
+        ? " Le message Discord a été mis à jour."
+        : " (Le message Discord sera à jour au prochain envoi.)"),
+    "succes"
+  );
 }
 
 function creerSlot(carte, slot) {
@@ -297,7 +390,9 @@ function majChampsSlot(carte, slot, valeurs = null) {
 }
 
 function remplirLigne(carte, donnees) {
+  carte.ligneId = donnees.id ?? null;
   carte.champRole.value = donnees.role_ou_joueur || "";
+  majInscriptions(carte, donnees.inscriptions || []);
   cat.slots.forEach((slot) => {
     carte.selecteurs[slot.champ].valeur = donnees[slot.champ] ?? null;
     majChampsSlot(carte, slot, donnees);
@@ -321,7 +416,13 @@ function majResume(carte) {
     .filter(Boolean)
     .join(" · ");
   carte.querySelector(".resume").textContent =
-    `${donnees.role_ou_joueur || "Sans nom"}${morceaux ? " — " + morceaux : ""}`;
+    `${donnees.role_ou_joueur || libelleParDefaut(carte)}${morceaux ? " — " + morceaux : ""}`;
+}
+
+/** « Build #3 » : ce que le serveur affichera aussi pour une ligne sans joueur. */
+function libelleParDefaut(carte) {
+  const rang = [...document.querySelectorAll(".ligne-compo")].indexOf(carte);
+  return `Build #${rang + 1}`;
 }
 
 function majCompteur() {
@@ -355,10 +456,6 @@ function validerFormulaire() {
       erreurs.push({ champ: `Ligne ${numero} · ${libelle}`, message });
       carte.classList.remove("replie");
     };
-
-    if (!carte.champRole.value.trim()) {
-      signaler(carte.champRole, "Joueur / rôle", "champ obligatoire");
-    }
 
     cat.slots.forEach((slot) => {
       const selecteurObjet = carte.selecteurs[slot.champ];
@@ -421,6 +518,14 @@ async function enregistrer(evenement) {
       location.href = `/compo?id=${compo.id}`;
       return;
     }
+    // Les lignes sont réécrites en base : on récupère leurs nouveaux
+    // identifiants (les inscrits, eux, suivent le rang du build).
+    const cartes = [...document.querySelectorAll(".ligne-compo")];
+    compo.lignes.forEach((ligne, index) => {
+      if (!cartes[index]) return;
+      cartes[index].ligneId = ligne.id;
+      majInscriptions(cartes[index], ligne.inscriptions || []);
+    });
     afficherMessage("message", "Compo enregistrée.", "succes");
     document.getElementById("info-compo").textContent =
       `Auteur : ${compo.auteur_pseudo} · modifiée le ${formaterDate(compo.date_modification)}`;
@@ -456,10 +561,29 @@ async function apercu() {
       const titre = document.createElement("div");
       titre.className = "titre-champ";
       titre.textContent = champApercu.titre;
+      bloc.appendChild(titre);
+
+      // L'image est celle qui partira en pièce jointe sur Discord.
+      if (resultat.images_disponibles) {
+        const image = document.createElement("img");
+        image.className = "image-build";
+        image.loading = "lazy";
+        image.alt = `Build ${champApercu.titre}`;
+        image.src = champApercu.image;
+        bloc.appendChild(image);
+      }
+
       const corps = document.createElement("div");
       corps.textContent = champApercu.corps;
-      bloc.appendChild(titre);
       bloc.appendChild(corps);
+
+      const inscrits = document.createElement("div");
+      inscrits.className = "titre-champ";
+      inscrits.textContent = champApercu.inscrits.length
+        ? `🙋 Inscrits (${champApercu.inscrits.length}) : ${champApercu.inscrits.join(", ")}`
+        : "🙋 Personne pour l'instant";
+      bloc.appendChild(inscrits);
+
       contenu.appendChild(bloc);
     });
     zone.hidden = false;
@@ -478,7 +602,9 @@ async function envoyerDiscord() {
     const resultat = await api.envoyerDiscord(compoId);
     afficherMessage(
       "message",
-      `Compo envoyée sur Discord (${resultat.messages_envoyes} message(s)). Statut : ${resultat.statut}, le ${formaterDate(resultat.date_envoi)}.`,
+      `Compo envoyée sur Discord : ${resultat.messages_envoyes} message(s), ` +
+        `${resultat.images_jointes} image(s) de build. Statut : ${resultat.statut}, ` +
+        `le ${formaterDate(resultat.date_envoi)}.`,
       "succes"
     );
     document.getElementById("statut").value = resultat.statut;

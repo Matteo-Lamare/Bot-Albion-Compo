@@ -75,6 +75,11 @@ const api = {
   dupliquerCompo: (id) => appelApi(`/api/compos/${id}/dupliquer`, { method: "POST" }),
   supprimerCompo: (id) => appelApi(`/api/compos/${id}`, { method: "DELETE" }),
   apercuDiscord: (id) => appelApi(`/api/compos/${id}/apercu-discord`),
+  inscriptions: (id) => appelApi(`/api/compos/${id}/inscriptions`),
+  inscrire: (id, ligneId) =>
+    appelApi(`/api/compos/${id}/lignes/${ligneId}/inscription`, { method: "POST" }),
+  desinscrire: (id, ligneId) =>
+    appelApi(`/api/compos/${id}/lignes/${ligneId}/inscription`, { method: "DELETE" }),
   envoyerDiscord: (id) => appelApi(`/api/compos/${id}/envoyer-discord`, { method: "POST" }),
 };
 

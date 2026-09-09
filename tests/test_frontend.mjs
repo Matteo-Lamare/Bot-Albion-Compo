@@ -145,6 +145,19 @@ async function ouvrir(chemin) {
   await choisirDansMenu("arme_id", "Masse");
   await choisirDansMenu("torse_id", "Armure de gardetombe");
 
+  // Nommer le joueur n'est plus obligatoire : sans nom, le build s'annonce « Build #1 ».
+  const nomInitial = carte.champRole.value;
+  carte.champRole.value = "";
+  carte.champRole.dispatchEvent(new window.Event("input", { bubbles: true }));
+  verifier(
+    !carte.champRole.dataset.requis && !carte.champRole.required,
+    "Le champ joueur n'est plus marqué obligatoire"
+  );
+  verifier(
+    carte.querySelector(".resume").textContent.startsWith("Build #1"),
+    "Sans joueur assigné, le build s'affiche « Build #1 »"
+  );
+
   // Images dans les menus
   const bouton = selecteur("arme_id").querySelector(".selecteur-valeur");
   const image = bouton.querySelector("img.vignette");
@@ -263,8 +276,13 @@ async function ouvrir(chemin) {
     doc.getElementById("message").className.includes("erreur"),
     "Message d'erreur affiché sans appel réseau"
   );
+  verifier(
+    !doc.getElementById("message").textContent.includes("Joueur"),
+    "Le joueur laissé vide ne bloque pas l'enregistrement"
+  );
 
   // Correction + enregistrement réel
+  carte.champRole.value = nomInitial;
   await choisirDansMenu("arme_sort_1_id", "Frappe héroïque");
   doc.getElementById("nom").value = "ZvZ - Groupe de test (édité)";
   doc.getElementById("statut").value = "validée";
@@ -296,10 +314,65 @@ async function ouvrir(chemin) {
     "Le second passif du torse en tissu n'est pas enregistré"
   );
 
+  // --- Inscriptions : chacun choisit le build qu'il veut jouer ---
+  const bloc = carte.querySelector(".slot.inscriptions");
+  verifier(bloc && !bloc.hidden, "Bloc d'inscription affiché sur une compo enregistrée");
+  verifier(
+    carte.boutonInscription.textContent === "Je joue ce build",
+    "Le bouton propose de s'inscrire"
+  );
+  clic(carte.boutonInscription);
+  await attendre(700);
+  verifier(
+    carte.inscrits.length === 1 && carte.inscrits[0].pseudo === PSEUDO,
+    "Inscription enregistrée depuis l'interface"
+  );
+  verifier(
+    carte.querySelector(".badge.inscrit")?.textContent === PSEUDO,
+    "Le pseudo de l'inscrit apparaît sur le build"
+  );
+  verifier(
+    carte.boutonInscription.textContent.startsWith("Me retirer"),
+    "Le bouton bascule sur le retrait"
+  );
+
+  clic(cartes[1].boutonInscription);
+  await attendre(700);
+  verifier(
+    carte.inscrits.length === 0 && cartes[1].inscrits.length === 1,
+    "Un membre ne tient qu'un build : l'inscription se déplace"
+  );
+  clic(cartes[1].boutonInscription);
+  await attendre(700);
+  verifier(
+    cartes[1].inscrits.length === 0 &&
+      cartes[1].querySelector(".liste-inscrits").textContent.includes("Personne"),
+    "Désinscription depuis l'interface"
+  );
+
+  // --- Aperçu du message Discord : le build en image ---
+  doc.getElementById("bouton-apercu").dispatchEvent(new window.Event("click", { bubbles: true }));
+  await attendre(900);
+  const images = doc.querySelectorAll("#contenu-apercu img.image-build");
+  verifier(images.length === 2, "Aperçu : une image de build par ligne");
+  verifier(
+    images[0].src.endsWith("/api/compos/1/lignes/0/image.png"),
+    "L'aperçu pointe vers l'image du build"
+  );
+  verifier(
+    doc.getElementById("contenu-apercu").textContent.includes("🙋"),
+    "L'aperçu montre le bloc d'inscription tel qu'il partira sur Discord"
+  );
+
   // Ajout d'une ligne
   doc.getElementById("ajouter-ligne").dispatchEvent(new window.Event("click", { bubbles: true }));
   await attendre(150);
-  verifier(doc.querySelectorAll(".ligne-compo").length === 3, "Ajout d'un joueur");
+  verifier(doc.querySelectorAll(".ligne-compo").length === 3, "Ajout d'un build");
+  const neuve = doc.querySelectorAll(".ligne-compo")[2];
+  verifier(
+    neuve.querySelector(".slot.inscriptions").hidden,
+    "Un build pas encore enregistré n'accepte pas d'inscription"
+  );
   window.close();
 }
 

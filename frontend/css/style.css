@@ -239,3 +239,14 @@ tbody tr:hover { background: var(--fond-3); }
 .slot h3 .facultatif { color: var(--texte-doux); font-weight: 400; font-size: 11px; }
 .slot h3 .effacer-slot { margin-left: auto; }
 .champ-role { max-width: 420px; }
+
+/* --- Inscriptions sur un build --- */
+.slot.inscriptions .liste-inscrits { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.badge.inscrit { color: var(--vert); border-color: var(--vert); }
+.slot.inscriptions .facultatif { color: var(--texte-doux); font-size: 12px; }
+
+/* --- Image de build (aperçu Discord) --- */
+.apercu .image-build {
+  display: block; width: 100%; max-width: 548px;
+  border-radius: 8px; margin: 10px 0; background: var(--fond-3);
+}

@@ -21,8 +21,32 @@ from .validation import ErreurLigne
 FRONTEND_DIR = settings.base_dir / "frontend"
 
 
+# Colonnes ajoutees apres coup : SQLite les accepte a chaud, ce qui evite de
+# repartir d'une base vide a chaque evolution du modele.
+COLONNES_AJOUTEES = {
+    "compos": {"discord_messages": "TEXT"},
+}
+
+
+def migrer_schema() -> None:
+    """Ajoute les colonnes manquantes des bases creees par une version anterieure."""
+    with engine.begin() as connexion:
+        for table, colonnes in COLONNES_AJOUTEES.items():
+            existantes = {
+                ligne[1]
+                for ligne in connexion.exec_driver_sql(f"PRAGMA table_info({table})").fetchall()
+            }
+            if not existantes:
+                continue  # table pas encore creee : create_all s'en charge
+            for nom, type_sql in colonnes.items():
+                if nom not in existantes:
+                    connexion.exec_driver_sql(f"ALTER TABLE {table} ADD COLUMN {nom} {type_sql}")
+                    print(f"[init] Colonne ajoutee : {table}.{nom}")
+
+
 def initialiser_base() -> None:
     """Cree les tables et le compte admin initial si la base est vide."""
+    migrer_schema()
     Base.metadata.create_all(bind=engine)
     with SessionLocal() as db:
         if db.scalar(select(Membre).limit(1)) is None:

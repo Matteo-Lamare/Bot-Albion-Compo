@@ -1,6 +1,7 @@
-"""Tests de bout en bout : auth, catalogue, CRUD, regles de slots, envoi Discord."""
+"""Tests de bout en bout : auth, catalogue, CRUD, regles, images, inscriptions, Discord."""
 from __future__ import annotations
 
+import email
 import json
 import os
 import sys
@@ -20,18 +21,67 @@ os.environ["DISCORD_WEBHOOK_URL"] = ""
 
 from fastapi.testclient import TestClient  # noqa: E402
 
+from backend import images as module_images  # noqa: E402
 from backend.main import app  # noqa: E402
 from backend.routers import compos as routeur_compos  # noqa: E402
 
-RECUS: list[dict] = []
+RECUS: list[dict] = []     # messages postes sur le webhook
+EDITIONS: list[dict] = []  # messages re-edites (PATCH), apres inscription
+
+
+async def _icones_hors_ligne(_urls) -> dict:
+    """Les tests ne sortent pas sur le reseau : les images se composent sans icones."""
+    return {}
+
+
+module_images._telecharger = _icones_hors_ligne
 
 
 class FauxWebhook(BaseHTTPRequestHandler):
-    def do_POST(self) -> None:  # noqa: N802
+    """Webhook local : accepte le JSON simple comme le multipart avec images."""
+
+    def _lire(self) -> tuple[dict, list[str]]:
         taille = int(self.headers.get("Content-Length", 0))
-        RECUS.append(json.loads(self.rfile.read(taille)))
-        self.send_response(204)
+        brut = self.rfile.read(taille)
+        type_contenu = self.headers.get("Content-Type", "")
+        if not type_contenu.startswith("multipart/form-data"):
+            return json.loads(brut or b"{}"), []
+        message = email.message_from_bytes(
+            b"Content-Type: " + type_contenu.encode() + b"\r\n\r\n" + brut
+        )
+        charge: dict = {}
+        fichiers: list[str] = []
+        for partie in message.get_payload():
+            if partie.get_param("name", header="content-disposition") == "payload_json":
+                charge = json.loads(partie.get_payload(decode=True))
+            elif partie.get_filename():
+                fichiers.append(partie.get_filename())
+        return charge, fichiers
+
+    def _repondre(self, corps: dict) -> None:
+        donnees = json.dumps(corps).encode()
+        self.send_response(200)
+        self.send_header("Content-Type", "application/json")
+        self.send_header("Content-Length", str(len(donnees)))
         self.end_headers()
+        self.wfile.write(donnees)
+
+    def do_POST(self) -> None:  # noqa: N802
+        charge, fichiers = self._lire()
+        charge["fichiers"] = fichiers
+        RECUS.append(charge)
+        self._repondre({
+            "id": str(1000 + len(RECUS)),
+            "attachments": [
+                {"id": str(9000 + index), "filename": nom} for index, nom in enumerate(fichiers)
+            ],
+        })
+
+    def do_PATCH(self) -> None:  # noqa: N802
+        charge, _ = self._lire()
+        charge["chemin"] = self.path
+        EDITIONS.append(charge)
+        self._repondre({"id": self.path.rsplit("/", 1)[-1]})
 
     def log_message(self, *args) -> None:
         pass
@@ -328,11 +378,34 @@ def main() -> None:
             "Lignes copiees avec leur equipement",
         )
 
+        # --- Joueur facultatif ---
+        anonyme = ligne_valide(cat, role_ou_joueur="")
+        sans_nom = client.post(
+            "/api/compos", json=compo_valide(cat, nom="Builds a pourvoir", lignes=[anonyme])
+        )
+        verifier(sans_nom.status_code == 201, "Build accepte sans joueur assigne")
+        premiere_ligne = sans_nom.json()["lignes"][0]
+        verifier(premiere_ligne["role_ou_joueur"] == "", "Le champ joueur reste vide")
+        verifier(premiere_ligne["libelle"] == "Build #1", "Libelle de repli « Build #1 »")
+        omis = ligne_valide(cat)
+        del omis["role_ou_joueur"]
+        verifier(
+            client.post("/api/compos", json=compo_valide(cat, nom="Omis", lignes=[omis]))
+            .status_code == 201,
+            "Le champ joueur peut etre absent du corps de la requete",
+        )
+        verifier(
+            client.post("/api/compos", json=compo_valide(
+                cat, nom="Nul", lignes=[ligne_valide(cat, role_ou_joueur=None)])).status_code == 201,
+            "Un joueur a null est accepte",
+        )
+
         # --- Apercu + envoi Discord ---
         apercu = client.get(f"/api/compos/{compo_id}/apercu-discord").json()
         verifier(apercu["embeds"][0]["title"].startswith("📋"), "Embed d'entete")
+        verifier(len(apercu["embeds"]) == 3, "Un embed d'entete + un embed par build")
         premier = apercu["apercu"][0]["corps"]
-        verifier("Sorts :" in premier and "Masse" in premier, "Les 3 sorts d'arme sont rendus")
+        verifier("Masse" in premier and "🪖" in premier, "Le texte nomme les objets et leurs sorts")
         verifier(
             "T4." not in premier and "T8." not in premier and "`" not in premier,
             "Plus aucun tier dans le rendu Discord",
@@ -341,28 +414,119 @@ def main() -> None:
             apercu["embeds"][0]["thumbnail"]["url"].startswith("https://render.albiononline.com"),
             "L'embed porte l'icone de l'arme",
         )
+        verifier(
+            apercu["apercu"][0]["image"] == f"/api/compos/{compo_id}/lignes/0/image.png",
+            "L'apercu expose l'URL de l'image de chaque build",
+        )
 
+        # --- Image du build ---
+        verifier(module_images.DISPONIBLE, "Pillow disponible : les images sont rendues")
+        reponse = client.get(f"/api/compos/{compo_id}/lignes/0/image.png")
+        verifier(
+            reponse.status_code == 200 and reponse.content[:8] == b"\x89PNG\r\n\x1a\n",
+            "Image de build servie en PNG",
+        )
+        verifier(
+            reponse.headers["content-type"] == "image/png" and len(reponse.content) > 1000,
+            "Image non vide, servie avec le bon type MIME",
+        )
+        verifier(
+            client.get(f"/api/compos/{compo_id}/lignes/42/image.png").status_code == 404,
+            "Image d'un build inexistant : 404",
+        )
+
+        RECUS.clear()
         reponse = client.post(f"/api/compos/{compo_id}/envoyer-discord")
         verifier(reponse.status_code == 200, "Envoi sur le webhook")
-        verifier(reponse.json()["messages_envoyes"] == 1, "Un seul message pour 2 lignes")
-        verifier(len(RECUS) == 1 and len(RECUS[0]["embeds"]) == 2, "Payload Discord bien forme")
+        verifier(reponse.json()["messages_envoyes"] == 1, "Un seul message pour 2 builds")
+        verifier(reponse.json()["images_jointes"] == 2, "Une image jointe par build")
+        verifier(len(RECUS) == 1 and len(RECUS[0]["embeds"]) == 3, "Payload Discord bien forme")
+        verifier(
+            RECUS[0]["fichiers"] == ["build_1.png", "build_2.png"],
+            "Les images partent en pieces jointes nommees par build",
+        )
+        verifier(
+            [e["image"]["url"] for e in RECUS[0]["embeds"][1:]]
+            == ["attachment://build_1.png", "attachment://build_2.png"],
+            "Chaque embed de build affiche son image",
+        )
+        verifier(
+            RECUS[0]["attachments"] == [{"id": 0, "filename": "build_1.png"},
+                                        {"id": 1, "filename": "build_2.png"}],
+            "Les pieces jointes sont declarees dans le payload",
+        )
         relue = client.get(f"/api/compos/{compo_id}").json()
         verifier(relue["statut"] == "envoyée", "Statut passe a 'envoyee'")
         verifier(relue["date_envoi"] is not None, "Horodatage d'envoi enregistre")
 
-        # Grosse compo : decoupage en plusieurs embeds / messages
+        # --- Inscriptions sur un build ---
+        ligne_1, ligne_2 = relue["lignes"][0]["id"], relue["lignes"][1]["id"]
+        verifier(
+            client.get(f"/api/compos/{compo_id}/inscriptions").json()["lignes"][0]["inscrits"] == [],
+            "Aucun inscrit au depart",
+        )
+        EDITIONS.clear()
+        resultat = client.post(f"/api/compos/{compo_id}/lignes/{ligne_1}/inscription").json()
+        verifier(
+            [i["pseudo"] for i in resultat["lignes"][0]["inscrits"]] == ["admin"],
+            "Inscription enregistree sur le build choisi",
+        )
+        verifier(resultat["discord_mis_a_jour"], "Le message Discord deja poste est re-edite")
+        verifier(len(EDITIONS) == 1 and EDITIONS[0]["chemin"].endswith("/messages/1001"),
+                 "L'edition vise le message realement poste")
+        verifier(
+            "Inscrits (1)" in json.dumps(EDITIONS[0]["embeds"], ensure_ascii=False),
+            "Le message mis a jour annonce l'inscrit",
+        )
+        verifier(
+            [p["id"] for p in EDITIONS[0]["attachments"]] == ["9000", "9001"],
+            "Les images sont conservees lors de l'edition",
+        )
+        verifier(
+            EDITIONS[0]["embeds"][1]["image"]["url"] == "attachment://build_1.png",
+            "L'embed re-edite pointe toujours vers son image",
+        )
+
+        client.post(f"/api/compos/{compo_id}/lignes/{ligne_1}/inscription")
+        verifier(
+            len(client.get(f"/api/compos/{compo_id}/inscriptions").json()["lignes"][0]["inscrits"])
+            == 1,
+            "S'inscrire deux fois ne cree pas de doublon",
+        )
+        etat = client.post(f"/api/compos/{compo_id}/lignes/{ligne_2}/inscription").json()["lignes"]
+        verifier(
+            etat[0]["inscrits"] == [] and len(etat[1]["inscrits"]) == 1,
+            "Un membre ne tient qu'un seul build : l'inscription se deplace",
+        )
+        verifier(
+            client.post(f"/api/compos/{compo_id}/lignes/999999/inscription").status_code == 404,
+            "Inscription sur un build inexistant refusee",
+        )
+
+        # Les inscrits survivent a une modification de la compo.
+        client.put(f"/api/compos/{compo_id}", json=compo_valide(
+            cat, nom="ZvZ - Ligne de front v3", statut="validée"))
+        apres = client.get(f"/api/compos/{compo_id}").json()
+        verifier(
+            [i["pseudo"] for i in apres["lignes"][1]["inscriptions"]] == ["admin"],
+            "Editer la compo ne perd pas les inscrits du build",
+        )
+        nouvelle_ligne_2 = apres["lignes"][1]["id"]
+        etat = client.delete(
+            f"/api/compos/{compo_id}/lignes/{nouvelle_ligne_2}/inscription"
+        ).json()["lignes"]
+        verifier(all(not ligne["inscrits"] for ligne in etat), "Desinscription effective")
+
+        # Grosse compo : decoupage en plusieurs messages
         grosse = compo_valide(cat, nom="ZvZ - 30", taille_groupe=30,
                               lignes=[ligne_valide(cat, role_ou_joueur=f"Joueur {i}") for i in range(30)])
         id_grosse = client.post("/api/compos", json=grosse).json()["id"]
         RECUS.clear()
         reponse = client.post(f"/api/compos/{id_grosse}/envoyer-discord")
         embeds = [embed for message in RECUS for embed in message["embeds"]]
-        verifier(reponse.status_code == 200, "Envoi d'une compo de 30 joueurs")
+        verifier(reponse.status_code == 200, "Envoi d'une compo de 30 builds")
         verifier(all(len(m["embeds"]) <= 10 for m in RECUS), "Max 10 embeds par message")
-        verifier(
-            all(len(embed.get("fields", [])) <= 25 for embed in embeds),
-            "Max 25 champs par embed",
-        )
+        verifier(all(len(m["fichiers"]) <= 10 for m in RECUS), "Max 10 images par message")
         verifier(
             all(len(champ["value"]) <= 1024 for embed in embeds for champ in embed.get("fields", [])),
             "Champs sous la limite de 1024 caracteres",
@@ -378,11 +542,15 @@ def main() -> None:
             )
 
         verifier(
-            all(poids(embed) <= 6000 for embed in embeds),
-            "Embeds sous la limite globale de 6000 caracteres",
+            all(sum(poids(e) for e in message["embeds"]) <= 6000 for message in RECUS),
+            "Chaque message reste sous la limite globale de 6000 caracteres",
         )
-        noms = [champ["name"] for embed in embeds for champ in embed.get("fields", [])]
-        verifier(len(noms) == 30, "Les 30 joueurs sont presents une seule fois")
+        titres = [embed["title"] for embed in embeds if embed["title"].startswith("#")]
+        verifier(len(titres) == 30, "Les 30 builds sont presents une seule fois")
+        verifier(
+            sum(len(message["fichiers"]) for message in RECUS) == 30,
+            "Chaque build emporte son image",
+        )
 
         # --- Droits ---
         client.post("/api/membres", json={"pseudo": "membre1", "mot_de_passe": "motdepasse",

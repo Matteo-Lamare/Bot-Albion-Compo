@@ -24,6 +24,7 @@ from .models import RoleMembre, StatutCompo, TypeContenu
 # par backend/validation.py, qui a acces au catalogue.
 
 Requis = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=120)]
+Libelle = Annotated[str, StringConstraints(strip_whitespace=True, max_length=120)]
 Identifiant = Annotated[int, Field(gt=0)]
 
 
@@ -40,12 +41,15 @@ class LigneCompoBase(BaseModel):
     monture, potion et nourriture sont facultatifs. Les sorts imposes par un objet
     (sort 3 d'une arme, passif d'une cape, sort d'une monture) sont ignores a
     l'entree et reposes par le serveur.
+
+    Le nom du joueur est facultatif : une ligne vaut d'abord pour son build, et
+    l'attribution peut se faire plus tard, par inscription sur Discord.
     """
 
     model_config = ConfigDict(from_attributes=True)
 
     ordre: int = Field(default=0, ge=0)
-    role_ou_joueur: Requis
+    role_ou_joueur: Libelle = ""
 
     # --- Arme ---
     arme_id: Identifiant
@@ -85,9 +89,26 @@ class LigneCompoBase(BaseModel):
     potion_id: Identifiant | None = None
     nourriture_id: Identifiant | None = None
 
+    @field_validator("role_ou_joueur", mode="before")
+    @classmethod
+    def _role_absent(cls, valeur: Any) -> Any:
+        return "" if valeur is None else valeur
+
+
+class InscriptionRead(BaseModel):
+    """Un volontaire declare sur un build."""
+
+    model_config = ConfigDict(from_attributes=True)
+
+    membre_id: int
+    pseudo: str
+    date_creation: datetime
+
 
 class LigneCompoRead(LigneCompoBase):
     id: int
+    libelle: str = ""
+    inscriptions: list[InscriptionRead] = []
 
 
 class CompoBase(BaseModel):
@@ -123,6 +144,13 @@ class CompoRead(CompoBase):
     date_modification: datetime
     date_envoi: datetime | None = None
     lignes: list[LigneCompoRead] = []
+
+
+class LigneCompoInscriptions(BaseModel):
+    ligne_id: int
+    ordre: int
+    libelle: str
+    inscrits: list[InscriptionRead] = []
 
 
 class CompoResume(BaseModel):
@@ -196,3 +224,11 @@ class EnvoiDiscordResultat(BaseModel):
     statut: StatutCompo
     date_envoi: datetime
     messages_envoyes: int
+    images_jointes: int = 0
+
+
+class InscriptionResultat(BaseModel):
+    """Etat des inscriptions apres un clic sur « Je joue ce build »."""
+
+    lignes: list[LigneCompoInscriptions]
+    discord_mis_a_jour: bool = False

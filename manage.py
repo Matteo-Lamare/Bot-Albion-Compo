@@ -6,16 +6,20 @@
     python manage.py mot-de-passe <pseudo> <mdp>
     python manage.py importer-catalogue        # (re)charge le catalogue Albion en base
     python manage.py seed-demo                 # insere une compo d'exemple
+    python manage.py images <compo_id> [dossier]  # exporte les images de build en PNG
 """
 from __future__ import annotations
 
+import asyncio
 import sys
+from pathlib import Path
 
 from sqlalchemy import select
 
 from backend.auth import hacher_mot_de_passe
 from backend.catalogue import REGLES, importer as importer_catalogue, index as index_catalogue
 from backend.database import SessionLocal
+from backend.images import DISPONIBLE as IMAGES_DISPONIBLES, images_des_lignes
 from backend.main import initialiser_base
 from backend.models import (
     CategorieAlbion,
@@ -47,7 +51,9 @@ LIGNES_DEMO = [
         "nourriture": ("food", "Ragoût de bœuf"),
     },
     {
-        "role_ou_joueur": "Soigneur principal",
+        # Un build peut rester a pourvoir : le nom du joueur est facultatif et
+        # quelqu'un s'inscrira dessus depuis le site ou le message Discord.
+        "role_ou_joueur": "",
         "arme": ("holystaff", None),
         "casque": ("cloth_helmet", None),
         "torse": ("cloth_armor", "Robe d'ecclésiastique"),
@@ -146,13 +152,36 @@ def seed_demo() -> None:
         for position, modele in enumerate(LIGNES_DEMO):
             ligne = _construire_ligne(db, catalogue, modele)
             if ligne is None:
-                print(f"Ligne « {modele['role_ou_joueur']} » ignoree : objets introuvables.")
+                print(f"Ligne « {modele['role_ou_joueur'] or 'a pourvoir'} » ignoree : "
+                      "objets introuvables.")
                 continue
             ligne.ordre = position
             compo.lignes.append(ligne)
         db.add(compo)
         db.commit()
         print(f"Compo d'exemple creee (id={compo.id}, {len(compo.lignes)} lignes).")
+
+
+def exporter_images(compo_id: int, dossier: str = ".") -> None:
+    """Ecrit sur disque les images de build telles qu'elles partent sur Discord."""
+    if not IMAGES_DISPONIBLES:
+        print("Pillow n'est pas installe : pip install -r requirements.txt")
+        return
+    with SessionLocal() as db:
+        compo = db.get(Compo, compo_id)
+        if compo is None:
+            print(f"Compo {compo_id} introuvable.")
+            return
+        images = asyncio.run(images_des_lignes(compo.lignes))
+        cible = Path(dossier)
+        cible.mkdir(parents=True, exist_ok=True)
+        for ligne in compo.lignes:
+            image = images.get(ligne.ordre)
+            if image is None:
+                continue
+            fichier = cible / f"compo{compo.id}_build{ligne.ordre + 1}.png"
+            fichier.write_bytes(image)
+            print(f"{fichier} ({len(image) // 1024} Ko) — {ligne.libelle}")
 
 
 def main() -> int:
@@ -175,6 +204,8 @@ def main() -> int:
               f"{compte['categories']} categories, {compte['sorts']} sorts.")
     elif commande == "seed-demo":
         seed_demo()
+    elif commande == "images" and len(sys.argv) >= 3:
+        exporter_images(int(sys.argv[2]), sys.argv[3] if len(sys.argv) > 3 else ".")
     else:
         print(__doc__)
         return 1
