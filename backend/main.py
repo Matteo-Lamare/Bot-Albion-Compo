@@ -7,7 +7,7 @@ from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
-from sqlalchemy import select
+from sqlalchemy import inspect, select
 from starlette.middleware.sessions import SessionMiddleware
 
 from .catalogue import CHEMIN_CATALOGUE, importer as importer_catalogue
@@ -21,8 +21,7 @@ from .validation import ErreurLigne
 FRONTEND_DIR = settings.base_dir / "frontend"
 
 
-# Colonnes ajoutees apres coup : SQLite les accepte a chaud, ce qui evite de
-# repartir d'une base vide a chaque evolution du modele.
+# Colonnes ajoutees apres coup : SQLite et PostgreSQL les acceptent a chaud.
 COLONNES_AJOUTEES = {
     "compos": {"discord_messages": "TEXT"},
 }
@@ -34,20 +33,27 @@ TABLES_SUPPRIMEES = ("inscriptions",)
 def migrer_schema() -> None:
     """Met a niveau les bases creees par une version anterieure."""
     with engine.begin() as connexion:
+        inspecteur = inspect(connexion)
+        tables_existantes = set(inspecteur.get_table_names())
+
+        # Utilise SQLAlchemy Inspector au lieu de PRAGMA, afin de fonctionner
+        # avec SQLite comme avec PostgreSQL.
         for table in TABLES_SUPPRIMEES:
-            if connexion.exec_driver_sql(f"PRAGMA table_info({table})").fetchall():
-                connexion.exec_driver_sql(f"DROP TABLE {table}")
+            if table in tables_existantes:
+                connexion.exec_driver_sql(f'DROP TABLE "{table}"')
                 print(f"[init] Table supprimee : {table}")
+                tables_existantes.remove(table)
+
         for table, colonnes in COLONNES_AJOUTEES.items():
-            existantes = {
-                ligne[1]
-                for ligne in connexion.exec_driver_sql(f"PRAGMA table_info({table})").fetchall()
-            }
-            if not existantes:
+            if table not in tables_existantes:
                 continue  # table pas encore creee : create_all s'en charge
+
+            existantes = {colonne["name"] for colonne in inspecteur.get_columns(table)}
             for nom, type_sql in colonnes.items():
                 if nom not in existantes:
-                    connexion.exec_driver_sql(f"ALTER TABLE {table} ADD COLUMN {nom} {type_sql}")
+                    connexion.exec_driver_sql(
+                        f'ALTER TABLE "{table}" ADD COLUMN "{nom}" {type_sql}'
+                    )
                     print(f"[init] Colonne ajoutee : {table}.{nom}")
 
 
