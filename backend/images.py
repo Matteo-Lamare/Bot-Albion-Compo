@@ -35,7 +35,7 @@ CACHE_ICONES = settings.base_dir / ".cache" / "icones"
 # --- Gabarit de la planche ---------------------------------------------------
 
 TAILLE_OBJET = 104     # icone d'objet, en pixels
-TAILLE_SORT = 30       # icone de sort ou de passif
+TAILLE_SORT = 36       # icone de sort ou de passif
 LARGEUR_CASE = 172
 HAUTEUR_CASE = 186
 MARGE = 16
@@ -72,7 +72,7 @@ POLICES = (
     "/usr/share/fonts/TTF/DejaVuSans.ttf",
     "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
     "/usr/share/fonts/liberation/LiberationSans-Regular.ttf",
-    "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf",
+    "/usr/share/fonts/liberation/LiberationSans-Regular.ttf",
     "/Library/Fonts/Arial.ttf",
     "C:/Windows/Fonts/arial.ttf",
 )
@@ -126,7 +126,7 @@ def _url_objet(objet, taille: int = 128) -> str:
     return f"{objet.icone}?size={taille}"
 
 
-def _url_sort(sort, taille: int = 64) -> str:
+def _url_sort(sort, taille: int = 96) -> str:
     return f"{sort.icone}?size={taille}"
 
 
