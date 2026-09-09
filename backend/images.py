@@ -23,19 +23,16 @@ import httpx
 from .config import settings
 from .models import LigneCompo
 
-try:  # Pillow est facultatif : sans lui, seul le texte part sur Discord.
+try:
     from PIL import Image, ImageDraw, ImageFont
-
     DISPONIBLE = True
-except ImportError:  # pragma: no cover - depend de l'installation
+except ImportError:
     DISPONIBLE = False
 
 CACHE_ICONES = settings.base_dir / ".cache" / "icones"
 
-# --- Gabarit de la planche ---------------------------------------------------
-
-TAILLE_OBJET = 104     # icone d'objet, en pixels
-TAILLE_SORT = 36       # icone de sort ou de passif
+TAILLE_OBJET = 104
+TAILLE_SORT = 36
 LARGEUR_CASE = 172
 HAUTEUR_CASE = 186
 MARGE = 16
@@ -50,10 +47,6 @@ TEXTE_DISCRET = (150, 156, 170, 255)
 CONTOUR_ACTIF = (74, 144, 217, 255)
 CONTOUR_PASSIF = (201, 162, 39, 255)
 
-# Emplacement de chaque slot dans la planche + sorts a afficher dessous.
-# (colonne, ligne) sur une grille 3x3, comme l'ecran d'equipement du jeu.
-# La case (0, 0) reste volontairement vide ; la monture n'apparait pas sur la
-# planche (elle reste saisissable sur le site).
 CASES: tuple[tuple[int, int, str, str, tuple[str, ...]], ...] = (
     (1, 0, "casque", "Casque", ("casque_sort", "casque_passif")),
     (2, 0, "cape", "Cape", ("cape_passif",)),
@@ -88,15 +81,11 @@ def _police(taille: int):
     return ImageFont.load_default(taille)
 
 
-# --- Telechargement et cache des icones --------------------------------------
-
-
 def _fichier_cache(url: str) -> Path:
     return CACHE_ICONES / f"{hashlib.sha1(url.encode()).hexdigest()}.png"
 
 
 async def _telecharger(urls: Iterable[str]) -> dict[str, bytes]:
-    """Recupere les icones demandees, en passant par le cache disque."""
     icones: dict[str, bytes] = {}
     manquantes: list[str] = []
     for url in dict.fromkeys(urls):
@@ -116,8 +105,7 @@ async def _telecharger(urls: Iterable[str]) -> dict[str, bytes]:
                         icones[url] = reponse.content
                         _fichier_cache(url).write_bytes(reponse.content)
                 except httpx.HTTPError:
-                    pass  # icone manquante : la case sera dessinee vide
-
+                    pass
             await asyncio.gather(*(charger(url) for url in manquantes))
     return icones
 
@@ -126,7 +114,7 @@ def _url_objet(objet, taille: int = 128) -> str:
     return f"{objet.icone}?size={taille}"
 
 
-def _url_sort(sort, taille: int = 96) -> str:
+def _url_sort(sort, taille: int = 64) -> str:
     return f"{sort.icone}?size={taille}"
 
 
@@ -143,11 +131,7 @@ def _urls_de_ligne(ligne: LigneCompo) -> list[str]:
     return urls
 
 
-# --- Composition -------------------------------------------------------------
-
-
 def _nom_ajuste(dessin, texte: str, largeur: int, tailles=(13, 12, 11, 10)):
-    """Reduit la police avant de couper : un nom long reste lisible en entier."""
     for taille in tailles:
         police = _police(taille)
         if dessin.textlength(texte, font=police) <= largeur:
@@ -165,13 +149,6 @@ def _tronquer_au_pixel(dessin, texte: str, police, largeur: int) -> str:
 
 
 def _effacer_tier(icone):
-    """Neutralise le medaillon de tier grave dans le cadre de l'icone.
-
-    Le rendu officiel affiche toujours un tier (T8 pour l'equipement, T4 pour
-    une potion...) alors que l'outil n'en manipule plus : on remplit le
-    medaillon avec la couleur mediane de son pourtour, ce qui laisse une
-    plaque vide au lieu d'un chiffre trompeur.
-    """
     echelle = icone.width / 128
     centre_x = centre_y = int(26 * echelle)
     rayon = int(15 * echelle)
@@ -190,7 +167,6 @@ def _effacer_tier(icone):
 
 def _coller(planche, donnees: bytes, x: int, y: int, taille: int,
             contour=None, sans_tier: bool = False) -> None:
-    """Colle une icone redimensionnee, avec un liset de couleur facultatif."""
     with Image.open(BytesIO(donnees)) as source:
         icone = source.convert("RGBA")
         if sans_tier and icone.width >= 32:
@@ -206,10 +182,8 @@ def _coller(planche, donnees: bytes, x: int, y: int, taille: int,
 def _composer(ligne: LigneCompo, titre: str, icones: dict[str, bytes]) -> bytes:
     planche = Image.new("RGBA", (LARGEUR, HAUTEUR), FOND)
     dessin = ImageDraw.Draw(planche)
-
     police_titre = _police(21)
     police_nom = _police(13)
-
     dessin.text(
         (MARGE, MARGE - 2),
         _tronquer_au_pixel(dessin, titre, police_titre, LARGEUR - MARGE * 2),
@@ -221,7 +195,6 @@ def _composer(ligne: LigneCompo, titre: str, icones: dict[str, bytes]) -> bytes:
         x = MARGE + colonne * LARGEUR_CASE
         y = MARGE + HAUTEUR_TITRE + rangee * HAUTEUR_CASE
         objet = getattr(ligne, slot, None)
-
         dessin.rounded_rectangle(
             (x + 3, y + 3, x + LARGEUR_CASE - 5, y + HAUTEUR_CASE - 5),
             radius=10,
@@ -240,7 +213,6 @@ def _composer(ligne: LigneCompo, titre: str, icones: dict[str, bytes]) -> bytes:
             )
             continue
 
-        # Icone de l'objet
         donnees = icones.get(_url_objet(objet))
         centre_x = x + (LARGEUR_CASE - TAILLE_OBJET) // 2
         if donnees:
@@ -251,7 +223,6 @@ def _composer(ligne: LigneCompo, titre: str, icones: dict[str, bytes]) -> bytes:
                 radius=8, outline=BORDURE, width=1,
             )
 
-        # Sorts et passifs, alignes sous l'objet
         sorts = [
             (getattr(ligne, champ), champ)
             for champ in champs_sorts
@@ -273,7 +244,6 @@ def _composer(ligne: LigneCompo, titre: str, icones: dict[str, bytes]) -> bytes:
                         radius=6, outline=contour, width=1,
                     )
 
-        # Nom de l'objet
         nom, police = _nom_ajuste(dessin, objet.nom, LARGEUR_CASE - 14)
         dessin.text(
             (x + LARGEUR_CASE // 2, y + HAUTEUR_CASE - 16),
@@ -288,26 +258,14 @@ def _composer(ligne: LigneCompo, titre: str, icones: dict[str, bytes]) -> bytes:
     return tampon.getvalue()
 
 
-# --- Point d'entree ----------------------------------------------------------
-
-
 async def images_des_lignes(lignes: Sequence[LigneCompo]) -> dict[int, bytes]:
-    """Rend une image par ligne. Cle : l'ordre de la ligne dans la compo.
-
-    Renvoie un dictionnaire vide si Pillow n'est pas installe ; l'appelant se
-    rabat alors sur le rendu texte.
-    """
     if not DISPONIBLE or not lignes:
         return {}
-
     urls = [url for ligne in lignes for url in _urls_de_ligne(ligne)]
     icones = await _telecharger(urls)
-
     def rendre() -> dict[int, bytes]:
         return {ligne.ordre: _composer(ligne, f"#{ligne.ordre + 1} — {ligne.libelle}", icones)
                 for ligne in lignes}
-
-    # La composition est du calcul pur : on la sort de la boucle evenementielle.
     return await asyncio.to_thread(rendre)
 
 
