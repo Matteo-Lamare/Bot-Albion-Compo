@@ -1,4 +1,4 @@
-"""Message Discord d'une compo avec grille adaptative des builds."""
+"""Message Discord d'une compo, avec deux builds par image."""
 from __future__ import annotations
 
 import asyncio
@@ -7,12 +7,12 @@ from typing import Any
 
 import httpx
 
-from .grid import composer_grille
+from .grid import composer_ligne
 from .images import images_des_lignes
-from .models import Compo, LigneCompo
+from .models import Compo
 
 MAX_CHARS_CONTENU = 2000
-NOM_GRILLE = "compo_grille.png"
+NOM_LIGNE = "compo_ligne_{:02d}.png"
 
 
 class DiscordError(RuntimeError):
@@ -24,7 +24,6 @@ def _tronquer(texte: str, limite: int) -> str:
 
 
 def texte_entete(compo: Compo, auteur_pseudo: str, lien: str = "") -> str:
-    """Texte de secours / contexte de la compo."""
     lignes = [
         f"📋 **{compo.nom}** — {compo.type_contenu.value} · "
         f"{compo.taille_groupe} joueurs · {len(compo.lignes)} builds · par {auteur_pseudo}"
@@ -37,7 +36,6 @@ def texte_entete(compo: Compo, auteur_pseudo: str, lien: str = "") -> str:
 
 
 def _legende_manquants(compo: Compo, images: dict[int, bytes]) -> str:
-    """Signale les builds dont le rendu d'image n'a pas pu etre produit."""
     manquants = [ligne for ligne in compo.lignes if ligne.ordre not in images]
     if not manquants:
         return ""
@@ -47,13 +45,7 @@ def _legende_manquants(compo: Compo, images: dict[int, bytes]) -> str:
     )
 
 
-async def _appeler(
-    client: httpx.AsyncClient,
-    methode: str,
-    url: str,
-    **options,
-) -> httpx.Response:
-    """Appel au webhook avec gestion du 429 (limitation de debit)."""
+async def _appeler(client: httpx.AsyncClient, methode: str, url: str, **options) -> httpx.Response:
     for _ in range(3):
         reponse = await client.request(methode, url, **options)
         if reponse.status_code == 429:
@@ -75,13 +67,44 @@ def _corps_json(reponse: httpx.Response) -> dict:
         return {}
 
 
+async def _envoyer_ligne(
+    client: httpx.AsyncClient,
+    url: str,
+    contenu: str,
+    donnees: bytes,
+    numero: int,
+    total: int,
+) -> dict:
+    nom_fichier = NOM_LIGNE.format(numero)
+    charge = {
+        "username": "Compos Albion",
+        "content": contenu,
+        "embeds": [
+            {
+                "title": f"Ligne {numero}/{total}",
+                "image": {"url": f"attachment://{nom_fichier}"},
+            }
+        ],
+        "attachments": [{"id": 0, "filename": nom_fichier}],
+    }
+    reponse = await _appeler(
+        client,
+        "POST",
+        url,
+        params={"wait": "true"},
+        data={"payload_json": json.dumps(charge, ensure_ascii=False)},
+        files=[("files[0]", (nom_fichier, donnees, "image/png"))],
+    )
+    return _corps_json(reponse)
+
+
 async def envoyer_webhook(
     url: str,
     compo: Compo,
     auteur_pseudo: str,
     lien: str = "",
 ) -> dict[str, Any]:
-    """Poste toute la compo en un message avec une grille 1 a 40 builds."""
+    """Poste chaque paire de builds comme une image distincte dans Discord."""
     if not url:
         raise DiscordError(
             "Aucune URL de webhook Discord configuree. "
@@ -89,63 +112,55 @@ async def envoyer_webhook(
         )
 
     images = await images_des_lignes(compo.lignes)
-    donnees_grille = composer_grille(
-        [images[ligne.ordre] for ligne in compo.lignes if ligne.ordre in images]
-    )
+    lignes_images: list[bytes] = []
+    builds_valides = [
+        images[ligne.ordre]
+        for ligne in compo.lignes
+        if ligne.ordre in images
+    ]
+
+    for debut in range(0, len(builds_valides), 2):
+        donnees = composer_ligne(builds_valides[debut:debut + 2])
+        if donnees:
+            lignes_images.append(donnees)
+
     legende = _legende_manquants(compo, images)
-    contenu = texte_entete(compo, auteur_pseudo, lien)
+    entete = texte_entete(compo, auteur_pseudo, lien)
     if legende:
-        contenu = _tronquer(f"{contenu}\n{legende}".strip(), MAX_CHARS_CONTENU)
+        entete = _tronquer(f"{entete}\n{legende}".strip(), MAX_CHARS_CONTENU)
 
-    charge: dict[str, Any] = {
-        "username": "Compos Albion",
-        "content": contenu,
-    }
+    if not lignes_images:
+        async with httpx.AsyncClient(timeout=60.0) as client:
+            reponse = await _appeler(
+                client, "POST", url, params={"wait": "true"}, json={
+                    "username": "Compos Albion",
+                    "content": entete,
+                }
+            )
+        corps = _corps_json(reponse)
+        return {
+            "messages": 1,
+            "images": len(images),
+            "memoire": [{"message_id": corps.get("id"), "entete": True, "ordres": []}],
+        }
 
-    fichiers: list[tuple[str, tuple[str, bytes, str]]] = []
-    if donnees_grille:
-        fichiers.append(
-            ("files[0]", (NOM_GRILLE, donnees_grille, "image/png"))
-        )
-        charge["embeds"] = [
-            {
-                "title": compo.nom,
-                "description": (
-                    f"{len(compo.lignes)} builds — grille automatique sans déformation"
-                ),
-                "image": {"url": f"attachment://{NOM_GRILLE}"},
-            }
-        ]
-        charge["attachments"] = [{"id": 0, "filename": NOM_GRILLE}]
-
+    memoire = []
+    total = len(lignes_images)
     async with httpx.AsyncClient(timeout=60.0) as client:
-        if fichiers:
-            reponse = await _appeler(
-                client,
-                "POST",
-                url,
-                params={"wait": "true"},
-                data={"payload_json": json.dumps(charge, ensure_ascii=False)},
-                files=fichiers,
-            )
-        else:
-            reponse = await _appeler(
-                client,
-                "POST",
-                url,
-                params={"wait": "true"},
-                json=charge,
-            )
-
-    corps = _corps_json(reponse)
-    return {
-        "messages": 1,
-        "images": len(images),
-        "memoire": [
-            {
+        for index, donnees in enumerate(lignes_images, start=1):
+            contenu = entete if index == 1 else ""
+            corps = await _envoyer_ligne(client, url, contenu, donnees, index, total)
+            memoire.append({
                 "message_id": corps.get("id"),
-                "entete": True,
-                "ordres": [ligne.ordre for ligne in compo.lignes],
-            }
-        ],
+                "entete": index == 1,
+                "ordres": [
+                    ligne.ordre
+                    for ligne in compo.lignes[(index - 1) * 2:index * 2]
+                ],
+            })
+
+    return {
+        "messages": total,
+        "images": len(images),
+        "memoire": memoire,
     }
