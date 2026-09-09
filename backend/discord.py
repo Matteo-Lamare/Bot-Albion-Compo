@@ -12,6 +12,7 @@ from .images import images_des_lignes
 from .models import Compo
 
 MAX_CHARS_CONTENU = 2000
+MAX_EMBEDS_PAR_MESSAGE = 10
 NOM_LIGNE = "compo_ligne_{:02d}.png"
 
 
@@ -67,25 +68,30 @@ def _corps_json(reponse: httpx.Response) -> dict:
         return {}
 
 
-async def _envoyer_ligne(
+async def _envoyer_message(
     client: httpx.AsyncClient,
     url: str,
     contenu: str,
-    donnees: bytes,
-    numero: int,
-    total: int,
+    lignes: list[tuple[int, bytes]],
 ) -> dict:
-    nom_fichier = NOM_LIGNE.format(numero)
-    charge = {
+    """Envoie jusqu'a 10 images de lignes dans un seul message Discord."""
+    fichiers: list[tuple[str, tuple[str, bytes, str]]] = []
+    embeds: list[dict[str, Any]] = []
+    attachments: list[dict[str, Any]] = []
+
+    for index, (_, donnees) in enumerate(lignes):
+        nom_fichier = NOM_LIGNE.format(lignes[0][0] + index)
+        fichiers.append(
+            (f"files[{index}]", (nom_fichier, donnees, "image/png"))
+        )
+        embeds.append({"image": {"url": f"attachment://{nom_fichier}"}})
+        attachments.append({"id": index, "filename": nom_fichier})
+
+    charge: dict[str, Any] = {
         "username": "Compos Albion",
         "content": contenu,
-        "embeds": [
-            {
-                "title": f"Ligne {numero}/{total}",
-                "image": {"url": f"attachment://{nom_fichier}"},
-            }
-        ],
-        "attachments": [{"id": 0, "filename": nom_fichier}],
+        "embeds": embeds,
+        "attachments": attachments,
     }
     reponse = await _appeler(
         client,
@@ -93,7 +99,7 @@ async def _envoyer_ligne(
         url,
         params={"wait": "true"},
         data={"payload_json": json.dumps(charge, ensure_ascii=False)},
-        files=[("files[0]", (nom_fichier, donnees, "image/png"))],
+        files=fichiers,
     )
     return _corps_json(reponse)
 
@@ -104,7 +110,7 @@ async def envoyer_webhook(
     auteur_pseudo: str,
     lien: str = "",
 ) -> dict[str, Any]:
-    """Poste chaque paire de builds comme une image distincte dans Discord."""
+    """Poste deux builds par image, avec jusqu'a 10 lignes dans chaque message."""
     if not url:
         raise DiscordError(
             "Aucune URL de webhook Discord configuree. "
@@ -112,17 +118,17 @@ async def envoyer_webhook(
         )
 
     images = await images_des_lignes(compo.lignes)
-    lignes_images: list[bytes] = []
     builds_valides = [
-        images[ligne.ordre]
+        (ligne.ordre, images[ligne.ordre])
         for ligne in compo.lignes
         if ligne.ordre in images
     ]
 
-    for debut in range(0, len(builds_valides), 2):
-        donnees = composer_ligne(builds_valides[debut:debut + 2])
+    lignes_images: list[tuple[int, bytes]] = []
+    for index in range(0, len(builds_valides), 2):
+        donnees = composer_ligne([donnees for _, donnees in builds_valides[index:index + 2]])
         if donnees:
-            lignes_images.append(donnees)
+            lignes_images.append((index // 2 + 1, donnees))
 
     legende = _legende_manquants(compo, images)
     entete = texte_entete(compo, auteur_pseudo, lien)
@@ -132,10 +138,11 @@ async def envoyer_webhook(
     if not lignes_images:
         async with httpx.AsyncClient(timeout=60.0) as client:
             reponse = await _appeler(
-                client, "POST", url, params={"wait": "true"}, json={
-                    "username": "Compos Albion",
-                    "content": entete,
-                }
+                client,
+                "POST",
+                url,
+                params={"wait": "true"},
+                json={"username": "Compos Albion", "content": entete},
             )
         corps = _corps_json(reponse)
         return {
@@ -145,22 +152,24 @@ async def envoyer_webhook(
         }
 
     memoire = []
-    total = len(lignes_images)
+    total_messages = (len(lignes_images) + MAX_EMBEDS_PAR_MESSAGE - 1) // MAX_EMBEDS_PAR_MESSAGE
+
     async with httpx.AsyncClient(timeout=60.0) as client:
-        for index, donnees in enumerate(lignes_images, start=1):
-            contenu = entete if index == 1 else ""
-            corps = await _envoyer_ligne(client, url, contenu, donnees, index, total)
+        for debut in range(0, len(lignes_images), MAX_EMBEDS_PAR_MESSAGE):
+            lot = lignes_images[debut:debut + MAX_EMBEDS_PAR_MESSAGE]
+            contenu = entete if debut == 0 else ""
+            corps = await _envoyer_message(client, url, contenu, lot)
+
+            premier_build = (debut * 2)
+            derniers_builds = builds_valides[premier_build: premier_build + len(lot) * 2]
             memoire.append({
                 "message_id": corps.get("id"),
-                "entete": index == 1,
-                "ordres": [
-                    ligne.ordre
-                    for ligne in compo.lignes[(index - 1) * 2:index * 2]
-                ],
+                "entete": debut == 0,
+                "ordres": [ordre for ordre, _ in derniers_builds],
             })
 
     return {
-        "messages": total,
+        "messages": total_messages,
         "images": len(images),
         "memoire": memoire,
     }
