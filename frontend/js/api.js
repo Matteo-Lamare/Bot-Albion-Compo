@@ -48,7 +48,7 @@ const api = {
   dupliquerCompo: (id) => appelApi(`/api/compos/${id}/dupliquer`, { method: "POST" }),
   supprimerCompo: (id) => appelApi(`/api/compos/${id}`, { method: "DELETE" }),
   apercuDiscord: (id) => appelApi(`/api/compos/${id}/apercu-discord`),
-  envoyerDiscord: (id, webhookUrl, typeSalon = document.getElementById("type-salon-discord")?.value || "text") => appelApi(`/api/compos/${id}/envoyer-discord`, { method: "POST", body: JSON.stringify({ webhook_url: webhookUrl, type_salon: typeSalon }) }),
+  envoyerDiscord: (id, webhookUrl, typeSalon = document.getElementById("type-salon-discord")?.value || "forum") => appelApi(`/api/compos/${id}/envoyer-discord`, { method: "POST", body: JSON.stringify({ webhook_url: webhookUrl, type_salon: typeSalon }) }),
   importerTableur: (fichier) => {
     const corps = new FormData(); corps.append("fichier", fichier);
     return appelApi("/api/compos/importer-tableur", { method: "POST", body: corps, headers: {} });
