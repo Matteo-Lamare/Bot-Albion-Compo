@@ -19,15 +19,8 @@ from .routers import admin, auth, catalogue, compos
 from .validation import ErreurLigne
 
 FRONTEND_DIR = settings.base_dir / "frontend"
-
-
-# Colonnes ajoutees apres coup : SQLite et PostgreSQL les acceptent a chaud.
-COLONNES_AJOUTEES = {
-    "compos": {"discord_messages": "TEXT"},
-}
-
-# Tables devenues inutiles : les inscriptions sur un build ont ete retirees.
-TABLES_SUPPRIMEES = ("inscriptions",)
+COLONNES_AJOUTEES = {"compos": {"discord_messages": "TEXT"}}
+TABLES_SUPPRIMEES = ("inscriptions", "settings")
 
 
 def migrer_schema() -> None:
@@ -35,50 +28,32 @@ def migrer_schema() -> None:
     with engine.begin() as connexion:
         inspecteur = inspect(connexion)
         tables_existantes = set(inspecteur.get_table_names())
-
-        # Utilise SQLAlchemy Inspector au lieu de PRAGMA, afin de fonctionner
-        # avec SQLite comme avec PostgreSQL.
         for table in TABLES_SUPPRIMEES:
             if table in tables_existantes:
                 connexion.exec_driver_sql(f'DROP TABLE "{table}"')
                 print(f"[init] Table supprimee : {table}")
                 tables_existantes.remove(table)
-
         for table, colonnes in COLONNES_AJOUTEES.items():
             if table not in tables_existantes:
-                continue  # table pas encore creee : create_all s'en charge
-
+                continue
             existantes = {colonne["name"] for colonne in inspecteur.get_columns(table)}
             for nom, type_sql in colonnes.items():
                 if nom not in existantes:
-                    connexion.exec_driver_sql(
-                        f'ALTER TABLE "{table}" ADD COLUMN "{nom}" {type_sql}'
-                    )
+                    connexion.exec_driver_sql(f'ALTER TABLE "{table}" ADD COLUMN "{nom}" {type_sql}')
                     print(f"[init] Colonne ajoutee : {table}.{nom}")
 
 
 def initialiser_base() -> None:
-    """Cree les tables et le compte admin initial si la base est vide."""
     migrer_schema()
     Base.metadata.create_all(bind=engine)
     with SessionLocal() as db:
         if db.scalar(select(Membre).limit(1)) is None:
-            db.add(
-                Membre(
-                    pseudo=settings.admin_pseudo,
-                    mot_de_passe_hash=hacher_mot_de_passe(settings.admin_password),
-                    role=RoleMembre.admin,
-                )
-            )
+            db.add(Membre(pseudo=settings.admin_pseudo, mot_de_passe_hash=hacher_mot_de_passe(settings.admin_password), role=RoleMembre.admin))
             db.commit()
             print(f"[init] Compte admin cree : {settings.admin_pseudo}")
-
-        # Le catalogue Albion est charge au premier demarrage ; ensuite, seul
-        # `python manage.py importer-catalogue` le rafraichit.
         if db.scalar(select(ObjetAlbion).limit(1)) is None and CHEMIN_CATALOGUE.exists():
             compte = importer_catalogue(db)
-            print(f"[init] Catalogue Albion charge : {compte['objets']} objets, "
-                  f"{compte['sorts']} sorts")
+            print(f"[init] Catalogue Albion charge : {compte['objets']} objets, {compte['sorts']} sorts")
 
 
 @asynccontextmanager
@@ -88,69 +63,35 @@ async def lifespan(_: FastAPI):
 
 
 app = FastAPI(title=settings.app_name, version="1.0.0", lifespan=lifespan)
-
-app.add_middleware(
-    SessionMiddleware,
-    secret_key=settings.secret_key,
-    session_cookie="compos_session",
-    max_age=settings.session_max_age,
-    same_site="lax",
-    https_only=settings.cookie_secure,
-)
-
+app.add_middleware(SessionMiddleware, secret_key=settings.secret_key, session_cookie="compos_session", max_age=settings.session_max_age, same_site="lax", https_only=settings.cookie_secure)
 app.include_router(auth.router)
 app.include_router(admin.router)
 app.include_router(catalogue.router)
 app.include_router(compos.router)
 
-
 @app.exception_handler(RequestValidationError)
 async def erreurs_de_validation(_: Request, exception: RequestValidationError) -> JSONResponse:
-    """Transforme les erreurs Pydantic en messages lisibles pour le frontend."""
     details = []
     for erreur in exception.errors():
         chemin = [str(element) for element in erreur["loc"] if element not in ("body",)]
         details.append({"champ": ".".join(chemin), "message": erreur["msg"]})
     return JSONResponse(status_code=422, content={"detail": "Validation echouee", "erreurs": details})
 
-
 @app.exception_handler(ErreurLigne)
 async def erreurs_de_ligne(_: Request, exception: ErreurLigne) -> JSONResponse:
-    """Meme format que les erreurs Pydantic, pour un frontend qui n'a qu'un cas a traiter."""
-    return JSONResponse(
-        status_code=422,
-        content={"detail": "Validation echouee", "erreurs": exception.erreurs},
-    )
-
+    return JSONResponse(status_code=422, content={"detail": "Validation echouee", "erreurs": exception.erreurs})
 
 @app.get("/api/meta", tags=["meta"])
 def meta() -> dict:
-    """Enumerations et regles de slots, consommees par le frontend."""
-    return {
-        "types_contenu": [t.value for t in TypeContenu],
-        "statuts": [s.value for s in StatutCompo],
-        "roles": [r.value for r in RoleMembre],
-    }
-
+    return {"types_contenu": [t.value for t in TypeContenu], "statuts": [s.value for s in StatutCompo], "roles": [r.value for r in RoleMembre]}
 
 app.mount("/static", StaticFiles(directory=FRONTEND_DIR), name="static")
 
-
 @app.get("/", include_in_schema=False)
-def page_connexion() -> FileResponse:
-    return FileResponse(FRONTEND_DIR / "index.html")
-
-
+def page_connexion() -> FileResponse: return FileResponse(FRONTEND_DIR / "index.html")
 @app.get("/bibliotheque", include_in_schema=False)
-def page_bibliotheque() -> FileResponse:
-    return FileResponse(FRONTEND_DIR / "bibliotheque.html")
-
-
+def page_bibliotheque() -> FileResponse: return FileResponse(FRONTEND_DIR / "bibliotheque.html")
 @app.get("/compo", include_in_schema=False)
-def page_compo() -> FileResponse:
-    return FileResponse(FRONTEND_DIR / "compo.html")
-
-
+def page_compo() -> FileResponse: return FileResponse(FRONTEND_DIR / "compo.html")
 @app.get("/admin", include_in_schema=False)
-def page_admin() -> FileResponse:
-    return FileResponse(FRONTEND_DIR / "admin.html")
+def page_admin() -> FileResponse: return FileResponse(FRONTEND_DIR / "admin.html")
