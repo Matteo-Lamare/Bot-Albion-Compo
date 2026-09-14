@@ -246,6 +246,7 @@ async def envoyer_sur_discord(
             compo,
             compo.auteur.pseudo if compo.auteur else "?",
             _lien_compo(compo),
+            payload.type_salon,
         )
     except DiscordError as erreur:
         raise HTTPException(status.HTTP_502_BAD_GATEWAY, str(erreur)) from erreur
