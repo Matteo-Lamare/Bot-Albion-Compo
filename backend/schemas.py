@@ -19,10 +19,6 @@ from pydantic import (
 
 from .models import RoleMembre, StatutCompo, TypeContenu
 
-# Les identifiants renvoient au catalogue Albion (cf. backend/catalogue.py).
-# La coherence (objet du bon slot, sort autorise par la categorie) est verifiee
-# par backend/validation.py, qui a acces au catalogue.
-
 Requis = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=120)]
 Libelle = Annotated[str, StringConstraints(strip_whitespace=True, max_length=120)]
 Identifiant = Annotated[int, Field(gt=0)]
@@ -35,57 +31,33 @@ def _vide_en_none(valeur: Any) -> Any:
 
 
 class LigneCompoBase(BaseModel):
-    """Un joueur / role : chaque piece d'equipement pointe vers le catalogue.
-
-    Les slots arme, casque, torse, bottes et cape sont obligatoires ; off-hand,
-    monture, potion et nourriture sont facultatifs. Les sorts imposes par un objet
-    (sort 3 d'une arme, passif d'une cape, sort d'une monture) sont ignores a
-    l'entree et reposes par le serveur.
-
-    Le nom du joueur est facultatif : une ligne vaut d'abord pour son build,
-    l'attribution pouvant se faire plus tard.
-    """
+    """Un joueur / role : chaque piece d'equipement pointe vers le catalogue."""
 
     model_config = ConfigDict(from_attributes=True)
 
     ordre: int = Field(default=0, ge=0)
     role_ou_joueur: Libelle = ""
 
-    # --- Arme ---
     arme_id: Identifiant
     arme_sort_1_id: Identifiant
     arme_sort_2_id: Identifiant
-    arme_sort_3_id: Identifiant | None = None   # impose par l'arme
+    arme_sort_3_id: Identifiant | None = None
     arme_passif_id: Identifiant
-
-    # --- Off-hand : facultatif, ni sort ni passif ---
     offhand_id: Identifiant | None = None
-
-    # --- Casque ---
     casque_id: Identifiant
     casque_sort_id: Identifiant
     casque_passif_id: Identifiant
-
-    # --- Torse : second passif seulement si la categorie en propose ---
     torse_id: Identifiant
     torse_sort_id: Identifiant
     torse_passif_1_id: Identifiant
     torse_passif_2_id: Identifiant | None = None
-
-    # --- Bottes ---
     bottes_id: Identifiant
     bottes_sort_id: Identifiant
     bottes_passif_id: Identifiant
-
-    # --- Cape : pas de sort, passif impose par la cape ---
     cape_id: Identifiant
     cape_passif_id: Identifiant | None = None
-
-    # --- Monture : facultative, sort impose par la monture ---
     monture_id: Identifiant | None = None
     monture_sort_id: Identifiant | None = None
-
-    # --- Consommables ---
     potion_id: Identifiant | None = None
     nourriture_id: Identifiant | None = None
 
@@ -153,9 +125,6 @@ class CompoResume(BaseModel):
     date_envoi: datetime | None = None
 
 
-# --- Membres / auth ---
-
-
 class LoginPayload(BaseModel):
     pseudo: Annotated[str, StringConstraints(strip_whitespace=True, min_length=1)]
     mot_de_passe: Annotated[str, StringConstraints(min_length=1)]
@@ -185,7 +154,7 @@ class MembreUpdate(BaseModel):
 
 class SettingsRead(BaseModel):
     discord_webhook_url: str
-    source: str  # "base" ou "env" ou "aucun"
+    source: str
 
 
 class SettingsUpdate(BaseModel):
@@ -196,9 +165,23 @@ class SettingsUpdate(BaseModel):
     def _valider_url(cls, valeur: str) -> str:
         if valeur and not valeur.startswith("https://discord.com/api/webhooks/"):
             if not valeur.startswith("https://discordapp.com/api/webhooks/"):
-                raise ValueError(
-                    "L'URL doit commencer par https://discord.com/api/webhooks/"
-                )
+                raise ValueError("L'URL doit commencer par https://discord.com/api/webhooks/")
+        return valeur
+
+
+class EnvoiDiscordPayload(BaseModel):
+    """Webhook fourni uniquement pour cet envoi, jamais persiste en base."""
+
+    webhook_url: Annotated[str, StringConstraints(strip_whitespace=True, min_length=1)]
+
+    @field_validator("webhook_url")
+    @classmethod
+    def _valider_webhook(cls, valeur: str) -> str:
+        if not (
+            valeur.startswith("https://discord.com/api/webhooks/")
+            or valeur.startswith("https://discordapp.com/api/webhooks/")
+        ):
+            raise ValueError("L'URL doit commencer par https://discord.com/api/webhooks/")
         return valeur
 
 
