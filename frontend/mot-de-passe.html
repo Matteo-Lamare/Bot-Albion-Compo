@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mot de passe · Compos Albion</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  <header class="barre"></header>
+  <main>
+    <h1>Modifier mon mot de passe</h1>
+    <p class="sous-titre">Votre mot de passe est stocké sous forme de hash sécurisé et n'est jamais affiché.</p>
+    <div id="message" class="message"></div>
+    <form id="formulaire-mot-de-passe" class="carte" style="max-width:560px">
+      <div class="champ">
+        <label for="ancien-mot-de-passe">Mot de passe actuel</label>
+        <input id="ancien-mot-de-passe" type="password" autocomplete="current-password" required>
+      </div>
+      <div class="champ">
+        <label for="nouveau-mot-de-passe">Nouveau mot de passe</label>
+        <input id="nouveau-mot-de-passe" type="password" minlength="6" maxlength="128" autocomplete="new-password" required>
+        <small>6 caractères minimum.</small>
+      </div>
+      <div class="champ">
+        <label for="confirmation-mot-de-passe">Confirmer le nouveau mot de passe</label>
+        <input id="confirmation-mot-de-passe" type="password" minlength="6" maxlength="128" autocomplete="new-password" required>
+      </div>
+      <button class="principal" type="submit">Modifier le mot de passe</button>
+    </form>
+  </main>
+  <script src="/static/js/api.js"></script>
+  <script src="/static/js/mot-de-passe.js"></script>
+</body>
+</html>
