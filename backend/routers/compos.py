@@ -14,29 +14,20 @@ from ..config import settings
 from ..database import get_db
 from ..discord import DiscordError, envoyer_webhook, texte_entete
 from ..images import DISPONIBLE as IMAGES_DISPONIBLES, image_de_ligne
-from ..models import (
-    Compo,
-    LigneCompo,
-    Membre,
-    RoleMembre,
-    StatutCompo,
-    TypeContenu,
-    utcnow,
-)
+from ..models import Compo, LigneCompo, Membre, RoleMembre, StatutCompo, TypeContenu, utcnow
 from ..schemas import (
     CompoRead,
     CompoResume,
     CompoWrite,
+    EnvoiDiscordPayload,
     EnvoiDiscordResultat,
     ImportLignes,
     LigneCompoBase,
 )
 from ..tableur import XLSX_DISPONIBLE, importer_lignes, modele_csv, modele_xlsx
 from ..validation import valider_lignes
-from .admin import webhook_configure
 
 router = APIRouter(prefix="/api/compos", tags=["compos"])
-
 CHAMPS_LIGNE = tuple(LigneCompoBase.model_fields.keys())
 
 
@@ -51,6 +42,12 @@ def _lire_compo(db: Session, compo_id: int) -> Compo:
     return compo
 
 
+def _verifier_droit_lecture(compo: Compo, membre: Membre) -> None:
+    """Un membre ne peut voir que ses compos ; un admin voit tout."""
+    if membre.role != RoleMembre.admin and compo.auteur_id != membre.id:
+        raise HTTPException(status.HTTP_403_FORBIDDEN, "Cette compo appartient à un autre membre.")
+
+
 def _verifier_droit_ecriture(compo: Compo, membre: Membre) -> None:
     if membre.role != RoleMembre.admin and compo.auteur_id != membre.id:
         raise HTTPException(
@@ -60,7 +57,6 @@ def _verifier_droit_ecriture(compo: Compo, membre: Membre) -> None:
 
 
 def _lien_compo(compo: Compo) -> str:
-    """Lien public vers la page de la compo, ou chaine vide si le site n'a pas d'adresse."""
     return f"{settings.app_base_url}/compo?id={compo.id}" if settings.app_base_url else ""
 
 
@@ -71,13 +67,7 @@ def _serialiser(compo: Compo) -> CompoRead:
 
 
 def _appliquer_lignes(db: Session, compo: Compo, lignes: list[LigneCompoBase]) -> None:
-    """Valide les lignes contre le catalogue puis remplace celles de la compo.
-
-    Les suppressions sont ecrites avant les insertions, sinon la contrainte
-    d'unicite (compo_id, ordre) saute pendant le flush.
-    """
     validees = valider_lignes(index_catalogue(db), [l.model_dump() for l in lignes])
-
     if compo.lignes:
         compo.lignes.clear()
         db.flush()
@@ -88,7 +78,7 @@ def _appliquer_lignes(db: Session, compo: Compo, lignes: list[LigneCompoBase]) -
 
 @router.get("", response_model=list[CompoResume])
 def lister_compos(
-    _: Membre = Depends(membre_courant),
+    membre: Membre = Depends(membre_courant),
     db: Session = Depends(get_db),
     type_contenu: TypeContenu | None = None,
     auteur_id: int | None = None,
@@ -107,10 +97,12 @@ def lister_compos(
         .join(Membre, Compo.auteur_id == Membre.id)
         .outerjoin(nb_lignes, nb_lignes.c.compo_id == Compo.id)
     )
+    if membre.role != RoleMembre.admin:
+        requete = requete.where(Compo.auteur_id == membre.id)
+    elif auteur_id is not None:
+        requete = requete.where(Compo.auteur_id == auteur_id)
     if type_contenu is not None:
         requete = requete.where(Compo.type_contenu == type_contenu)
-    if auteur_id is not None:
-        requete = requete.where(Compo.auteur_id == auteur_id)
     if statut is not None:
         requete = requete.where(Compo.statut == statut)
     if date_debut is not None:
@@ -121,7 +113,6 @@ def lister_compos(
         requete = requete.where(Compo.nom.ilike(f"%{recherche.strip()}%"))
 
     requete = requete.order_by(Compo.date_modification.desc())
-
     resultats: list[CompoResume] = []
     for compo, pseudo, compte in db.execute(requete).all():
         resume = CompoResume.model_validate(compo)
@@ -132,18 +123,10 @@ def lister_compos(
 
 
 @router.post("", response_model=CompoRead, status_code=status.HTTP_201_CREATED)
-def creer_compo(
-    payload: CompoWrite,
-    membre: Membre = Depends(membre_courant),
-    db: Session = Depends(get_db),
-) -> CompoRead:
+def creer_compo(payload: CompoWrite, membre: Membre = Depends(membre_courant), db: Session = Depends(get_db)) -> CompoRead:
     compo = Compo(
-        nom=payload.nom,
-        type_contenu=payload.type_contenu,
-        taille_groupe=payload.taille_groupe,
-        statut=payload.statut,
-        notes=payload.notes,
-        auteur_id=membre.id,
+        nom=payload.nom, type_contenu=payload.type_contenu, taille_groupe=payload.taille_groupe,
+        statut=payload.statut, notes=payload.notes, auteur_id=membre.id,
     )
     db.add(compo)
     _appliquer_lignes(db, compo, payload.lignes)
@@ -151,23 +134,8 @@ def creer_compo(
     return _serialiser(_lire_compo(db, compo.id))
 
 
-# --------------------------------------------------------------------------
-# Import de builds depuis un tableur (Excel / CSV)
-# --------------------------------------------------------------------------
-# Ces deux routes sont declarees avant « /{compo_id} » : sinon FastAPI tenterait
-# de lire « modele-tableur » comme un identifiant de compo.
-
-
-@router.get(
-    "/modele-tableur",
-    response_class=Response,
-    responses={200: {"content": {
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {}}}},
-)
-def modele_tableur(
-    _: Membre = Depends(membre_courant), db: Session = Depends(get_db)
-) -> Response:
-    """Fichier a remplir : une ligne par build, menus deroulants du catalogue."""
+@router.get("/modele-tableur", response_class=Response)
+def modele_tableur(_: Membre = Depends(membre_courant), db: Session = Depends(get_db)) -> Response:
     catalogue = index_catalogue(db)
     if XLSX_DISPONIBLE:
         return Response(
@@ -175,55 +143,30 @@ def modele_tableur(
             media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
             headers={"Content-Disposition": 'attachment; filename="modele_builds.xlsx"'},
         )
-    return Response(
-        content=modele_csv(catalogue),
-        media_type="text/csv; charset=utf-8",
-        headers={"Content-Disposition": 'attachment; filename="modele_builds.csv"'},
-    )
+    return Response(content=modele_csv(catalogue), media_type="text/csv; charset=utf-8",
+                    headers={"Content-Disposition": 'attachment; filename="modele_builds.csv"'})
 
 
 @router.post("/importer-tableur", response_model=ImportLignes)
-async def importer_tableur(
-    fichier: UploadFile = File(..., description="Classeur .xlsx ou fichier .csv"),
-    _: Membre = Depends(membre_courant),
-    db: Session = Depends(get_db),
-) -> ImportLignes:
-    """Lit un fichier de builds et renvoie les lignes correspondantes.
-
-    Rien n'est enregistre ici : les lignes remontent au formulaire, ou elles
-    peuvent encore etre relues et corrigees avant d'etre sauvegardees.
-    """
+async def importer_tableur(fichier: UploadFile = File(...), _: Membre = Depends(membre_courant), db: Session = Depends(get_db)) -> ImportLignes:
     contenu = await fichier.read()
     if len(contenu) > 2_000_000:
-        raise HTTPException(
-            status.HTTP_413_REQUEST_ENTITY_TOO_LARGE, "Fichier trop volumineux (2 Mo maximum)."
-        )
+        raise HTTPException(status.HTTP_413_REQUEST_ENTITY_TOO_LARGE, "Fichier trop volumineux (2 Mo maximum).")
     lignes, avertissements = importer_lignes(index_catalogue(db), contenu, fichier.filename or "")
-    return ImportLignes(
-        lignes=[LigneCompoBase(**valeurs) for valeurs in lignes],
-        avertissements=avertissements,
-    )
+    return ImportLignes(lignes=[LigneCompoBase(**valeurs) for valeurs in lignes], avertissements=avertissements)
 
 
 @router.get("/{compo_id}", response_model=CompoRead)
-def lire_compo(
-    compo_id: int,
-    _: Membre = Depends(membre_courant),
-    db: Session = Depends(get_db),
-) -> CompoRead:
-    return _serialiser(_lire_compo(db, compo_id))
+def lire_compo(compo_id: int, membre: Membre = Depends(membre_courant), db: Session = Depends(get_db)) -> CompoRead:
+    compo = _lire_compo(db, compo_id)
+    _verifier_droit_lecture(compo, membre)
+    return _serialiser(compo)
 
 
 @router.put("/{compo_id}", response_model=CompoRead)
-def modifier_compo(
-    compo_id: int,
-    payload: CompoWrite,
-    membre: Membre = Depends(membre_courant),
-    db: Session = Depends(get_db),
-) -> CompoRead:
+def modifier_compo(compo_id: int, payload: CompoWrite, membre: Membre = Depends(membre_courant), db: Session = Depends(get_db)) -> CompoRead:
     compo = _lire_compo(db, compo_id)
     _verifier_droit_ecriture(compo, membre)
-
     compo.nom = payload.nom
     compo.type_contenu = payload.type_contenu
     compo.taille_groupe = payload.taille_groupe
@@ -236,19 +179,13 @@ def modifier_compo(
 
 
 @router.post("/{compo_id}/dupliquer", response_model=CompoRead, status_code=status.HTTP_201_CREATED)
-def dupliquer_compo(
-    compo_id: int,
-    membre: Membre = Depends(membre_courant),
-    db: Session = Depends(get_db),
-) -> CompoRead:
+def dupliquer_compo(compo_id: int, membre: Membre = Depends(membre_courant), db: Session = Depends(get_db)) -> CompoRead:
     source = _lire_compo(db, compo_id)
+    _verifier_droit_lecture(source, membre)
     copie = Compo(
-        nom=f"{source.nom} (copie)"[:120],
-        type_contenu=source.type_contenu,
-        taille_groupe=source.taille_groupe,
-        statut=StatutCompo.brouillon,
-        notes=source.notes,
-        auteur_id=membre.id,
+        nom=f"{source.nom} (copie)"[:120], type_contenu=source.type_contenu,
+        taille_groupe=source.taille_groupe, statut=StatutCompo.brouillon,
+        notes=source.notes, auteur_id=membre.id,
     )
     for ligne in source.lignes:
         valeurs = {champ: getattr(ligne, champ) for champ in CHAMPS_LIGNE}
@@ -259,11 +196,7 @@ def dupliquer_compo(
 
 
 @router.delete("/{compo_id}", status_code=status.HTTP_204_NO_CONTENT)
-def supprimer_compo(
-    compo_id: int,
-    membre: Membre = Depends(membre_courant),
-    db: Session = Depends(get_db),
-) -> None:
+def supprimer_compo(compo_id: int, membre: Membre = Depends(membre_courant), db: Session = Depends(get_db)) -> None:
     compo = _lire_compo(db, compo_id)
     _verifier_droit_ecriture(compo, membre)
     db.delete(compo)
@@ -271,71 +204,45 @@ def supprimer_compo(
 
 
 @router.get("/{compo_id}/apercu-discord")
-def apercu_discord(
-    compo_id: int,
-    _: Membre = Depends(membre_courant),
-    db: Session = Depends(get_db),
-) -> dict:
-    """Rendu de ce qui sera poste, pour verification avant envoi.
-
-    Le message se resume a un entete et aux images des builds : pas d'embed,
-    pas de description textuelle.
-    """
+def apercu_discord(compo_id: int, membre: Membre = Depends(membre_courant), db: Session = Depends(get_db)) -> dict:
     compo = _lire_compo(db, compo_id)
+    _verifier_droit_lecture(compo, membre)
     pseudo = compo.auteur.pseudo if compo.auteur else "?"
     return {
         "entete": texte_entete(compo, pseudo, _lien_compo(compo)),
         "images_disponibles": IMAGES_DISPONIBLES,
-        "apercu": [
-            {
-                "ordre": ligne.ordre,
-                "titre": f"#{ligne.ordre + 1} — {ligne.libelle}",
-                "image": f"/api/compos/{compo.id}/lignes/{ligne.ordre}/image.png",
-            }
-            for ligne in compo.lignes
-        ],
+        "apercu": [{"ordre": ligne.ordre, "titre": f"#{ligne.ordre + 1} — {ligne.libelle}",
+                    "image": f"/api/compos/{compo.id}/lignes/{ligne.ordre}/image.png"} for ligne in compo.lignes],
     }
 
 
-@router.get(
-    "/{compo_id}/lignes/{ordre}/image.png",
-    response_class=Response,
-    responses={200: {"content": {"image/png": {}}}},
-)
-async def image_de_build(
-    compo_id: int,
-    ordre: int,
-    _: Membre = Depends(membre_courant),
-    db: Session = Depends(get_db),
-) -> Response:
-    """Image du build, telle qu'elle part en piece jointe sur Discord."""
+@router.get("/{compo_id}/lignes/{ordre}/image.png", response_class=Response)
+async def image_de_build(compo_id: int, ordre: int, membre: Membre = Depends(membre_courant), db: Session = Depends(get_db)) -> Response:
     compo = _lire_compo(db, compo_id)
+    _verifier_droit_lecture(compo, membre)
     ligne = next((l for l in compo.lignes if l.ordre == ordre), None)
     if ligne is None:
         raise HTTPException(status.HTTP_404_NOT_FOUND, "Build introuvable.")
     if not IMAGES_DISPONIBLES:
-        raise HTTPException(
-            status.HTTP_501_NOT_IMPLEMENTED,
-            "Rendu d'image indisponible : installez Pillow (pip install -r requirements.txt).",
-        )
+        raise HTTPException(status.HTTP_501_NOT_IMPLEMENTED, "Rendu d'image indisponible : installez Pillow (pip install -r requirements.txt).")
     image = await image_de_ligne(ligne)
     if image is None:
         raise HTTPException(status.HTTP_502_BAD_GATEWAY, "Impossible de composer l'image du build.")
-    return Response(content=image, media_type="image/png",
-                    headers={"Cache-Control": "no-cache"})
+    return Response(content=image, media_type="image/png", headers={"Cache-Control": "no-cache"})
 
 
 @router.post("/{compo_id}/envoyer-discord", response_model=EnvoiDiscordResultat)
 async def envoyer_sur_discord(
     compo_id: int,
-    _: Membre = Depends(membre_courant),
+    payload: EnvoiDiscordPayload,
+    membre: Membre = Depends(membre_courant),
     db: Session = Depends(get_db),
 ) -> EnvoiDiscordResultat:
     compo = _lire_compo(db, compo_id)
-    url = webhook_configure(db)
+    _verifier_droit_lecture(compo, membre)
     try:
         resultat = await envoyer_webhook(
-            url,
+            payload.webhook_url,
             compo,
             compo.auteur.pseudo if compo.auteur else "?",
             _lien_compo(compo),
@@ -345,7 +252,6 @@ async def envoyer_sur_discord(
 
     compo.statut = StatutCompo.envoyee
     compo.date_envoi = utcnow()
-    # Trace de ce qui est parti sur le salon.
     compo.discord_messages = json.dumps(resultat["memoire"])
     db.commit()
     return EnvoiDiscordResultat(
