@@ -144,7 +144,7 @@ class ChangePasswordPayload(BaseModel):
 class EnvoiDiscordPayload(BaseModel):
     """Webhook fourni uniquement pour cet envoi, jamais persiste en base."""
     webhook_url: Annotated[str, StringConstraints(strip_whitespace=True, min_length=1)]
-    type_salon: str = "text"
+    type_salon: str = "forum"
 
     @field_validator("webhook_url")
     @classmethod
