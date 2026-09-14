@@ -75,6 +75,7 @@ async def _envoyer_message(
     lignes: list[tuple[int, bytes]],
     type_salon: str,
     nom_forum: str,
+    thread_id: str | None = None,
 ) -> dict:
     """Envoie jusqu'a 10 images de lignes dans un message Discord."""
     fichiers: list[tuple[str, tuple[str, bytes, str]]] = []
@@ -97,7 +98,10 @@ async def _envoyer_message(
     }
     params = {"wait": "true"}
     if type_salon == "forum":
-        params["thread_name"] = nom_forum
+        if thread_id:
+            params["thread_id"] = thread_id
+        else:
+            params["thread_name"] = nom_forum
 
     reponse = await _appeler(
         client,
@@ -165,12 +169,26 @@ async def envoyer_webhook(
 
     memoire = []
     total_messages = (len(lignes_images) + MAX_EMBEDS_PAR_MESSAGE - 1) // MAX_EMBEDS_PAR_MESSAGE
+    thread_id: str | None = None
 
     async with httpx.AsyncClient(timeout=60.0) as client:
         for debut in range(0, len(lignes_images), MAX_EMBEDS_PAR_MESSAGE):
             lot = lignes_images[debut:debut + MAX_EMBEDS_PAR_MESSAGE]
             contenu = entete if debut == 0 else ""
-            corps = await _envoyer_message(client, url, contenu, lot, type_salon, nom_forum)
+            corps = await _envoyer_message(
+                client,
+                url,
+                contenu,
+                lot,
+                type_salon,
+                nom_forum,
+                thread_id,
+            )
+
+            if type_salon == "forum" and thread_id is None:
+                thread_id = corps.get("channel_id") or corps.get("thread_id")
+                if not thread_id:
+                    raise DiscordError("Discord a créé le post du forum mais n'a pas retourné son identifiant.")
 
             premier_build = debut * 2
             derniers_builds = builds_valides[premier_build: premier_build + len(lot) * 2]
