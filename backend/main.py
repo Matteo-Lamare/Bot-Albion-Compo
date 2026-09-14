@@ -95,3 +95,5 @@ def page_bibliotheque() -> FileResponse: return FileResponse(FRONTEND_DIR / "bib
 def page_compo() -> FileResponse: return FileResponse(FRONTEND_DIR / "compo.html")
 @app.get("/admin", include_in_schema=False)
 def page_admin() -> FileResponse: return FileResponse(FRONTEND_DIR / "admin.html")
+@app.get("/mot-de-passe", include_in_schema=False)
+def page_mot_de_passe() -> FileResponse: return FileResponse(FRONTEND_DIR / "mot-de-passe.html")
