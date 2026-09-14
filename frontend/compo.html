@@ -52,11 +52,14 @@
       </div>
 
       <div class="carte actions" style="position:sticky;bottom:0">
-        <label for="type-salon-discord">Destination Discord</label>
-        <select id="type-salon-discord">
-          <option value="text">Salon texte</option>
-          <option value="forum">Forum — nouveau post</option>
-        </select>
+        <div style="width:100%">
+          <label for="type-salon-discord">Où envoyer sur Discord ?</label>
+          <select id="type-salon-discord" aria-describedby="aide-discord">
+            <option value="text">Salon texte</option>
+            <option value="forum">Forum — créer un nouveau post</option>
+          </select>
+          <p id="aide-discord" class="sous-titre">Le webhook sera demandé uniquement au moment de l'envoi et ne sera jamais enregistré.</p>
+        </div>
         <button type="submit" class="principal">Enregistrer</button>
         <button type="button" id="bouton-apercu">Aperçu Discord</button>
         <button type="button" id="bouton-discord" class="discord">Envoyer sur Discord</button>
