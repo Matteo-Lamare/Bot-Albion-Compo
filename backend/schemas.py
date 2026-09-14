@@ -24,7 +24,6 @@ def _vide_en_none(valeur: Any) -> Any:
 
 
 class LigneCompoBase(BaseModel):
-    """Un joueur / role : chaque piece d'equipement pointe vers le catalogue."""
     model_config = ConfigDict(from_attributes=True)
     ordre: int = Field(default=0, ge=0)
     role_ou_joueur: Libelle = ""
@@ -97,7 +96,6 @@ class CompoRead(CompoBase):
 
 
 class CompoResume(BaseModel):
-    """Version allegee (sans les lignes) pour la bibliotheque."""
     model_config = ConfigDict(from_attributes=True)
     id: int
     nom: str
@@ -146,12 +144,21 @@ class ChangePasswordPayload(BaseModel):
 class EnvoiDiscordPayload(BaseModel):
     """Webhook fourni uniquement pour cet envoi, jamais persiste en base."""
     webhook_url: Annotated[str, StringConstraints(strip_whitespace=True, min_length=1)]
+    type_salon: str = "text"
 
     @field_validator("webhook_url")
     @classmethod
     def _valider_webhook(cls, valeur: str) -> str:
         if not (valeur.startswith("https://discord.com/api/webhooks/") or valeur.startswith("https://discordapp.com/api/webhooks/")):
             raise ValueError("L'URL doit commencer par https://discord.com/api/webhooks/")
+        return valeur
+
+    @field_validator("type_salon")
+    @classmethod
+    def _valider_type_salon(cls, valeur: str) -> str:
+        valeur = valeur.strip().lower()
+        if valeur not in {"text", "forum"}:
+            raise ValueError("Le type de salon doit etre 'text' ou 'forum'.")
         return valeur
 
 
@@ -163,6 +170,5 @@ class EnvoiDiscordResultat(BaseModel):
 
 
 class ImportLignes(BaseModel):
-    """Builds lus dans un fichier Excel / CSV, prets a etre injectes au formulaire."""
     lignes: list[LigneCompoBase]
     avertissements: list[str] = []
