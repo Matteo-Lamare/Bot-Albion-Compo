@@ -99,9 +99,12 @@ async def _envoyer_message(
 
     params: dict[str, str] = {"wait": "true"}
     if thread_id:
+        # Discord attend thread_id dans la query string.
         params["thread_id"] = thread_id
     elif type_salon == "forum":
-        params["thread_name"] = nom_forum
+        # Pour Execute Webhook, Discord attend thread_name dans les
+        # paramètres JSON/form-data, PAS dans la query string.
+        charge["thread_name"] = nom_forum
 
     reponse = await _appeler(
         client,
@@ -156,14 +159,17 @@ async def envoyer_webhook(
     if not lignes_images:
         async with httpx.AsyncClient(timeout=60.0) as client:
             params: dict[str, str] = {"wait": "true"}
+            charge: dict[str, Any] = {"username": "Compos Albion", "content": entete}
             if type_salon == "forum":
-                params["thread_name"] = nom_forum
+                # thread_name doit etre dans le corps JSON/form-data selon
+                # l'API Discord, pas dans la query string.
+                charge["thread_name"] = nom_forum
             reponse = await _appeler(
                 client,
                 "POST",
                 url,
                 params=params,
-                json={"username": "Compos Albion", "content": entete},
+                json=charge,
             )
         corps = _corps_json(reponse)
         return {
