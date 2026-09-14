@@ -69,7 +69,7 @@ async function initialiserPage(pageActive) {
   let membre; try { membre = await api.me(); } catch (erreur) { location.href = "/"; throw erreur; }
   const barre = document.querySelector("header.barre");
   if (barre) {
-    barre.innerHTML = `<span class="marque">⚔️ Compos Albion</span><nav><a href="/bibliotheque" data-page="bibliotheque">Bibliothèque</a><a href="/compo" data-page="compo">Nouvelle compo</a>${membre.role === "admin" ? '<a href="/admin" data-page="admin">Administration</a>' : ""}</nav><span class="utilisateur">${membre.pseudo} · ${membre.role}</span><button class="mini" id="bouton-deconnexion">Déconnexion</button>`;
+    barre.innerHTML = `<span class="marque">⚔️ Compos Albion</span><nav><a href="/bibliotheque" data-page="bibliotheque">Bibliothèque</a><a href="/compo" data-page="compo">Nouvelle compo</a><a href="/mot-de-passe" data-page="mot-de-passe">Mot de passe</a>${membre.role === "admin" ? '<a href="/admin" data-page="admin">Administration</a>' : ""}</nav><span class="utilisateur">${membre.pseudo} · ${membre.role}</span><button class="mini" id="bouton-deconnexion">Déconnexion</button>`;
     const lien = barre.querySelector(`[data-page="${pageActive}"]`); if (lien) lien.classList.add("actif");
     document.getElementById("bouton-deconnexion").addEventListener("click", async () => { await api.logout(); location.href = "/"; });
   }
