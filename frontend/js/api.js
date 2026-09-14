@@ -29,6 +29,7 @@ const api = {
   me: () => appelApi("/api/auth/me"),
   login: (pseudo, motDePasse) => appelApi("/api/auth/login", { method: "POST", body: JSON.stringify({ pseudo, mot_de_passe: motDePasse }) }),
   logout: () => appelApi("/api/auth/logout", { method: "POST" }),
+  changerMotDePasse: (ancienMotDePasse, nouveauMotDePasse) => appelApi("/api/auth/changer-mot-de-passe", { method: "POST", body: JSON.stringify({ ancien_mot_de_passe: ancienMotDePasse, nouveau_mot_de_passe: nouveauMotDePasse }) }),
   meta: () => appelApi("/api/meta"),
   catalogue: () => appelApi("/api/catalogue"),
   membres: () => appelApi("/api/membres"),
