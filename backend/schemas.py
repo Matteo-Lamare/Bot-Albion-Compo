@@ -8,14 +8,7 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Annotated, Any
 
-from pydantic import (
-    BaseModel,
-    ConfigDict,
-    Field,
-    StringConstraints,
-    field_validator,
-    model_validator,
-)
+from pydantic import BaseModel, ConfigDict, Field, StringConstraints, field_validator, model_validator
 
 from .models import RoleMembre, StatutCompo, TypeContenu
 
@@ -32,12 +25,9 @@ def _vide_en_none(valeur: Any) -> Any:
 
 class LigneCompoBase(BaseModel):
     """Un joueur / role : chaque piece d'equipement pointe vers le catalogue."""
-
     model_config = ConfigDict(from_attributes=True)
-
     ordre: int = Field(default=0, ge=0)
     role_ou_joueur: Libelle = ""
-
     arme_id: Identifiant
     arme_sort_1_id: Identifiant
     arme_sort_2_id: Identifiant
@@ -97,7 +87,6 @@ class CompoWrite(CompoBase):
 
 class CompoRead(CompoBase):
     model_config = ConfigDict(from_attributes=True)
-
     id: int
     auteur_id: int
     auteur_pseudo: str | None = None
@@ -109,9 +98,7 @@ class CompoRead(CompoBase):
 
 class CompoResume(BaseModel):
     """Version allegee (sans les lignes) pour la bibliotheque."""
-
     model_config = ConfigDict(from_attributes=True)
-
     id: int
     nom: str
     type_contenu: TypeContenu
@@ -132,7 +119,6 @@ class LoginPayload(BaseModel):
 
 class MembreRead(BaseModel):
     model_config = ConfigDict(from_attributes=True)
-
     id: int
     pseudo: str
     role: RoleMembre
@@ -152,35 +138,19 @@ class MembreUpdate(BaseModel):
     actif: bool | None = None
 
 
-class SettingsRead(BaseModel):
-    discord_webhook_url: str
-    source: str
-
-
-class SettingsUpdate(BaseModel):
-    discord_webhook_url: Annotated[str, StringConstraints(strip_whitespace=True)] = ""
-
-    @field_validator("discord_webhook_url")
-    @classmethod
-    def _valider_url(cls, valeur: str) -> str:
-        if valeur and not valeur.startswith("https://discord.com/api/webhooks/"):
-            if not valeur.startswith("https://discordapp.com/api/webhooks/"):
-                raise ValueError("L'URL doit commencer par https://discord.com/api/webhooks/")
-        return valeur
+class ChangePasswordPayload(BaseModel):
+    ancien_mot_de_passe: Annotated[str, StringConstraints(min_length=1)]
+    nouveau_mot_de_passe: Annotated[str, StringConstraints(min_length=6, max_length=128)]
 
 
 class EnvoiDiscordPayload(BaseModel):
     """Webhook fourni uniquement pour cet envoi, jamais persiste en base."""
-
     webhook_url: Annotated[str, StringConstraints(strip_whitespace=True, min_length=1)]
 
     @field_validator("webhook_url")
     @classmethod
     def _valider_webhook(cls, valeur: str) -> str:
-        if not (
-            valeur.startswith("https://discord.com/api/webhooks/")
-            or valeur.startswith("https://discordapp.com/api/webhooks/")
-        ):
+        if not (valeur.startswith("https://discord.com/api/webhooks/") or valeur.startswith("https://discordapp.com/api/webhooks/")):
             raise ValueError("L'URL doit commencer par https://discord.com/api/webhooks/")
         return valeur
 
@@ -194,6 +164,5 @@ class EnvoiDiscordResultat(BaseModel):
 
 class ImportLignes(BaseModel):
     """Builds lus dans un fichier Excel / CSV, prets a etre injectes au formulaire."""
-
     lignes: list[LigneCompoBase]
     avertissements: list[str] = []
