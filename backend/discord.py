@@ -73,8 +73,10 @@ async def _envoyer_message(
     url: str,
     contenu: str,
     lignes: list[tuple[int, bytes]],
+    type_salon: str,
+    nom_forum: str,
 ) -> dict:
-    """Envoie jusqu'a 10 images de lignes dans un seul message Discord."""
+    """Envoie jusqu'a 10 images de lignes dans un message Discord."""
     fichiers: list[tuple[str, tuple[str, bytes, str]]] = []
     embeds: list[dict[str, Any]] = []
     attachments: list[dict[str, Any]] = []
@@ -93,11 +95,15 @@ async def _envoyer_message(
         "embeds": embeds,
         "attachments": attachments,
     }
+    params = {"wait": "true"}
+    if type_salon == "forum":
+        params["thread_name"] = nom_forum
+
     reponse = await _appeler(
         client,
         "POST",
         url,
-        params={"wait": "true"},
+        params=params,
         data={"payload_json": json.dumps(charge, ensure_ascii=False)},
         files=fichiers,
     )
@@ -109,14 +115,17 @@ async def envoyer_webhook(
     compo: Compo,
     auteur_pseudo: str,
     lien: str = "",
+    type_salon: str = "text",
 ) -> dict[str, Any]:
-    """Poste deux builds par image, avec jusqu'a 10 lignes dans chaque message."""
+    """Poste une compo dans un salon texte ou cree un nouveau post dans un forum."""
     if not url:
-        raise DiscordError(
-            "Aucune URL de webhook Discord configuree. "
-            "Renseignez-la dans l'administration ou dans le fichier .env."
-        )
+        raise DiscordError("Aucune URL de webhook Discord n'a ete fournie.")
 
+    type_salon = type_salon.strip().lower()
+    if type_salon not in {"text", "forum"}:
+        raise DiscordError("Le type de salon Discord doit etre 'text' ou 'forum'.")
+
+    nom_forum = _tronquer(compo.nom.strip() or "Composition Albion", 100)
     images = await images_des_lignes(compo.lignes)
     builds_valides = [
         (ligne.ordre, images[ligne.ordre])
@@ -137,11 +146,14 @@ async def envoyer_webhook(
 
     if not lignes_images:
         async with httpx.AsyncClient(timeout=60.0) as client:
+            params = {"wait": "true"}
+            if type_salon == "forum":
+                params["thread_name"] = nom_forum
             reponse = await _appeler(
                 client,
                 "POST",
                 url,
-                params={"wait": "true"},
+                params=params,
                 json={"username": "Compos Albion", "content": entete},
             )
         corps = _corps_json(reponse)
@@ -158,9 +170,9 @@ async def envoyer_webhook(
         for debut in range(0, len(lignes_images), MAX_EMBEDS_PAR_MESSAGE):
             lot = lignes_images[debut:debut + MAX_EMBEDS_PAR_MESSAGE]
             contenu = entete if debut == 0 else ""
-            corps = await _envoyer_message(client, url, contenu, lot)
+            corps = await _envoyer_message(client, url, contenu, lot, type_salon, nom_forum)
 
-            premier_build = (debut * 2)
+            premier_build = debut * 2
             derniers_builds = builds_valides[premier_build: premier_build + len(lot) * 2]
             memoire.append({
                 "message_id": corps.get("id"),
