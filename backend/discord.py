@@ -68,6 +68,10 @@ def _corps_json(reponse: httpx.Response) -> dict:
         return {}
 
 
+def _est_erreur_forum_discord(erreur: DiscordError) -> bool:
+    return "code\": 220001" in str(erreur) or "code\":220001" in str(erreur)
+
+
 async def _envoyer_message(
     client: httpx.AsyncClient,
     url: str,
@@ -97,20 +101,37 @@ async def _envoyer_message(
         "attachments": attachments,
     }
     params = {"wait": "true"}
-    if type_salon == "forum":
-        if thread_id:
-            params["thread_id"] = thread_id
-        else:
-            params["thread_name"] = nom_forum
+    if thread_id:
+        params["thread_id"] = thread_id
+    elif type_salon == "forum":
+        params["thread_name"] = nom_forum
 
-    reponse = await _appeler(
-        client,
-        "POST",
-        url,
-        params=params,
-        data={"payload_json": json.dumps(charge, ensure_ascii=False)},
-        files=fichiers,
-    )
+    try:
+        reponse = await _appeler(
+            client,
+            "POST",
+            url,
+            params=params,
+            data={"payload_json": json.dumps(charge, ensure_ascii=False)},
+            files=fichiers,
+        )
+    except DiscordError as erreur:
+        # Un webhook Discord peut être rattaché à un forum même si le client
+        # n'a pas encore envoyé le choix "forum" (ancienne page/cache). Dans
+        # ce cas Discord exige thread_name/thread_id : on crée le post et on
+        # poursuit ensuite dans le même thread.
+        if type_salon == "text" and thread_id is None and _est_erreur_forum_discord(erreur):
+            params["thread_name"] = nom_forum
+            reponse = await _appeler(
+                client,
+                "POST",
+                url,
+                params=params,
+                data={"payload_json": json.dumps(charge, ensure_ascii=False)},
+                files=fichiers,
+            )
+        else:
+            raise
     return _corps_json(reponse)
 
 
@@ -153,13 +174,26 @@ async def envoyer_webhook(
             params = {"wait": "true"}
             if type_salon == "forum":
                 params["thread_name"] = nom_forum
-            reponse = await _appeler(
-                client,
-                "POST",
-                url,
-                params=params,
-                json={"username": "Compos Albion", "content": entete},
-            )
+            try:
+                reponse = await _appeler(
+                    client,
+                    "POST",
+                    url,
+                    params=params,
+                    json={"username": "Compos Albion", "content": entete},
+                )
+            except DiscordError as erreur:
+                if type_salon == "text" and _est_erreur_forum_discord(erreur):
+                    params["thread_name"] = nom_forum
+                    reponse = await _appeler(
+                        client,
+                        "POST",
+                        url,
+                        params=params,
+                        json={"username": "Compos Albion", "content": entete},
+                    )
+                else:
+                    raise
         corps = _corps_json(reponse)
         return {
             "messages": 1,
@@ -185,9 +219,9 @@ async def envoyer_webhook(
                 thread_id,
             )
 
-            if type_salon == "forum" and thread_id is None:
+            if thread_id is None:
                 thread_id = corps.get("channel_id") or corps.get("thread_id")
-                if not thread_id:
+                if type_salon == "forum" and not thread_id:
                     raise DiscordError("Discord a créé le post du forum mais n'a pas retourné son identifiant.")
 
             premier_build = debut * 2
