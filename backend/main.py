@@ -19,7 +19,10 @@ from .routers import admin, auth, catalogue, compos
 from .validation import ErreurLigne
 
 FRONTEND_DIR = settings.base_dir / "frontend"
-COLONNES_AJOUTEES = {"compos": {"discord_messages": "TEXT"}}
+COLONNES_AJOUTEES = {
+    "compos": {"discord_messages": "TEXT"},
+    "membres": {"dernier_acces": "TIMESTAMP WITH TIME ZONE"},
+}
 TABLES_SUPPRIMEES = ("inscriptions", "settings")
 
 
