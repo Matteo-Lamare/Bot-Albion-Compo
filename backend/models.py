@@ -63,16 +63,16 @@ class SlotEquipement(str, enum.Enum):
 class Emplacement(str, enum.Enum):
     """Nature d'un sort dans le pool d'une categorie."""
 
-    sort_1 = "sort_1"      # armes : premier sort actif
-    sort_2 = "sort_2"      # armes : deuxieme sort actif
-    sort = "sort"          # armures : unique sort actif
-    passif = "passif"      # armes, capes, montures
-    passif_1 = "passif_1"  # armures : premier emplacement de passif
-    passif_2 = "passif_2"  # armures : second emplacement (torses en plaques)
+    sort_1 = "sort_1"
+    sort_2 = "sort_2"
+    sort = "sort"
+    passif = "passif"
+    passif_1 = "passif_1"
+    passif_2 = "passif_2"
 
 
 class SortAlbion(Base):
-    """Sort actif ou passif du jeu (icone servie par render.albiononline.com)."""
+    """Sort actif ou passif du jeu."""
 
     __tablename__ = "catalogue_sorts"
 
@@ -87,10 +87,7 @@ class SortAlbion(Base):
 
 
 class CategorieAlbion(Base):
-    """Categorie d'objets (epees, casques en plaques, capes de Martlock...).
-
-    C'est elle qui definit les sorts et passifs parmi lesquels un objet peut choisir.
-    """
+    """Categorie d'objets et pools de sorts."""
 
     __tablename__ = "catalogue_categories"
 
@@ -151,6 +148,10 @@ class ObjetAlbion(Base):
     categorie: Mapped[CategorieAlbion] = relationship(back_populates="objets")
     sort_impose: Mapped[SortAlbion | None] = relationship(foreign_keys=[sort_impose_id])
     sort_defaut: Mapped[SortAlbion | None] = relationship(foreign_keys=[sort_defaut_id])
+
+    @property
+    def icone(self) -> str:
+        return f"https://render.albiononline.com/v1/item/{self.code_rendu}.png"
 
 
 class Compo(Base):
