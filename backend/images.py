@@ -264,7 +264,7 @@ async def images_des_lignes(lignes: Sequence[LigneCompo]) -> dict[int, bytes]:
     urls = [url for ligne in lignes for url in _urls_de_ligne(ligne)]
     icones = await _telecharger(urls)
     def rendre() -> dict[int, bytes]:
-        return {ligne.ordre: _composer(ligne, f"#{ligne.ordre + 1} — {ligne.libelle}", icones)
+        return {ligne.ordre: _composer(ligne, f"#{ligne.ordre + 1} — {ligne.role_ou_joueur or 'Build'}", icones)
                 for ligne in lignes}
     return await asyncio.to_thread(rendre)
 
