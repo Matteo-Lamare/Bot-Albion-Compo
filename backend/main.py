@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from contextlib import asynccontextmanager
+import re
 
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
@@ -26,6 +27,33 @@ COLONNES_AJOUTEES = {
 TABLES_SUPPRIMEES = ("inscriptions", "settings")
 
 
+def _migrer_contraintes_type_contenu(connexion) -> None:
+    """Met a jour une ancienne CHECK SQLAlchemy qui ne connait pas les nouveaux types."""
+    if connexion.dialect.name != "postgresql":
+        return
+    inspecteur = inspect(connexion)
+    if "compos" not in inspecteur.get_table_names():
+        return
+
+    valeurs = ", ".join(
+        "'" + valeur.value.replace("'", "''") + "'" for valeur in TypeContenu
+    )
+    expression_attendue = f'"type_contenu" IN ({valeurs})'
+    for contrainte in inspecteur.get_check_constraints("compos"):
+        sqltext = (contrainte.get("sqltext") or "").lower()
+        if "type_contenu" not in sqltext:
+            continue
+        nom = contrainte.get("name")
+        if not nom or not re.fullmatch(r"[A-Za-z0-9_]+", nom):
+            continue
+        connexion.exec_driver_sql(f'ALTER TABLE "compos" DROP CONSTRAINT "{nom}"')
+        connexion.exec_driver_sql(
+            f'ALTER TABLE "compos" ADD CONSTRAINT "ck_compos_type_contenu_values" CHECK ({expression_attendue})'
+        )
+        print(f"[init] Contrainte type_contenu mise a jour : {nom}")
+        break
+
+
 def migrer_schema() -> None:
     """Met a niveau les bases creees par une version anterieure."""
     with engine.begin() as connexion:
@@ -44,6 +72,7 @@ def migrer_schema() -> None:
                 if nom not in existantes:
                     connexion.exec_driver_sql(f'ALTER TABLE "{table}" ADD COLUMN "{nom}" {type_sql}')
                     print(f"[init] Colonne ajoutee : {table}.{nom}")
+        _migrer_contraintes_type_contenu(connexion)
 
 
 def initialiser_base() -> None:
