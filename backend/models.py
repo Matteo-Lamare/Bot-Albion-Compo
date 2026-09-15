@@ -34,6 +34,10 @@ class TypeContenu(str, enum.Enum):
     hce = "HCE"
     avalonian_roads = "Avalonian Roads"
     corrupted_dungeon = "Corrupted Dungeon"
+    group_dungeon = "Donjon de groupe"
+    hellgate = "Hellgate"
+    solo = "Solo"
+    terre_ancestrale = "Terre ancestrale"
 
 
 class StatutCompo(str, enum.Enum):
@@ -117,23 +121,19 @@ class CategorieSort(Base):
     categorie_id: Mapped[int] = mapped_column(
         ForeignKey("catalogue_categories.id", ondelete="CASCADE"), nullable=False, index=True
     )
-    sort_id: Mapped[int] = mapped_column(
-        ForeignKey("catalogue_sorts.id", ondelete="CASCADE"), nullable=False
-    )
+    sort_id: Mapped[int] = mapped_column("sort_id", ForeignKey("catalogue_sorts.id", ondelete="CASCADE"), nullable=False, index=True)
     emplacement: Mapped[Emplacement] = mapped_column(
         SAEnum(Emplacement, native_enum=False, values_callable=lambda e: [m.value for m in e]),
         nullable=False,
     )
-
-    categorie: Mapped["CategorieAlbion"] = relationship(back_populates="sorts")
-    sort: Mapped["SortAlbion"] = relationship(lazy="selectin")
+    categorie: Mapped[CategorieAlbion] = relationship(back_populates="sorts")
+    sort: Mapped[SortAlbion] = relationship()
 
 
 class ObjetAlbion(Base):
-    """Objet du jeu, tous tiers confondus (le tier n'est plus manipule par l'outil)."""
+    """Objet du catalogue, rattache a une categorie."""
 
     __tablename__ = "catalogue_objets"
-    __table_args__ = (UniqueConstraint("slot", "code", name="uq_objet_slot_code"),)
 
     id: Mapped[int] = mapped_column(primary_key=True)
     code: Mapped[str] = mapped_column(String(120), nullable=False, index=True)
@@ -143,213 +143,88 @@ class ObjetAlbion(Base):
         nullable=False,
         index=True,
     )
-    categorie_id: Mapped[int] = mapped_column(
-        ForeignKey("catalogue_categories.id", ondelete="CASCADE"), nullable=False, index=True
-    )
-    # Identifiant complet (avec tier) utilise uniquement pour afficher l'icone.
-    code_rendu: Mapped[str] = mapped_column(String(120), nullable=False)
+    categorie_id: Mapped[int] = mapped_column(ForeignKey("catalogue_categories.id"), nullable=False, index=True)
+    code_rendu: Mapped[str] = mapped_column(String(160), nullable=False)
     deux_mains: Mapped[bool] = mapped_column(default=False, nullable=False)
-
-    # Sort impose par l'objet lui-meme : sort 3 d'une arme, passif d'une cape ou
-    # d'une monture. Il est pose automatiquement et n'est jamais choisi.
-    sort_impose_id: Mapped[int | None] = mapped_column(
-        ForeignKey("catalogue_sorts.id", ondelete="SET NULL"), nullable=True
-    )
-    # Sort natif d'une piece d'armure : preselectionne, mais remplacable par un
-    # autre sort de sa categorie.
-    sort_defaut_id: Mapped[int | None] = mapped_column(
-        ForeignKey("catalogue_sorts.id", ondelete="SET NULL"), nullable=True
-    )
-
-    categorie: Mapped["CategorieAlbion"] = relationship(back_populates="objets", lazy="selectin")
-    sort_impose: Mapped["SortAlbion | None"] = relationship(
-        foreign_keys=[sort_impose_id], lazy="selectin"
-    )
-    sort_defaut: Mapped["SortAlbion | None"] = relationship(
-        foreign_keys=[sort_defaut_id], lazy="selectin"
-    )
-
-    @property
-    def icone(self) -> str:
-        return f"https://render.albiononline.com/v1/item/{self.code_rendu}.png"
-
-
-class Membre(Base):
-    __tablename__ = "membres"
-
-    id: Mapped[int] = mapped_column(primary_key=True)
-    pseudo: Mapped[str] = mapped_column(String(64), unique=True, nullable=False, index=True)
-    mot_de_passe_hash: Mapped[str] = mapped_column(String(255), nullable=False)
-    role: Mapped[RoleMembre] = mapped_column(
-        SAEnum(RoleMembre, native_enum=False, values_callable=lambda e: [m.value for m in e]),
-        default=RoleMembre.membre,
-        nullable=False,
-    )
-    actif: Mapped[bool] = mapped_column(default=True, nullable=False)
-    date_creation: Mapped[datetime] = mapped_column(DateTime, default=utcnow, nullable=False)
-
-    compos: Mapped[list["Compo"]] = relationship(back_populates="auteur")
+    sort_impose_id: Mapped[int | None] = mapped_column(ForeignKey("catalogue_sorts.id"), nullable=True)
+    sort_defaut_id: Mapped[int | None] = mapped_column(ForeignKey("catalogue_sorts.id"), nullable=True)
+    categorie: Mapped[CategorieAlbion] = relationship(back_populates="objets")
+    sort_impose: Mapped[SortAlbion | None] = relationship(foreign_keys=[sort_impose_id])
+    sort_defaut: Mapped[SortAlbion | None] = relationship(foreign_keys=[sort_defaut_id])
 
 
 class Compo(Base):
+    """Composition de groupe partageable."""
+
     __tablename__ = "compos"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    nom: Mapped[str] = mapped_column(String(120), nullable=False, index=True)
+    nom: Mapped[str] = mapped_column(String(120), nullable=False)
     type_contenu: Mapped[TypeContenu] = mapped_column(
-        SAEnum(TypeContenu, native_enum=False, values_callable=lambda e: [m.value for m in e]),
-        nullable=False,
-        index=True,
+        SAEnum(TypeContenu, native_enum=False, values_callable=lambda e: [m.value for m in e]), nullable=False
     )
     taille_groupe: Mapped[int] = mapped_column(Integer, nullable=False)
-    auteur_id: Mapped[int] = mapped_column(
-        ForeignKey("membres.id", ondelete="RESTRICT"), nullable=False, index=True
-    )
-    date_creation: Mapped[datetime] = mapped_column(DateTime, default=utcnow, nullable=False)
-    date_modification: Mapped[datetime] = mapped_column(
-        DateTime, default=utcnow, onupdate=utcnow, nullable=False
-    )
-    date_envoi: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
     statut: Mapped[StatutCompo] = mapped_column(
-        SAEnum(StatutCompo, native_enum=False, values_callable=lambda e: [m.value for m in e]),
-        default=StatutCompo.brouillon,
-        nullable=False,
-        index=True,
+        SAEnum(StatutCompo, native_enum=False, values_callable=lambda e: [m.value for m in e]), nullable=False
     )
     notes: Mapped[str | None] = mapped_column(Text, nullable=True)
-    # Trace des messages postes sur Discord, au format JSON : identifiant du
-    # message et builds qu'il presente.
+    auteur_id: Mapped[int] = mapped_column(ForeignKey("membres.id"), nullable=False, index=True)
+    date_creation: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow, nullable=False)
+    date_modification: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow, nullable=False)
+    date_envoi: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
     discord_messages: Mapped[str | None] = mapped_column(Text, nullable=True)
-
     auteur: Mapped["Membre"] = relationship(back_populates="compos")
     lignes: Mapped[list["LigneCompo"]] = relationship(
-        back_populates="compo",
-        cascade="all, delete-orphan",
-        order_by="LigneCompo.ordre",
-        lazy="selectin",
+        back_populates="compo", cascade="all, delete-orphan", order_by="LigneCompo.ordre", lazy="selectin"
     )
 
 
 class LigneCompo(Base):
-    """Un joueur / role dans une compo, avec son equipement complet.
-
-    Chaque piece d'equipement pointe vers le catalogue Albion : plus de saisie
-    libre ni de tier. Les sorts choisis sont contraints par la categorie de
-    l'objet (cf. backend/catalogue.py), et les sorts imposes par l'objet
-    lui-meme (sort 3 d'une arme, passif d'une cape) sont poses automatiquement.
-    """
+    """Une ligne/build dans une composition."""
 
     __tablename__ = "lignes_compo"
-    __table_args__ = (UniqueConstraint("compo_id", "ordre", name="uq_ligne_ordre"),)
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    compo_id: Mapped[int] = mapped_column(
-        ForeignKey("compos.id", ondelete="CASCADE"), nullable=False, index=True
+    compo_id: Mapped[int] = mapped_column(ForeignKey("compos.id", ondelete="CASCADE"), nullable=False, index=True)
+    ordre: Mapped[int] = mapped_column(Integer, nullable=False)
+    role_ou_joueur: Mapped[str | None] = mapped_column(String(120), nullable=True)
+    arme_id: Mapped[int | None] = mapped_column(ForeignKey("catalogue_objets.id"), nullable=True)
+    arme_sort_1_id: Mapped[int | None] = mapped_column(ForeignKey("catalogue_sorts.id"), nullable=True)
+    arme_sort_2_id: Mapped[int | None] = mapped_column(ForeignKey("catalogue_sorts.id"), nullable=True)
+    arme_passif_id: Mapped[int | None] = mapped_column(ForeignKey("catalogue_sorts.id"), nullable=True)
+    arme_sort_3_id: Mapped[int | None] = mapped_column(ForeignKey("catalogue_sorts.id"), nullable=True)
+    offhand_id: Mapped[int | None] = mapped_column(ForeignKey("catalogue_objets.id"), nullable=True)
+    casque_id: Mapped[int | None] = mapped_column(ForeignKey("catalogue_objets.id"), nullable=True)
+    casque_sort_id: Mapped[int | None] = mapped_column(ForeignKey("catalogue_sorts.id"), nullable=True)
+    casque_passif_id: Mapped[int | None] = mapped_column(ForeignKey("catalogue_sorts.id"), nullable=True)
+    torse_id: Mapped[int | None] = mapped_column(ForeignKey("catalogue_objets.id"), nullable=True)
+    torse_sort_id: Mapped[int | None] = mapped_column(ForeignKey("catalogue_sorts.id"), nullable=True)
+    torse_passif_1_id: Mapped[int | None] = mapped_column(ForeignKey("catalogue_sorts.id"), nullable=True)
+    torse_passif_2_id: Mapped[int | None] = mapped_column(ForeignKey("catalogue_sorts.id"), nullable=True)
+    bottes_id: Mapped[int | None] = mapped_column(ForeignKey("catalogue_objets.id"), nullable=True)
+    bottes_sort_id: Mapped[int | None] = mapped_column(ForeignKey("catalogue_sorts.id"), nullable=True)
+    bottes_passif_id: Mapped[int | None] = mapped_column(ForeignKey("catalogue_sorts.id"), nullable=True)
+    cape_id: Mapped[int | None] = mapped_column(ForeignKey("catalogue_objets.id"), nullable=True)
+    cape_passif_id: Mapped[int | None] = mapped_column(ForeignKey("catalogue_sorts.id"), nullable=True)
+    monture_id: Mapped[int | None] = mapped_column(ForeignKey("catalogue_objets.id"), nullable=True)
+    monture_sort_id: Mapped[int | None] = mapped_column(ForeignKey("catalogue_sorts.id"), nullable=True)
+    potion_id: Mapped[int | None] = mapped_column(ForeignKey("catalogue_objets.id"), nullable=True)
+    nourriture_id: Mapped[int | None] = mapped_column(ForeignKey("catalogue_objets.id"), nullable=True)
+    compo: Mapped[Compo] = relationship(back_populates="lignes")
+
+
+class Membre(Base):
+    """Compte utilisateur du site."""
+
+    __tablename__ = "membres"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    pseudo: Mapped[str] = mapped_column(String(80), unique=True, nullable=False, index=True)
+    mot_de_passe_hash: Mapped[str] = mapped_column(String(255), nullable=False)
+    role: Mapped[RoleMembre] = mapped_column(
+        SAEnum(RoleMembre, native_enum=False, values_callable=lambda e: [m.value for m in e]), nullable=False
     )
-    ordre: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
-    # Facultatif : une ligne est d'abord un build. Vide, elle s'affiche « Build #n ».
-    role_ou_joueur: Mapped[str] = mapped_column(String(120), nullable=False, default="")
-
-    def _objet(nullable: bool = False):
-        return mapped_column(
-            ForeignKey("catalogue_objets.id", ondelete="RESTRICT"), nullable=nullable
-        )
-
-    def _sort(nullable: bool = False):
-        return mapped_column(
-            ForeignKey("catalogue_sorts.id", ondelete="RESTRICT"), nullable=nullable
-        )
-
-    # Arme : sorts 1 et 2 et passif choisis dans la categorie, sort 3 impose par l'arme
-    arme_id: Mapped[int] = _objet()
-    arme_sort_1_id: Mapped[int] = _sort()
-    arme_sort_2_id: Mapped[int] = _sort()
-    arme_sort_3_id: Mapped[int] = _sort()
-    arme_passif_id: Mapped[int] = _sort()
-
-    # Off-hand : optionnel, ni sort ni passif
-    offhand_id: Mapped[int | None] = _objet(nullable=True)
-
-    # Casque : sort natif remplacable dans la categorie, passif de la categorie
-    casque_id: Mapped[int] = _objet()
-    casque_sort_id: Mapped[int] = _sort()
-    casque_passif_id: Mapped[int] = _sort()
-
-    # Torse : second passif seulement si l'armure en propose deux
-    torse_id: Mapped[int] = _objet()
-    torse_sort_id: Mapped[int] = _sort()
-    torse_passif_1_id: Mapped[int] = _sort()
-    torse_passif_2_id: Mapped[int | None] = _sort(nullable=True)
-
-    # Bottes
-    bottes_id: Mapped[int] = _objet()
-    bottes_sort_id: Mapped[int] = _sort()
-    bottes_passif_id: Mapped[int] = _sort()
-
-    # Cape : passif impose par la cape, absent des capes de cite
-    cape_id: Mapped[int] = _objet()
-    cape_passif_id: Mapped[int | None] = _sort(nullable=True)
-
-    # Monture : optionnelle, sort impose par la monture
-    monture_id: Mapped[int | None] = _objet(nullable=True)
-    monture_sort_id: Mapped[int | None] = _sort(nullable=True)
-
-    # Consommables
-    potion_id: Mapped[int | None] = _objet(nullable=True)
-    nourriture_id: Mapped[int | None] = _objet(nullable=True)
-
-    del _objet, _sort
-
-    compo: Mapped["Compo"] = relationship(back_populates="lignes")
-
-    @property
-    def libelle(self) -> str:
-        """Intitule affichable de la ligne, meme sans joueur assigne."""
-        return self.role_ou_joueur.strip() or f"Build #{self.ordre + 1}"
-
-    arme: Mapped["ObjetAlbion"] = relationship(foreign_keys=[arme_id], lazy="selectin")
-    offhand: Mapped["ObjetAlbion | None"] = relationship(foreign_keys=[offhand_id], lazy="selectin")
-    casque: Mapped["ObjetAlbion"] = relationship(foreign_keys=[casque_id], lazy="selectin")
-    torse: Mapped["ObjetAlbion"] = relationship(foreign_keys=[torse_id], lazy="selectin")
-    bottes: Mapped["ObjetAlbion"] = relationship(foreign_keys=[bottes_id], lazy="selectin")
-    cape: Mapped["ObjetAlbion"] = relationship(foreign_keys=[cape_id], lazy="selectin")
-    monture: Mapped["ObjetAlbion | None"] = relationship(foreign_keys=[monture_id], lazy="selectin")
-    potion: Mapped["ObjetAlbion | None"] = relationship(foreign_keys=[potion_id], lazy="selectin")
-    nourriture: Mapped["ObjetAlbion | None"] = relationship(
-        foreign_keys=[nourriture_id], lazy="selectin"
-    )
-
-    arme_sort_1: Mapped["SortAlbion"] = relationship(foreign_keys=[arme_sort_1_id], lazy="selectin")
-    arme_sort_2: Mapped["SortAlbion"] = relationship(foreign_keys=[arme_sort_2_id], lazy="selectin")
-    arme_sort_3: Mapped["SortAlbion"] = relationship(foreign_keys=[arme_sort_3_id], lazy="selectin")
-    arme_passif: Mapped["SortAlbion"] = relationship(foreign_keys=[arme_passif_id], lazy="selectin")
-    casque_sort: Mapped["SortAlbion"] = relationship(foreign_keys=[casque_sort_id], lazy="selectin")
-    casque_passif: Mapped["SortAlbion"] = relationship(
-        foreign_keys=[casque_passif_id], lazy="selectin"
-    )
-    torse_sort: Mapped["SortAlbion"] = relationship(foreign_keys=[torse_sort_id], lazy="selectin")
-    torse_passif_1: Mapped["SortAlbion"] = relationship(
-        foreign_keys=[torse_passif_1_id], lazy="selectin"
-    )
-    torse_passif_2: Mapped["SortAlbion | None"] = relationship(
-        foreign_keys=[torse_passif_2_id], lazy="selectin"
-    )
-    bottes_sort: Mapped["SortAlbion"] = relationship(foreign_keys=[bottes_sort_id], lazy="selectin")
-    bottes_passif: Mapped["SortAlbion"] = relationship(
-        foreign_keys=[bottes_passif_id], lazy="selectin"
-    )
-    cape_passif: Mapped["SortAlbion | None"] = relationship(
-        foreign_keys=[cape_passif_id], lazy="selectin"
-    )
-    monture_sort: Mapped["SortAlbion | None"] = relationship(
-        foreign_keys=[monture_sort_id], lazy="selectin"
-    )
-
-
-class Setting(Base):
-    """Configuration modifiable par l'admin (ex: URL du webhook Discord)."""
-
-    __tablename__ = "settings"
-
-    cle: Mapped[str] = mapped_column(String(64), primary_key=True)
-    valeur: Mapped[str] = mapped_column(Text, nullable=False, default="")
+    actif: Mapped[bool] = mapped_column(default=True, nullable=False)
+    date_creation: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow, nullable=False)
+    dernier_acces: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    compos: Mapped[list[Compo]] = relationship(back_populates="auteur")
