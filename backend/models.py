@@ -189,6 +189,7 @@ class LigneCompo(Base):
     compo_id: Mapped[int] = mapped_column(ForeignKey("compos.id", ondelete="CASCADE"), nullable=False, index=True)
     ordre: Mapped[int] = mapped_column(Integer, nullable=False)
     role_ou_joueur: Mapped[str | None] = mapped_column(String(120), nullable=True)
+
     arme_id: Mapped[int | None] = mapped_column(ForeignKey("catalogue_objets.id"), nullable=True)
     arme_sort_1_id: Mapped[int | None] = mapped_column(ForeignKey("catalogue_sorts.id"), nullable=True)
     arme_sort_2_id: Mapped[int | None] = mapped_column(ForeignKey("catalogue_sorts.id"), nullable=True)
@@ -211,7 +212,39 @@ class LigneCompo(Base):
     monture_sort_id: Mapped[int | None] = mapped_column(ForeignKey("catalogue_sorts.id"), nullable=True)
     potion_id: Mapped[int | None] = mapped_column(ForeignKey("catalogue_objets.id"), nullable=True)
     nourriture_id: Mapped[int | None] = mapped_column(ForeignKey("catalogue_objets.id"), nullable=True)
+
     compo: Mapped[Compo] = relationship(back_populates="lignes")
+
+    # Relations necessaires au rendu Discord : images.py travaille avec les
+    # objets/sorts eux-memes, pas uniquement avec leurs IDs SQL.
+    arme: Mapped[ObjetAlbion | None] = relationship(foreign_keys=[arme_id], lazy="selectin")
+    offhand: Mapped[ObjetAlbion | None] = relationship(foreign_keys=[offhand_id], lazy="selectin")
+    casque: Mapped[ObjetAlbion | None] = relationship(foreign_keys=[casque_id], lazy="selectin")
+    torse: Mapped[ObjetAlbion | None] = relationship(foreign_keys=[torse_id], lazy="selectin")
+    bottes: Mapped[ObjetAlbion | None] = relationship(foreign_keys=[bottes_id], lazy="selectin")
+    cape: Mapped[ObjetAlbion | None] = relationship(foreign_keys=[cape_id], lazy="selectin")
+    monture: Mapped[ObjetAlbion | None] = relationship(foreign_keys=[monture_id], lazy="selectin")
+    potion: Mapped[ObjetAlbion | None] = relationship(foreign_keys=[potion_id], lazy="selectin")
+    nourriture: Mapped[ObjetAlbion | None] = relationship(foreign_keys=[nourriture_id], lazy="selectin")
+
+    arme_sort_1: Mapped[SortAlbion | None] = relationship(foreign_keys=[arme_sort_1_id], lazy="selectin")
+    arme_sort_2: Mapped[SortAlbion | None] = relationship(foreign_keys=[arme_sort_2_id], lazy="selectin")
+    arme_passif: Mapped[SortAlbion | None] = relationship(foreign_keys=[arme_passif_id], lazy="selectin")
+    arme_sort_3: Mapped[SortAlbion | None] = relationship(foreign_keys=[arme_sort_3_id], lazy="selectin")
+    casque_sort: Mapped[SortAlbion | None] = relationship(foreign_keys=[casque_sort_id], lazy="selectin")
+    casque_passif: Mapped[SortAlbion | None] = relationship(foreign_keys=[casque_passif_id], lazy="selectin")
+    torse_sort: Mapped[SortAlbion | None] = relationship(foreign_keys=[torse_sort_id], lazy="selectin")
+    torse_passif_1: Mapped[SortAlbion | None] = relationship(foreign_keys=[torse_passif_1_id], lazy="selectin")
+    torse_passif_2: Mapped[SortAlbion | None] = relationship(foreign_keys=[torse_passif_2_id], lazy="selectin")
+    bottes_sort: Mapped[SortAlbion | None] = relationship(foreign_keys=[bottes_sort_id], lazy="selectin")
+    bottes_passif: Mapped[SortAlbion | None] = relationship(foreign_keys=[bottes_passif_id], lazy="selectin")
+    cape_passif: Mapped[SortAlbion | None] = relationship(foreign_keys=[cape_passif_id], lazy="selectin")
+    monture_sort: Mapped[SortAlbion | None] = relationship(foreign_keys=[monture_sort_id], lazy="selectin")
+
+    @property
+    def libelle(self) -> str:
+        """Libelle utilise par les apercus et le rendu Discord."""
+        return self.role_ou_joueur or "Build"
 
 
 class Membre(Base):
