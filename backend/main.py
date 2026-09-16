@@ -12,6 +12,7 @@ from sqlalchemy import inspect, select
 from starlette.middleware.sessions import SessionMiddleware
 
 from .catalogue import CHEMIN_CATALOGUE, importer as importer_catalogue
+from .gathering import installer_equipements_gathering
 from .config import settings
 from .database import Base, SessionLocal, engine
 from .models import Membre, ObjetAlbion, RoleMembre, StatutCompo, TypeContenu
@@ -34,10 +35,7 @@ def _migrer_contraintes_type_contenu(connexion) -> None:
     inspecteur = inspect(connexion)
     if "compos" not in inspecteur.get_table_names():
         return
-
-    valeurs = ", ".join(
-        "'" + valeur.value.replace("'", "''") + "'" for valeur in TypeContenu
-    )
+    valeurs = ", ".join("'" + valeur.value.replace("'", "''") + "'" for valeur in TypeContenu)
     expression_attendue = f'"type_contenu" IN ({valeurs})'
     for contrainte in inspecteur.get_check_constraints("compos"):
         sqltext = (contrainte.get("sqltext") or "").lower()
@@ -47,9 +45,7 @@ def _migrer_contraintes_type_contenu(connexion) -> None:
         if not nom or not re.fullmatch(r"[A-Za-z0-9_]+", nom):
             continue
         connexion.exec_driver_sql(f'ALTER TABLE "compos" DROP CONSTRAINT "{nom}"')
-        connexion.exec_driver_sql(
-            f'ALTER TABLE "compos" ADD CONSTRAINT "ck_compos_type_contenu_values" CHECK ({expression_attendue})'
-        )
+        connexion.exec_driver_sql(f'ALTER TABLE "compos" ADD CONSTRAINT "ck_compos_type_contenu_values" CHECK ({expression_attendue})')
         print(f"[init] Contrainte type_contenu mise a jour : {nom}")
         break
 
@@ -86,6 +82,11 @@ def initialiser_base() -> None:
         if db.scalar(select(ObjetAlbion).limit(1)) is None and CHEMIN_CATALOGUE.exists():
             compte = importer_catalogue(db)
             print(f"[init] Catalogue Albion charge : {compte['objets']} objets, {compte['sorts']} sorts")
+        # Les equipements de gathering sont une extension retrocompatible du
+        # catalogue : elle s'applique aussi aux bases deja initialisees.
+        ajout_gather = installer_equipements_gathering(db)
+        if ajout_gather:
+            print(f"[init] Equipements de gathering ajoutes : {ajout_gather}")
 
 
 @asynccontextmanager
