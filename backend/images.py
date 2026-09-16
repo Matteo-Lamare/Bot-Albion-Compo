@@ -1,19 +1,10 @@
-"""Rendu d'un build en image PNG (icones officielles Albion).
-
-L'image est tout ce qui part sur Discord : une planche 3x3 reprenant la
-disposition de l'ecran d'equipement du jeu, chaque objet accompagne de ses sorts
-et passifs. La case en haut a gauche reste vide et la monture n'y figure pas.
-Les icones viennent de render.albiononline.com et sont mises en cache sur
-disque, donc un second envoi ne retelecharge rien.
-
-Pillow est facultatif : sans lui, la fonction rend un dictionnaire vide et le
-message Discord se contente de nommer les builds.
-"""
+"""Rendu des builds et cache rapide des icones Albion."""
 from __future__ import annotations
 
 import asyncio
 import hashlib
 import statistics
+from collections import OrderedDict
 from io import BytesIO
 from pathlib import Path
 from typing import Iterable, Sequence
@@ -30,6 +21,9 @@ except ImportError:
     DISPONIBLE = False
 
 CACHE_ICONES = settings.base_dir / ".cache" / "icones"
+CACHE_MEMOIRE_MAX = 512
+_CACHE_MEMOIRE: OrderedDict[str, bytes] = OrderedDict()
+_CACHE_VERROU = asyncio.Lock()
 
 TAILLE_OBJET = 104
 TAILLE_SORT = 36
@@ -37,7 +31,6 @@ LARGEUR_CASE = 172
 HAUTEUR_CASE = 186
 MARGE = 16
 HAUTEUR_TITRE = 44
-
 FOND = (30, 32, 39, 255)
 FOND_CASE = (43, 46, 56, 255)
 FOND_CASE_VIDE = (36, 38, 46, 255)
@@ -57,18 +50,9 @@ CASES: tuple[tuple[int, int, str, str, tuple[str, ...]], ...] = (
     (1, 2, "bottes", "Bottes", ("bottes_sort", "bottes_passif")),
     (2, 2, "nourriture", "Nourriture", ()),
 )
-
 LARGEUR = MARGE * 2 + LARGEUR_CASE * 3
 HAUTEUR = MARGE * 2 + HAUTEUR_TITRE + HAUTEUR_CASE * 3
-
-POLICES = (
-    "/usr/share/fonts/TTF/DejaVuSans.ttf",
-    "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
-    "/usr/share/fonts/liberation/LiberationSans-Regular.ttf",
-    "/usr/share/fonts/liberation/LiberationSans-Regular.ttf",
-    "/Library/Fonts/Arial.ttf",
-    "C:/Windows/Fonts/arial.ttf",
-)
+POLICES = ("/usr/share/fonts/TTF/DejaVuSans.ttf", "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", "/usr/share/fonts/liberation/LiberationSans-Regular.ttf", "/Library/Fonts/Arial.ttf", "C:/Windows/Fonts/arial.ttf")
 
 
 def _police(taille: int):
@@ -85,28 +69,69 @@ def _fichier_cache(url: str) -> Path:
     return CACHE_ICONES / f"{hashlib.sha1(url.encode()).hexdigest()}.png"
 
 
+def _memoire_get(url: str) -> bytes | None:
+    valeur = _CACHE_MEMOIRE.get(url)
+    if valeur is not None:
+        _CACHE_MEMOIRE.move_to_end(url)
+    return valeur
+
+
+def _memoire_put(url: str, valeur: bytes) -> None:
+    _CACHE_MEMOIRE[url] = valeur
+    _CACHE_MEMOIRE.move_to_end(url)
+    while len(_CACHE_MEMOIRE) > CACHE_MEMOIRE_MAX:
+        _CACHE_MEMOIRE.popitem(last=False)
+
+
 async def _telecharger(urls: Iterable[str]) -> dict[str, bytes]:
+    """Charge les icones avec cache RAM -> disque -> HTTP.
+
+    Le cache RAM évite même les lectures disque lors des envois Discord successifs.
+    Les écritures disque sont atomiques et les téléchargements sont limités à 20
+    connexions simultanées pour éviter de saturer render.albiononline.com.
+    """
     icones: dict[str, bytes] = {}
     manquantes: list[str] = []
     for url in dict.fromkeys(urls):
+        valeur = _memoire_get(url)
+        if valeur is not None:
+            icones[url] = valeur
+            continue
         fichier = _fichier_cache(url)
         if fichier.exists():
-            icones[url] = fichier.read_bytes()
-        else:
-            manquantes.append(url)
+            try:
+                valeur = fichier.read_bytes()
+                _memoire_put(url, valeur)
+                icones[url] = valeur
+                continue
+            except OSError:
+                pass
+        manquantes.append(url)
 
-    if manquantes:
-        CACHE_ICONES.mkdir(parents=True, exist_ok=True)
-        async with httpx.AsyncClient(timeout=15.0) as client:
-            async def charger(url: str) -> None:
+    if not manquantes:
+        return icones
+
+    CACHE_ICONES.mkdir(parents=True, exist_ok=True)
+    limites = httpx.Limits(max_connections=20, max_keepalive_connections=10)
+    async with httpx.AsyncClient(timeout=httpx.Timeout(8.0, connect=3.0), limits=limites, http2=True) as client:
+        async def charger(url: str) -> None:
+            try:
+                reponse = await client.get(url)
+                if reponse.status_code != 200 or not reponse.content:
+                    return
+                valeur = reponse.content
+                icones[url] = valeur
+                _memoire_put(url, valeur)
+                cible = _fichier_cache(url)
+                temporaire = cible.with_suffix(f".{hashlib.sha1(url.encode()).hexdigest()}.tmp")
                 try:
-                    reponse = await client.get(url)
-                    if reponse.status_code == 200 and reponse.content:
-                        icones[url] = reponse.content
-                        _fichier_cache(url).write_bytes(reponse.content)
-                except httpx.HTTPError:
+                    temporaire.write_bytes(valeur)
+                    temporaire.replace(cible)
+                except OSError:
                     pass
-            await asyncio.gather(*(charger(url) for url in manquantes))
+            except httpx.HTTPError:
+                pass
+        await asyncio.gather(*(charger(url) for url in manquantes))
     return icones
 
 
@@ -157,16 +182,11 @@ def _effacer_tier(icone):
     couleurs = [icone.getpixel((centre_x + dx, centre_y + dy)) for dx, dy in points]
     fond = tuple(int(statistics.median(c[canal] for c in couleurs)) for canal in range(4))
     marge = max(1, int(3 * echelle))
-    ImageDraw.Draw(icone).ellipse(
-        (centre_x - rayon + marge, centre_y - rayon + marge,
-         centre_x + rayon - marge, centre_y + rayon - marge),
-        fill=fond,
-    )
+    ImageDraw.Draw(icone).ellipse((centre_x - rayon + marge, centre_y - rayon + marge, centre_x + rayon - marge, centre_y + rayon - marge), fill=fond)
     return icone
 
 
-def _coller(planche, donnees: bytes, x: int, y: int, taille: int,
-            contour=None, sans_tier: bool = False) -> None:
+def _coller(planche, donnees: bytes, x: int, y: int, taille: int, contour=None, sans_tier: bool = False) -> None:
     with Image.open(BytesIO(donnees)) as source:
         icone = source.convert("RGBA")
         if sans_tier and icone.width >= 32:
@@ -174,9 +194,7 @@ def _coller(planche, donnees: bytes, x: int, y: int, taille: int,
         icone = icone.resize((taille, taille), Image.LANCZOS)
     planche.alpha_composite(icone, (x, y))
     if contour is not None:
-        ImageDraw.Draw(planche).rounded_rectangle(
-            (x, y, x + taille - 1, y + taille - 1), radius=6, outline=contour, width=2
-        )
+        ImageDraw.Draw(planche).rounded_rectangle((x, y, x + taille - 1, y + taille - 1), radius=6, outline=contour, width=2)
 
 
 def _composer(ligne: LigneCompo, titre: str, icones: dict[str, bytes]) -> bytes:
@@ -184,50 +202,22 @@ def _composer(ligne: LigneCompo, titre: str, icones: dict[str, bytes]) -> bytes:
     dessin = ImageDraw.Draw(planche)
     police_titre = _police(21)
     police_nom = _police(13)
-    dessin.text(
-        (MARGE, MARGE - 2),
-        _tronquer_au_pixel(dessin, titre, police_titre, LARGEUR - MARGE * 2),
-        font=police_titre,
-        fill=TEXTE,
-    )
-
+    dessin.text((MARGE, MARGE - 2), _tronquer_au_pixel(dessin, titre, police_titre, LARGEUR - MARGE * 2), font=police_titre, fill=TEXTE)
     for colonne, rangee, slot, libelle, champs_sorts in CASES:
         x = MARGE + colonne * LARGEUR_CASE
         y = MARGE + HAUTEUR_TITRE + rangee * HAUTEUR_CASE
         objet = getattr(ligne, slot, None)
-        dessin.rounded_rectangle(
-            (x + 3, y + 3, x + LARGEUR_CASE - 5, y + HAUTEUR_CASE - 5),
-            radius=10,
-            fill=FOND_CASE if objet is not None else FOND_CASE_VIDE,
-            outline=BORDURE,
-            width=1,
-        )
-
+        dessin.rounded_rectangle((x + 3, y + 3, x + LARGEUR_CASE - 5, y + HAUTEUR_CASE - 5), radius=10, fill=FOND_CASE if objet is not None else FOND_CASE_VIDE, outline=BORDURE, width=1)
         if objet is None:
-            dessin.text(
-                (x + LARGEUR_CASE // 2, y + HAUTEUR_CASE // 2),
-                libelle,
-                font=police_nom,
-                fill=TEXTE_DISCRET,
-                anchor="mm",
-            )
+            dessin.text((x + LARGEUR_CASE // 2, y + HAUTEUR_CASE // 2), libelle, font=police_nom, fill=TEXTE_DISCRET, anchor="mm")
             continue
-
         donnees = icones.get(_url_objet(objet))
         centre_x = x + (LARGEUR_CASE - TAILLE_OBJET) // 2
         if donnees:
             _coller(planche, donnees, centre_x, y + 8, TAILLE_OBJET, sans_tier=True)
         else:
-            dessin.rounded_rectangle(
-                (centre_x, y + 8, centre_x + TAILLE_OBJET, y + 8 + TAILLE_OBJET),
-                radius=8, outline=BORDURE, width=1,
-            )
-
-        sorts = [
-            (getattr(ligne, champ), champ)
-            for champ in champs_sorts
-            if getattr(ligne, champ, None) is not None
-        ]
+            dessin.rounded_rectangle((centre_x, y + 8, centre_x + TAILLE_OBJET, y + 8 + TAILLE_OBJET), radius=8, outline=BORDURE, width=1)
+        sorts = [(getattr(ligne, champ), champ) for champ in champs_sorts if getattr(ligne, champ, None) is not None]
         if sorts:
             largeur_rangee = len(sorts) * TAILLE_SORT + (len(sorts) - 1) * 4
             depart = x + (LARGEUR_CASE - largeur_rangee) // 2
@@ -239,20 +229,9 @@ def _composer(ligne: LigneCompo, titre: str, icones: dict[str, bytes]) -> bytes:
                 if donnees:
                     _coller(planche, donnees, gauche, haut, TAILLE_SORT, contour)
                 else:
-                    dessin.rounded_rectangle(
-                        (gauche, haut, gauche + TAILLE_SORT, haut + TAILLE_SORT),
-                        radius=6, outline=contour, width=1,
-                    )
-
+                    dessin.rounded_rectangle((gauche, haut, gauche + TAILLE_SORT, haut + TAILLE_SORT), radius=6, outline=contour, width=1)
         nom, police = _nom_ajuste(dessin, objet.nom, LARGEUR_CASE - 14)
-        dessin.text(
-            (x + LARGEUR_CASE // 2, y + HAUTEUR_CASE - 16),
-            nom,
-            font=police,
-            fill=TEXTE,
-            anchor="mm",
-        )
-
+        dessin.text((x + LARGEUR_CASE // 2, y + HAUTEUR_CASE - 16), nom, font=police, fill=TEXTE, anchor="mm")
     tampon = BytesIO()
     planche.convert("RGB").save(tampon, format="PNG", optimize=True)
     return tampon.getvalue()
@@ -264,8 +243,7 @@ async def images_des_lignes(lignes: Sequence[LigneCompo]) -> dict[int, bytes]:
     urls = [url for ligne in lignes for url in _urls_de_ligne(ligne)]
     icones = await _telecharger(urls)
     def rendre() -> dict[int, bytes]:
-        return {ligne.ordre: _composer(ligne, f"#{ligne.ordre + 1} — {ligne.role_ou_joueur or 'Build'}", icones)
-                for ligne in lignes}
+        return {ligne.ordre: _composer(ligne, f"#{ligne.ordre + 1} — {ligne.role_ou_joueur or 'Build'}", icones) for ligne in lignes}
     return await asyncio.to_thread(rendre)
 
 
