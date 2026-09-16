@@ -23,7 +23,6 @@ except ImportError:
 CACHE_ICONES = settings.base_dir / ".cache" / "icones"
 CACHE_MEMOIRE_MAX = 512
 _CACHE_MEMOIRE: OrderedDict[str, bytes] = OrderedDict()
-_CACHE_VERROU = asyncio.Lock()
 
 TAILLE_OBJET = 104
 TAILLE_SORT = 36
@@ -84,12 +83,7 @@ def _memoire_put(url: str, valeur: bytes) -> None:
 
 
 async def _telecharger(urls: Iterable[str]) -> dict[str, bytes]:
-    """Charge les icones avec cache RAM -> disque -> HTTP.
-
-    Le cache RAM évite même les lectures disque lors des envois Discord successifs.
-    Les écritures disque sont atomiques et les téléchargements sont limités à 20
-    connexions simultanées pour éviter de saturer render.albiononline.com.
-    """
+    """Charge les icones avec cache RAM -> disque -> HTTP."""
     icones: dict[str, bytes] = {}
     manquantes: list[str] = []
     for url in dict.fromkeys(urls):
@@ -112,8 +106,10 @@ async def _telecharger(urls: Iterable[str]) -> dict[str, bytes]:
         return icones
 
     CACHE_ICONES.mkdir(parents=True, exist_ok=True)
+    # Pool de connexions réutilisé pendant toute la planche. HTTP/2 n'est pas
+    # forcé ici pour rester compatible avec l'installation httpx minimale.
     limites = httpx.Limits(max_connections=20, max_keepalive_connections=10)
-    async with httpx.AsyncClient(timeout=httpx.Timeout(8.0, connect=3.0), limits=limites, http2=True) as client:
+    async with httpx.AsyncClient(timeout=httpx.Timeout(8.0, connect=3.0), limits=limites) as client:
         async def charger(url: str) -> None:
             try:
                 reponse = await client.get(url)
