@@ -304,3 +304,7 @@ et à sauvegarder régulièrement `database/compos.db`.
 - Validation plus fine de la cohérence d'un build (nombre de sorts actifs simultanés,
   compatibilité arme / armure...)
 - Statistiques et historique de versions des compos
+
+## GitHub Flow
+
+Ce projet utilise GitHub Flow pour gérer les évolutions et corrections.
