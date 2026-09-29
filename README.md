@@ -307,4 +307,5 @@ et à sauvegarder régulièrement `database/compos.db`.
 
 ## GitHub Flow
 
-Ce projet utilise GitHub Flow pour gérer les évolutions et corrections.
+Ce projet utilise GitHub Flow pour gérer les évolutions et corrections et voila.
+
