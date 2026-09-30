@@ -1,0 +1,31 @@
+{
+  "name": "bot-albion-compo",
+  "version": "1.0.0",
+  "description": "Site web interne + envoi Discord pour gérer les **compositions PvP** d'une guilde Albion Online.\r Les compos sont créées et stockées sur le site, puis publiées dans un salon Discord en un clic :\r le message se résume à un en-tête et à **l'image de chaque build** (la planche d'équipement,\r icônes officielles) — aucun descriptif textuel, l'image dit tout.",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Matteo-Lamare/Bot-Albion-Compo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Matteo-Lamare/Bot-Albion-Compo/issues"
+  },
+  "homepage": "https://github.com/Matteo-Lamare/Bot-Albion-Compo#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.63.0"
+  },
+  "dependencies": {
+    "playwright": "^1.63.0",
+    "playwright-core": "^1.63.0"
+  }
+}
