@@ -27,7 +27,6 @@ function afficherCompos(compos) {
     const ligne = document.createElement("tr");
     ligne.innerHTML = `<td><a href="/compo?id=${compo.id}">${echapper(compo.nom)}</a></td><td>${echapper(compo.type_contenu)}</td><td>${compo.taille_groupe}</td><td>${compo.nb_lignes}</td><td>${echapper(compo.auteur_pseudo || "—")}</td><td><span class="badge ${classeStatut(compo.statut)}">${echapper(compo.statut)}</span></td><td>${formaterDate(compo.date_modification)}</td><td>${formaterDate(compo.date_envoi)}</td><td class="actions"></td>`;
     const cellule = ligne.querySelector("td.actions");
-    cellule.appendChild(bouton("Exporter CSV", "mini", () => exporterCsv(compo.id)));
     cellule.appendChild(bouton("Dupliquer", "mini", () => dupliquer(compo.id)));
     cellule.appendChild(bouton("Discord", "mini discord", () => envoyer(compo)));
     if (modifiable) cellule.appendChild(bouton("Supprimer", "mini danger", () => supprimer(compo)));
