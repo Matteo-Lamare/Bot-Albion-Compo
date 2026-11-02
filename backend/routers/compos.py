@@ -1,6 +1,8 @@
 """CRUD des compos, duplication, apercu, images, import tableur et envoi Discord."""
 from __future__ import annotations
 
+import csv
+import io
 import json
 from datetime import date, datetime, time, timezone
 
@@ -154,6 +156,41 @@ async def importer_tableur(fichier: UploadFile = File(...), _: Membre = Depends(
         raise HTTPException(status.HTTP_413_REQUEST_ENTITY_TOO_LARGE, "Fichier trop volumineux (2 Mo maximum).")
     lignes, avertissements = importer_lignes(index_catalogue(db), contenu, fichier.filename or "")
     return ImportLignes(lignes=[LigneCompoBase(**valeurs) for valeurs in lignes], avertissements=avertissements)
+
+
+
+@router.get("/{compo_id}/export.csv", response_class=Response)
+def exporter_compo_csv(
+    compo_id: int,
+    membre: Membre = Depends(membre_courant),
+    db: Session = Depends(get_db),
+) -> Response:
+    """Exporte tous les builds d'une composition dans le format CSV réimportable."""
+    compo = _lire_compo(db, compo_id)
+    _verifier_droit_lecture(compo, membre)
+
+    sortie = io.StringIO(newline="")
+    redacteur = csv.writer(sortie, delimiter=";", lineterminator="\r\n")
+    entetes = [
+        "joueur", "arme", "arme_sort_1", "arme_sort_2", "arme_passif",
+        "offhand", "casque", "casque_sort", "casque_passif", "torse",
+        "torse_sort", "torse_passif_1", "torse_passif_2", "bottes",
+        "bottes_sort", "bottes_passif", "cape", "monture", "potion", "nourriture",
+    ]
+    redacteur.writerow(entetes)
+    for ligne in compo.lignes:
+        valeurs = [ligne.role_ou_joueur or ""]
+        for champ in entetes[1:]:
+            relation = getattr(ligne, champ, None)
+            valeurs.append(relation.nom if relation is not None else "")
+        redacteur.writerow(valeurs)
+
+    nom = f"compo_{compo.id}.csv"
+    return Response(
+        content="\ufeff" + sortie.getvalue(),
+        media_type="text/csv; charset=utf-8",
+        headers={"Content-Disposition": f'attachment; filename="{nom}"'},
+    )
 
 
 @router.get("/{compo_id}", response_model=CompoRead)
