@@ -64,7 +64,7 @@ class LigneCompoRead(LigneCompoBase):
 class CompoBase(BaseModel):
     nom: Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=120)]
     type_contenu: TypeContenu
-    taille_groupe: int = Field(ge=1, le=200)
+    taille_groupe: int = Field(ge=1, le=50)
     statut: StatutCompo = StatutCompo.brouillon
     notes: str | None = None
 
