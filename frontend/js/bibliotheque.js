@@ -27,7 +27,8 @@ function afficherCompos(compos) {
     const ligne = document.createElement("tr");
     ligne.innerHTML = `<td><a href="/compo?id=${compo.id}">${echapper(compo.nom)}</a></td><td>${echapper(compo.type_contenu)}</td><td>${compo.taille_groupe}</td><td>${compo.nb_lignes}</td><td>${echapper(compo.auteur_pseudo || "—")}</td><td><span class="badge ${classeStatut(compo.statut)}">${echapper(compo.statut)}</span></td><td>${formaterDate(compo.date_modification)}</td><td>${formaterDate(compo.date_envoi)}</td><td class="actions"></td>`;
     const cellule = ligne.querySelector("td.actions");
-    cellule.appendChild(bouton("Exporter CSV", "mini", () => exporterCsv(compo.id)));\n    cellule.appendChild(bouton("Dupliquer", "mini", () => dupliquer(compo.id)));
+    cellule.appendChild(bouton("Exporter CSV", "mini", () => exporterCsv(compo.id)));
+    cellule.appendChild(bouton("Dupliquer", "mini", () => dupliquer(compo.id)));
     cellule.appendChild(bouton("Discord", "mini discord", () => envoyer(compo)));
     if (modifiable) cellule.appendChild(bouton("Supprimer", "mini danger", () => supprimer(compo)));
     corps.appendChild(ligne);
@@ -35,7 +36,17 @@ function afficherCompos(compos) {
 }
 function bouton(libelle, classes, action) { const element = document.createElement("button"); element.className = classes; element.textContent = libelle; element.addEventListener("click", action); return element; }
 function echapper(texte) { const noeud = document.createElement("span"); noeud.textContent = texte ?? ""; return noeud.innerHTML; }
-async function exporterCsv(id) {\n  try {\n    const reponse = await fetch(`/api/compos/${id}/export.csv`, { credentials: "same-origin" });\n    if (!reponse.ok) { const erreur = await reponse.json().catch(() => ({})); throw new Error(erreur.detail || "Échec de l’export CSV."); }\n    const blob = await reponse.blob();\n    const url = URL.createObjectURL(blob);\n    const lien = document.createElement("a"); lien.href = url; lien.download = `compo_${id}.csv`;\n    document.body.appendChild(lien); lien.click(); lien.remove(); URL.revokeObjectURL(url);\n  } catch (erreur) { afficherMessage("message", erreur.message, "erreur"); }\n}\nasync function dupliquer(id) { try { const copie = await api.dupliquerCompo(id); afficherMessage("message", `Compo dupliquée : « ${copie.nom} ».`, "succes"); await rafraichir(); } catch (erreur) { afficherMessage("message", erreur.message, "erreur", erreur.erreurs); } }
+async function exporterCsv(id) {
+  try {
+    const reponse = await fetch(`/api/compos/${id}/export.csv`, { credentials: "same-origin" });
+    if (!reponse.ok) { const erreur = await reponse.json().catch(() => ({})); throw new Error(erreur.detail || "Échec de l’export CSV."); }
+    const blob = await reponse.blob();
+    const url = URL.createObjectURL(blob);
+    const lien = document.createElement("a"); lien.href = url; lien.download = `compo_${id}.csv`;
+    document.body.appendChild(lien); lien.click(); lien.remove(); URL.revokeObjectURL(url);
+  } catch (erreur) { afficherMessage("message", erreur.message, "erreur"); }
+}
+async function dupliquer(id) { try { const copie = await api.dupliquerCompo(id); afficherMessage("message", `Compo dupliquée : « ${copie.nom} ».`, "succes"); await rafraichir(); } catch (erreur) { afficherMessage("message", erreur.message, "erreur", erreur.erreurs); } }
 async function envoyer(compo) {
   const webhook = prompt("Webhook Discord pour cet envoi (il ne sera pas enregistré) :");
   if (!webhook) return;
