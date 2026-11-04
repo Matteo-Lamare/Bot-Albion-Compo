@@ -54,6 +54,16 @@ SLOTS_PAR_TIER = {"potion", "nourriture"}
 # Pieces d'armure : leurs passifs sont numerotes par emplacement (1 ou 2).
 SLOTS_ARMURE = {"casque", "torse", "bottes"}
 
+# Le dump fait heriter aux gantelets plusieurs competences propres a la ligne des dagues.
+# On les retire explicitement pour que les deux familles restent independantes.
+EXCLUSIONS_SORTS_PAR_CATEGORIE = {
+    "knuckles": {
+        "sort_1": {"ASSASSINSPIRIT", "QDASH", "SUNDERARMOR2"},
+        "sort_2": {"CHAINDASH", "DEEPCUTS", "GROUNDDASH", "SKILLSHOT_TELEPORT", "THROWINGBLADES"},
+        "passif": {"PASSIVE_AASPEEDCHANCE_DAGGER", "PASSIVE_HEALTHCHANCE_DAGGER", "PASSIVE_SPELLPOWER_CHANCE_DAGGER"},
+    },
+}
+
 # Mots de liaison a retirer en fin de nom quand on deduit le nom sans tier.
 LIAISONS = {"de", "du", "des", "d'", "l'", "de l'", "la", "le", "en"}
 
@@ -304,6 +314,11 @@ def construire(chemins: dict[str, Path]) -> dict:
             "passif_defaut": passifs_1[0] if slot in {"cape", "monture"} and passifs_1 else None,
         })
         actifs_par_objet[code_objet] = (categorie, actifs)
+
+    # --- Correction des pools d'armes herites a tort par le dump ---
+    for categorie, exclusions in EXCLUSIONS_SORTS_PAR_CATEGORIE.items():
+        for emplacement, codes in exclusions.items():
+            pools[categorie][emplacement].difference_update(codes)
 
     # --- Sort natif d'une piece d'armure : celui qui la distingue de sa categorie ---
     partages: dict[str, set[str]] = {}
