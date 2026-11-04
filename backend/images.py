@@ -23,6 +23,8 @@ except ImportError:
 CACHE_ICONES = settings.base_dir / ".cache" / "icones"
 CACHE_MEMOIRE_MAX = 512
 _CACHE_MEMOIRE: OrderedDict[str, bytes] = OrderedDict()
+CACHE_IMAGES_MAX = 128
+_CACHE_IMAGES: OrderedDict[str, bytes] = OrderedDict()
 
 TAILLE_OBJET = 104
 TAILLE_SORT = 36
@@ -243,6 +245,31 @@ async def images_des_lignes(lignes: Sequence[LigneCompo]) -> dict[int, bytes]:
     return await asyncio.to_thread(rendre)
 
 
+def _cle_image_ligne(ligne: LigneCompo) -> str:
+    """Identifie le rendu par équipement et libellé, indépendamment de la compo."""
+    elements = [str(ligne.ordre), ligne.role_ou_joueur or ""]
+    for _, _, slot, _, champs_sorts in CASES:
+        objet = getattr(ligne, slot, None)
+        elements.append(f"{slot}:{getattr(objet, 'id', None)}")
+        for champ in champs_sorts:
+            sort = getattr(ligne, champ, None)
+            elements.append(f"{champ}:{getattr(sort, 'id', None)}")
+    return hashlib.sha256("\\0".join(elements).encode("utf-8")).hexdigest()
+
+
 async def image_de_ligne(ligne: LigneCompo) -> bytes | None:
+    """Réutilise le PNG déjà composé pour un build identique."""
+    cle = _cle_image_ligne(ligne)
+    image = _CACHE_IMAGES.get(cle)
+    if image is not None:
+        _CACHE_IMAGES.move_to_end(cle)
+        return image
+
     images = await images_des_lignes([ligne])
-    return images.get(ligne.ordre)
+    image = images.get(ligne.ordre)
+    if image is not None:
+        _CACHE_IMAGES[cle] = image
+        _CACHE_IMAGES.move_to_end(cle)
+        while len(_CACHE_IMAGES) > CACHE_IMAGES_MAX:
+            _CACHE_IMAGES.popitem(last=False)
+    return image
