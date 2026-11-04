@@ -173,6 +173,33 @@ def main() -> None:
 
         # --- Catalogue ---
         cat = Catalogue(client.get("/api/catalogue").json())
+        # --- Separation des competences Dagues / Gantelets ---
+        catalogue_source = json.loads(
+            (Path(__file__).resolve().parent.parent / "database" / "catalogue_albion.json")
+            .read_text(encoding="utf-8")
+        )
+        categories_source = {c["code"]: c["sorts"] for c in catalogue_source["categories"]}
+        dagues = categories_source["dagger"]
+        gantelets = categories_source["knuckles"]
+        competences_dagues = {
+            "sort_1": {"ASSASSINSPIRIT", "QDASH", "SUNDERARMOR2"},
+            "sort_2": {"CHAINDASH", "DEEPCUTS", "GROUNDDASH", "SKILLSHOT_TELEPORT", "THROWINGBLADES"},
+            "passif": {
+                "PASSIVE_AASPEEDCHANCE_DAGGER",
+                "PASSIVE_HEALTHCHANCE_DAGGER",
+                "PASSIVE_SPELLPOWER_CHANCE_DAGGER",
+            },
+        }
+        for emplacement, codes in competences_dagues.items():
+            verifier(codes.issubset(set(dagues.get(emplacement, []))),
+                     f"Dagues : competences conservees dans {emplacement}")
+            verifier(not codes.intersection(gantelets.get(emplacement, [])),
+                     f"Gantelets : competences de Dagues exclues de {emplacement}")
+        verifier(all(dagues.get(slot) for slot in competences_dagues),
+                 "Dagues : les pools concernes restent non vides")
+        verifier(all(gantelets.get(slot) for slot in competences_dagues),
+                 "Gantelets : les pools concernes restent non vides")
+
         verifier(len(cat.objets) > 300, f"Catalogue charge ({len(cat.objets)} objets)")
         verifier(len(cat.slots) == 9, "Les 9 slots sont decrits par l'API")
         verifier(
