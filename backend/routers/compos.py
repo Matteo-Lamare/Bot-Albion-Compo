@@ -249,7 +249,7 @@ def apercu_discord(compo_id: int, membre: Membre = Depends(membre_courant), db: 
         "entete": texte_entete(compo, pseudo, _lien_compo(compo)),
         "images_disponibles": IMAGES_DISPONIBLES,
         "apercu": [{"ordre": ligne.ordre, "titre": f"#{ligne.ordre + 1} — {ligne.libelle}",
-                    "image": f"/api/compos/{compo.id}/lignes/{ligne.ordre}/image.png"} for ligne in compo.lignes],
+                    "image": f"/api/compos/{compo.id}/lignes/{ligne.ordre}/image.png?v={int(compo.date_modification.timestamp() * 1000000)}"} for ligne in compo.lignes],
     }
 
 
@@ -265,7 +265,11 @@ async def image_de_build(compo_id: int, ordre: int, membre: Membre = Depends(mem
     image = await image_de_ligne(ligne)
     if image is None:
         raise HTTPException(status.HTTP_502_BAD_GATEWAY, "Impossible de composer l'image du build.")
-    return Response(content=image, media_type="image/png", headers={"Cache-Control": "no-cache"})
+    return Response(
+        content=image,
+        media_type="image/png",
+        headers={"Cache-Control": "private, max-age=31536000, immutable"},
+    )
 
 
 @router.post("/{compo_id}/envoyer-discord", response_model=EnvoiDiscordResultat)
