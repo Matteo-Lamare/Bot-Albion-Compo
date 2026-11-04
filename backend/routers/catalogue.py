@@ -78,6 +78,8 @@ def lire_catalogue(
                 "deux_mains": objet.deux_mains,
                 "sort_impose_id": objet.sort_impose_id,
                 "sort_defaut_id": objet.sort_defaut_id,
+                "sorts_autorises": catalogue.objet_pools.get(objet.id)
+                if objet.slot.value in {"casque", "torse", "bottes"} else None,
             }
             for objet in sorted(catalogue.objets.values(), key=lambda o: (o.slot.value, o.nom))
         ],

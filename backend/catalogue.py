@@ -193,9 +193,16 @@ class IndexCatalogue:
     categories: dict[int, CategorieAlbion]
     # (categorie_id, emplacement) -> identifiants de sorts autorises
     pools: dict[tuple[int, Emplacement], list[int]]
+    # Les sorts actifs d'armure sont filtres par objet (commun + generaliste + unique).
+    objet_pools: dict[int, list[int]]
 
     def pool(self, categorie_id: int, emplacement: Emplacement) -> list[int]:
         return self.pools.get((categorie_id, emplacement), [])
+
+    def pool_objet(self, objet: ObjetAlbion, emplacement: Emplacement) -> list[int]:
+        if emplacement == Emplacement.sort and objet.id in self.objet_pools:
+            return self.objet_pools[objet.id]
+        return self.pool(objet.categorie_id, emplacement)
 
     def est_vide(self) -> bool:
         return not self.objets
@@ -224,5 +231,21 @@ def index(db: Session) -> IndexCatalogue:
     for identifiants in pools.values():
         identifiants.sort(key=lambda i: sorts[i].nom if i in sorts else "")
 
-    _index = IndexCatalogue(objets=objets, sorts=sorts, categories=categories, pools=pools)
+    # Le JSON source conserve la liste exacte des sorts actifs autorises par objet.
+    # Elle est chargee ici sans colonne supplementaire ni migration de base.
+    objet_pools: dict[int, list[int]] = {}
+    if CHEMIN_CATALOGUE.exists():
+        donnees = json.loads(CHEMIN_CATALOGUE.read_text(encoding="utf-8"))
+        objets_par_code = {(o.slot.value, o.code): o for o in objets.values()}
+        sorts_par_code = {s.code: s.id for s in sorts.values()}
+        for brut in donnees.get("objets", []):
+            codes = brut.get("sorts_autorises")
+            objet = objets_par_code.get((brut.get("slot"), brut.get("code")))
+            if objet is not None and codes is not None:
+                objet_pools[objet.id] = [sorts_par_code[c] for c in codes if c in sorts_par_code]
+
+    _index = IndexCatalogue(
+        objets=objets, sorts=sorts, categories=categories, pools=pools,
+        objet_pools=objet_pools,
+    )
     return _index
