@@ -78,6 +78,10 @@ def lire_catalogue(
                 "deux_mains": objet.deux_mains,
                 "sort_impose_id": objet.sort_impose_id,
                 "sort_defaut_id": objet.sort_defaut_id,
+                "sorts_autorises": catalogue.pool_objet(objet, next(
+                    champ.emplacement for champ in REGLES[objet.slot].champs
+                    if champ.emplacement.value == "sort"
+                )) if objet.slot in {slot for slot in REGLES if slot.value in {"casque", "torse", "bottes"}} else None,
             }
             for objet in sorted(catalogue.objets.values(), key=lambda o: (o.slot.value, o.nom))
         ],
