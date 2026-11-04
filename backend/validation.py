@@ -98,7 +98,7 @@ def valider_lignes(index: IndexCatalogue, lignes: list[dict]) -> list[dict]:
             for champ in regle.champs:
                 nom_champ = regle.champ_sort(champ.nom)
                 valeur = donnees.get(nom_champ)
-                autorises = index.pool(objet.categorie_id, champ.emplacement)
+                autorises = index.pool_objet(objet, champ.emplacement)
                 intitule = f"{libelle} : {LIBELLES_CHAMPS.get(champ.nom, champ.nom)}"
 
                 if not autorises:
@@ -162,7 +162,7 @@ def defauts_pour_objet(index: IndexCatalogue, objet_id: int) -> dict[str, int | 
     if regle.champ_impose:
         valeurs[regle.champ_sort(regle.champ_impose)] = objet.sort_impose_id
     for champ in regle.champs:
-        autorises = index.pool(objet.categorie_id, champ.emplacement)
+        autorises = index.pool_objet(objet, champ.emplacement)
         if not autorises:
             valeurs[regle.champ_sort(champ.nom)] = None
         elif champ.emplacement == Emplacement.sort and objet.sort_defaut_id in autorises:
