@@ -11,7 +11,11 @@ const ICONES_SLOTS = { arme: "⚔️", offhand: "🛡️", casque: "🪖", torse
 
 function indexerCatalogue(donnees) {
   const objetsParSlot = {};
-  donnees.objets.forEach((objet) => { (objetsParSlot[objet.slot] ||= []).push({ ...objet, groupe: donnees.categories[objet.categorie_id].nom }); });
+  donnees.objets.forEach((objet) => {
+    const categorie = donnees.categories[objet.categorie_id];
+    const groupe = categorie.code === "knuckles" ? "Gantelets / Poings" : categorie.nom;
+    (objetsParSlot[objet.slot] ||= []).push({ ...objet, groupe });
+  });
   Object.values(objetsParSlot).forEach((liste) => liste.sort((a, b) => a.groupe.localeCompare(b.groupe) || a.nom.localeCompare(b.nom)));
   return { slots: donnees.slots, categories: donnees.categories, sorts: donnees.sorts, objets: Object.fromEntries(donnees.objets.map((o) => [o.id, o])), objetsParSlot, optionsSorts(identifiants) { return (identifiants || []).map((id) => ({ id, ...donnees.sorts[id] })); }, pool(objet, emplacement) { return donnees.categories[objet.categorie_id].pools[emplacement] || []; } };
 }
