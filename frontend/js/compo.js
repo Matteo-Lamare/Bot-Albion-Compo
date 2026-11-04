@@ -17,7 +17,7 @@ function indexerCatalogue(donnees) {
     (objetsParSlot[objet.slot] ||= []).push({ ...objet, groupe });
   });
   Object.values(objetsParSlot).forEach((liste) => liste.sort((a, b) => a.groupe.localeCompare(b.groupe) || a.nom.localeCompare(b.nom)));
-  return { slots: donnees.slots, categories: donnees.categories, sorts: donnees.sorts, objets: Object.fromEntries(donnees.objets.map((o) => [o.id, o])), objetsParSlot, optionsSorts(identifiants) { return (identifiants || []).map((id) => ({ id, ...donnees.sorts[id] })); }, pool(objet, emplacement) { return donnees.categories[objet.categorie_id].pools[emplacement] || []; } };
+  return { slots: donnees.slots, categories: donnees.categories, sorts: donnees.sorts, objets: Object.fromEntries(donnees.objets.map((o) => [o.id, o])), objetsParSlot, optionsSorts(identifiants) { return (identifiants || []).map((id) => ({ id, ...donnees.sorts[id] })); }, pool(objet, emplacement) { if (emplacement === "sort" && Array.isArray(objet.sorts_autorises)) return objet.sorts_autorises; return donnees.categories[objet.categorie_id].pools[emplacement] || []; } };
 }
 
 async function demarrer() {
