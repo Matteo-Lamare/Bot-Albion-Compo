@@ -62,6 +62,12 @@ function creerSelecteur({ options = [], valeur = null, placeholder = "Choisir…
       const nom = document.createElement("span");
       nom.textContent = option.nom;
       bouton.appendChild(nom);
+      if (option.groupe) {
+        const categorie = document.createElement("small");
+        categorie.className = "selecteur-categorie";
+        categorie.textContent = option.groupe;
+        bouton.appendChild(categorie);
+      }
     } else {
       const vide = document.createElement("span");
       vide.className = "selecteur-vide";

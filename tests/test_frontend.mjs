@@ -231,6 +231,21 @@ async function ouvrir(chemin) {
   );
 
 
+  // Les familles de dagues et de gantelets doivent être clairement distinctes.
+  await choisirDansMenu("arme_id", "Gantelets de bagarreur");
+  const categorieGantelets = selecteur("arme_id").querySelector(".selecteur-categorie")?.textContent;
+  const sortsGantelets = await options("arme_sort_1_id");
+  verifier(categorieGantelets === "Gantelets / Poings", "Les armes de poing affichent la catégorie Gantelets / Poings");
+  await choisirDansMenu("arme_id", "Paire de dagues");
+  const categorieDagues = selecteur("arme_id").querySelector(".selecteur-categorie")?.textContent;
+  const sortsDagues = await options("arme_sort_1_id");
+  verifier(categorieDagues === "Dagues", "Les dagues affichent une catégorie distincte");
+  verifier(
+    JSON.stringify(sortsGantelets) !== JSON.stringify(sortsDagues),
+    "Les gantelets et les dagues conservent des listes de sorts distinctes"
+  );
+  await choisirDansMenu("arme_id", "Épée large");
+
   // Règle 4 : armure — sort natif présélectionné, échangeable dans la catégorie
   const natif = selecteur("casque_sort_id").querySelector(".selecteur-valeur").textContent.trim();
   const choixCasque = await options("casque_sort_id");
@@ -342,7 +357,7 @@ async function ouvrir(chemin) {
   const images = doc.querySelectorAll("#contenu-apercu img.image-build");
   verifier(images.length === 2, "Aperçu : une image de build par ligne");
   verifier(
-    images[0].src.endsWith("/api/compos/1/lignes/0/image.png"),
+    images[0].src.includes("/api/compos/1/lignes/0/image.png?v="),
     "L'aperçu pointe vers l'image du build"
   );
   verifier(

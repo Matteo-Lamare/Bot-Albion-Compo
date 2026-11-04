@@ -88,6 +88,7 @@ tbody tr:hover { background: var(--fond-3); }
 .selecteur-valeur { width: 100%; display: flex; align-items: center; gap: 8px; padding: 5px 9px; min-height: 36px; text-align: left; background: var(--fond-3); border: 1px solid var(--bord); border-radius: 6px; color: var(--texte); font-size: 13px; line-height: 1.3; }
 .selecteur-valeur:hover:not(:disabled) { border-color: var(--or); }
 .selecteur-valeur span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.selecteur-valeur .selecteur-categorie { flex: 0 0 auto; margin-left: auto; padding: 2px 6px; border: 1px solid var(--bord); border-radius: 999px; color: var(--or-clair); font-size: 10px; font-weight: 600; }
 .selecteur-valeur.verrouille { background: #1e222a; border-style: dashed; opacity: 1; cursor: default; }
 .selecteur-valeur.verrouille::after { content: "🔒"; margin-left: auto; font-size: 11px; opacity: 0.6; }
 .selecteur-valeur:disabled { opacity: 1; }
