@@ -15,7 +15,7 @@ from .catalogue import CHEMIN_CATALOGUE, importer as importer_catalogue
 from .gathering import installer_equipements_gathering
 from .config import settings
 from .database import Base, SessionLocal, engine
-from .models import Membre, ObjetAlbion, RoleMembre, StatutCompo, TypeContenu
+from .models import Membre, RoleMembre, StatutCompo, TypeContenu
 from .auth import hacher_mot_de_passe
 from .routers import admin, auth, catalogue, compos
 from .validation import ErreurLigne
