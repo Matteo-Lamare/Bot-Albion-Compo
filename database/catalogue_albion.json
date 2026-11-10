@@ -4321,7 +4321,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "CHARGE_IN",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "CHARGE_IN",
+    "SPRINTHOT",
+    "DODGE"
+   ]
   },
   {
    "code": "SHOES_PLATE_AVALON",
@@ -4332,7 +4337,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "CC_BLOCK",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "CC_BLOCK",
+    "SPRINTHOT",
+    "DODGE"
+   ]
   },
   {
    "code": "SHOES_PLATE_SET2",
@@ -4343,7 +4353,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "CHARGE_SHIELD",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "CHARGE_SHIELD",
+    "SPRINTHOT",
+    "DODGE"
+   ]
   },
   {
    "code": "SHOES_PLATE_HELL",
@@ -4354,7 +4369,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "BERSERK_SPRINT",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "BERSERK_SPRINT",
+    "SPRINTHOT",
+    "DODGE"
+   ]
   },
   {
    "code": "SHOES_PLATE_UNDEAD",
@@ -4365,7 +4385,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "BATTLEFRENZY",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "BATTLEFRENZY",
+    "SPRINTHOT",
+    "DODGE"
+   ]
   },
   {
    "code": "SHOES_PLATE_SET3",
@@ -4376,7 +4401,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "MAXHEALTHBUFF",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "MAXHEALTHBUFF",
+    "SPRINTHOT",
+    "DODGE"
+   ]
   },
   {
    "code": "SHOES_PLATE_KEEPER",
@@ -4387,7 +4417,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "SHOULDERTACKLE",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "SHOULDERTACKLE",
+    "SPRINTHOT",
+    "DODGE"
+   ]
   },
   {
    "code": "SHOES_PLATE_SET1",
@@ -4398,7 +4433,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "WANDERLUST",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "WANDERLUST",
+    "SPRINTHOT",
+    "DODGE"
+   ]
   },
   {
    "code": "SHOES_PLATE_ROYAL",
@@ -4409,7 +4449,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "ROYAL_MARCH",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "ROYAL_MARCH",
+    "SPRINTHOT",
+    "DODGE"
+   ]
   },
   {
    "code": "SHOES_LEATHER_SET3",
@@ -4420,7 +4465,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "ASSASSIN_DASH",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "ASSASSIN_DASH",
+    "SPRINT_CD_REDUCTION",
+    "DODGE"
+   ]
   },
   {
    "code": "SHOES_LEATHER_DRAGON",
@@ -4431,7 +4481,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "WEAPON_SPRINT",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "WEAPON_SPRINT",
+    "SPRINT_CD_REDUCTION",
+    "DODGE"
+   ]
   },
   {
    "code": "SHOES_LEATHER_SET2",
@@ -4442,7 +4497,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "OVERSPRINT",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "OVERSPRINT",
+    "SPRINT_CD_REDUCTION",
+    "DODGE"
+   ]
   },
   {
    "code": "SHOES_LEATHER_FEY",
@@ -4453,7 +4513,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "AFTER_IMAGE",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "AFTER_IMAGE",
+    "SPRINT_CD_REDUCTION",
+    "DODGE"
+   ]
   },
   {
    "code": "SHOES_LEATHER_SET1",
@@ -4464,7 +4529,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "CLEANSE_DASH",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "CLEANSE_DASH",
+    "SPRINT_CD_REDUCTION",
+    "DODGE"
+   ]
   },
   {
    "code": "SHOES_LEATHER_UNDEAD",
@@ -4475,7 +4545,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "INVISIBLE_WALK",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "INVISIBLE_WALK",
+    "SPRINT_CD_REDUCTION",
+    "DODGE"
+   ]
   },
   {
    "code": "SHOES_LEATHER_HELL",
@@ -4486,7 +4561,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "DEATHMARK",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "DEATHMARK",
+    "SPRINT_CD_REDUCTION",
+    "DODGE"
+   ]
   },
   {
    "code": "SHOES_LEATHER_MORGANA",
@@ -4497,7 +4577,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "DMG_BLINK",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "DMG_BLINK",
+    "SPRINT_CD_REDUCTION",
+    "DODGE"
+   ]
   },
   {
    "code": "SHOES_LEATHER_AVALON",
@@ -4508,7 +4593,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "BLINDSPOT",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "BLINDSPOT",
+    "SPRINT_CD_REDUCTION",
+    "DODGE"
+   ]
   },
   {
    "code": "SHOES_LEATHER_ROYAL",
@@ -4519,7 +4609,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "JUMP",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "JUMP",
+    "SPRINT_CD_REDUCTION",
+    "DODGE"
+   ]
   },
   {
    "code": "SHOES_CLOTH_SET2",
@@ -4530,7 +4625,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "BLINK",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "BLINK",
+    "SPRINTEOT",
+    "DODGE"
+   ]
   },
   {
    "code": "SHOES_CLOTH_FEY",
@@ -4541,7 +4641,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "TRANSLUCENT",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "TRANSLUCENT",
+    "SPRINTEOT",
+    "DODGE"
+   ]
   },
   {
    "code": "SHOES_CLOTH_SET1",
@@ -4552,7 +4657,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "CHANNELED_RUN",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "CHANNELED_RUN",
+    "SPRINTEOT",
+    "DODGE"
+   ]
   },
   {
    "code": "SHOES_CLOTH_MORGANA",
@@ -4563,7 +4673,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "DEMONWALK",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "DEMONWALK",
+    "SPRINTEOT",
+    "DODGE"
+   ]
   },
   {
    "code": "SHOES_CLOTH_KEEPER",
@@ -4574,7 +4689,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "FROSTWALK",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "FROSTWALK",
+    "SPRINTEOT",
+    "DODGE"
+   ]
   },
   {
    "code": "SHOES_CLOTH_SET3",
@@ -4585,7 +4705,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "DELAYED_TELEPORT",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "DELAYED_TELEPORT",
+    "SPRINTEOT",
+    "DODGE"
+   ]
   },
   {
    "code": "SHOES_CLOTH_HELL",
@@ -4596,7 +4721,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "SWAP",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "SWAP",
+    "SPRINTEOT",
+    "DODGE"
+   ]
   },
   {
    "code": "SHOES_CLOTH_AVALON",
@@ -4607,7 +4737,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "HOVER_SPRINT",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "HOVER_SPRINT",
+    "SPRINTEOT",
+    "DODGE"
+   ]
   },
   {
    "code": "SHOES_CLOTH_ROYAL",
@@ -4618,7 +4753,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "GLASS_MOVESPEED",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "GLASS_MOVESPEED",
+    "SPRINTEOT",
+    "DODGE"
+   ]
   },
   {
    "code": "CAPE",
@@ -4794,7 +4934,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "SUMMONER_CD_REDUCTION",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "SUMMONER_CD_REDUCTION",
+    "SELF_CLEANSE",
+    "ENERGY_BARRIER"
+   ]
   },
   {
    "code": "HEAD_LEATHER_DRAGON",
@@ -4805,7 +4950,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "FLARE",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "FLARE",
+    "SELF_CLEANSE",
+    "ENERGY_BARRIER"
+   ]
   },
   {
    "code": "HEAD_LEATHER_SET2",
@@ -4816,7 +4966,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "RETALIATE2",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "RETALIATE2",
+    "SELF_CLEANSE",
+    "ENERGY_BARRIER"
+   ]
   },
   {
    "code": "HEAD_LEATHER_FEY",
@@ -4827,7 +4982,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "IMMORTAL",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "IMMORTAL",
+    "SELF_CLEANSE",
+    "ENERGY_BARRIER"
+   ]
   },
   {
    "code": "HEAD_LEATHER_SET1",
@@ -4838,7 +4998,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "HOWL",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "HOWL",
+    "SELF_CLEANSE",
+    "ENERGY_BARRIER"
+   ]
   },
   {
    "code": "HEAD_LEATHER_UNDEAD",
@@ -4849,7 +5014,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "ARMOR_CD_RESET",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "ARMOR_CD_RESET",
+    "SELF_CLEANSE",
+    "ENERGY_BARRIER"
+   ]
   },
   {
    "code": "HEAD_LEATHER_HELL",
@@ -4860,7 +5030,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "SMOKEBOMB",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "SMOKEBOMB",
+    "SELF_CLEANSE",
+    "ENERGY_BARRIER"
+   ]
   },
   {
    "code": "HEAD_LEATHER_MORGANA",
@@ -4871,7 +5046,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "SMELLOFBLOOD",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "SMELLOFBLOOD",
+    "SELF_CLEANSE",
+    "ENERGY_BARRIER"
+   ]
   },
   {
    "code": "HEAD_LEATHER_AVALON",
@@ -4882,7 +5062,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "NASTY_WOUNDS",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "NASTY_WOUNDS",
+    "SELF_CLEANSE",
+    "ENERGY_BARRIER"
+   ]
   },
   {
    "code": "HEAD_LEATHER_ROYAL",
@@ -4893,7 +5078,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "GROWING_RAGE",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "GROWING_RAGE",
+    "SELF_CLEANSE",
+    "ENERGY_BARRIER"
+   ]
   },
   {
    "code": "HEAD_CLOTH_SET2",
@@ -4904,7 +5094,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "ICEBLOCK2",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "ICEBLOCK2",
+    "PBAOE_KNOCKBACK",
+    "ENERGY_BARRIER"
+   ]
   },
   {
    "code": "HEAD_CLOTH_SET1",
@@ -4915,7 +5110,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "ENERGYSHIELD2",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "ENERGYSHIELD2",
+    "PBAOE_KNOCKBACK",
+    "ENERGY_BARRIER"
+   ]
   },
   {
    "code": "HEAD_CLOTH_MORGANA",
@@ -4926,7 +5126,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "INNER_CORRUPTION",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "INNER_CORRUPTION",
+    "PBAOE_KNOCKBACK",
+    "ENERGY_BARRIER"
+   ]
   },
   {
    "code": "HEAD_CLOTH_KEEPER",
@@ -4937,7 +5142,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "ENERGYFIELD",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "ENERGYFIELD",
+    "PBAOE_KNOCKBACK",
+    "ENERGY_BARRIER"
+   ]
   },
   {
    "code": "HEAD_CLOTH_SET3",
@@ -4948,7 +5158,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "HELMET_FIREBREATH",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "HELMET_FIREBREATH",
+    "PBAOE_KNOCKBACK",
+    "ENERGY_BARRIER"
+   ]
   },
   {
    "code": "HEAD_CLOTH_HELL",
@@ -4959,7 +5174,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "PURGE_HELMET",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "PURGE_HELMET",
+    "PBAOE_KNOCKBACK",
+    "ENERGY_BARRIER"
+   ]
   },
   {
    "code": "HEAD_CLOTH_AVALON",
@@ -4970,7 +5190,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "AVALON_BEAM",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "AVALON_BEAM",
+    "PBAOE_KNOCKBACK",
+    "ENERGY_BARRIER"
+   ]
   },
   {
    "code": "HEAD_CLOTH_ROYAL",
@@ -4981,7 +5206,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "PERPETUALENERGY",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "PERPETUALENERGY",
+    "PBAOE_KNOCKBACK",
+    "ENERGY_BARRIER"
+   ]
   },
   {
    "code": "HEAD_PLATE_ROYAL",
@@ -4992,7 +5222,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "ARTILLERY_COMMAND",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "ARTILLERY_COMMAND",
+    "STONESKIN",
+    "ENERGY_BARRIER"
+   ]
   },
   {
    "code": "HEAD_PLATE_FEY",
@@ -5003,7 +5238,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "SPIDER_THREAD",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "SPIDER_THREAD",
+    "STONESKIN",
+    "ENERGY_BARRIER"
+   ]
   },
   {
    "code": "HEAD_PLATE_AVALON",
@@ -5014,7 +5254,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "PURIFYING_SMOKE",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "PURIFYING_SMOKE",
+    "STONESKIN",
+    "ENERGY_BARRIER"
+   ]
   },
   {
    "code": "HEAD_PLATE_SET2",
@@ -5025,7 +5270,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "DISRUPTIONIMMUNITY",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "DISRUPTIONIMMUNITY",
+    "STONESKIN",
+    "ENERGY_BARRIER"
+   ]
   },
   {
    "code": "HEAD_PLATE_HELL",
@@ -5036,7 +5286,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "WEAPON_SILENCE",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "WEAPON_SILENCE",
+    "STONESKIN",
+    "ENERGY_BARRIER"
+   ]
   },
   {
    "code": "HEAD_PLATE_UNDEAD",
@@ -5047,7 +5302,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "SACRIFICE_HEAL",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "SACRIFICE_HEAL",
+    "STONESKIN",
+    "ENERGY_BARRIER"
+   ]
   },
   {
    "code": "HEAD_PLATE_SET3",
@@ -5058,7 +5318,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "EMERGENCY_SHIELD",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "EMERGENCY_SHIELD",
+    "STONESKIN",
+    "ENERGY_BARRIER"
+   ]
   },
   {
    "code": "HEAD_PLATE_KEEPER",
@@ -5069,7 +5334,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "ELECTRICSHOCK",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "ELECTRICSHOCK",
+    "STONESKIN",
+    "ENERGY_BARRIER"
+   ]
   },
   {
    "code": "HEAD_PLATE_SET1",
@@ -5080,7 +5350,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "BLOCK",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "BLOCK",
+    "STONESKIN",
+    "ENERGY_BARRIER"
+   ]
   },
   {
    "code": "HEAD_CLOTH_FEY",
@@ -5091,7 +5366,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "HYPER_FOCUS",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "HYPER_FOCUS",
+    "PBAOE_KNOCKBACK",
+    "ENERGY_BARRIER"
+   ]
   },
   {
    "code": "MOUNT_SIEGE_BALLISTA",
@@ -6862,7 +7142,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "ARMOR_WEB",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "ARMOR_WEB",
+    "TAUNT",
+    "OUTOFCOMBATHEAL"
+   ]
   },
   {
    "code": "ARMOR_PLATE_AVALON",
@@ -6873,7 +7158,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "REFLECT_CHANNEL",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "REFLECT_CHANNEL",
+    "TAUNT",
+    "OUTOFCOMBATHEAL"
+   ]
   },
   {
    "code": "ARMOR_PLATE_SET2",
@@ -6884,7 +7174,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "WINDWALL",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "WINDWALL",
+    "TAUNT",
+    "OUTOFCOMBATHEAL"
+   ]
   },
   {
    "code": "ARMOR_PLATE_HELL",
@@ -6895,7 +7190,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "REFLECTAREA",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "REFLECTAREA",
+    "TAUNT",
+    "OUTOFCOMBATHEAL"
+   ]
   },
   {
    "code": "ARMOR_PLATE_UNDEAD",
@@ -6906,7 +7206,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "ARMORCHAIN",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "ARMORCHAIN",
+    "TAUNT",
+    "OUTOFCOMBATHEAL"
+   ]
   },
   {
    "code": "ARMOR_PLATE_SET3",
@@ -6917,7 +7222,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "ENFEEBLEAURA",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "ENFEEBLEAURA",
+    "TAUNT",
+    "OUTOFCOMBATHEAL"
+   ]
   },
   {
    "code": "ARMOR_PLATE_KEEPER",
@@ -6928,7 +7238,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "FORCESHIELD",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "FORCESHIELD",
+    "TAUNT",
+    "OUTOFCOMBATHEAL"
+   ]
   },
   {
    "code": "ARMOR_PLATE_SET1",
@@ -6939,7 +7254,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "ENRAGE",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "ENRAGE",
+    "TAUNT",
+    "OUTOFCOMBATHEAL"
+   ]
   },
   {
    "code": "ARMOR_PLATE_ROYAL",
@@ -6950,7 +7270,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "MANADRAIN",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "MANADRAIN",
+    "TAUNT",
+    "OUTOFCOMBATHEAL"
+   ]
   },
   {
    "code": "ARMOR_CLOTH_SET2",
@@ -6961,7 +7286,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "LIFESAVIOR",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "LIFESAVIOR",
+    "FROSTSHIELD",
+    "OUTOFCOMBATHEAL"
+   ]
   },
   {
    "code": "ARMOR_CLOTH_FEY",
@@ -6972,7 +7302,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "WILD_MAGIC",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "WILD_MAGIC",
+    "FROSTSHIELD",
+    "OUTOFCOMBATHEAL"
+   ]
   },
   {
    "code": "ARMOR_CLOTH_SET1",
@@ -6983,7 +7318,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "SPEEDCASTER",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "SPEEDCASTER",
+    "FROSTSHIELD",
+    "OUTOFCOMBATHEAL"
+   ]
   },
   {
    "code": "ARMOR_CLOTH_MORGANA",
@@ -6994,7 +7334,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "LEVITATE",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "LEVITATE",
+    "FROSTSHIELD",
+    "OUTOFCOMBATHEAL"
+   ]
   },
   {
    "code": "ARMOR_CLOTH_KEEPER",
@@ -7005,7 +7350,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "SPELLRUSH",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "SPELLRUSH",
+    "FROSTSHIELD",
+    "OUTOFCOMBATHEAL"
+   ]
   },
   {
    "code": "ARMOR_CLOTH_SET3",
@@ -7016,7 +7366,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "PURGINGSHIELD2",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "PURGINGSHIELD2",
+    "FROSTSHIELD",
+    "OUTOFCOMBATHEAL"
+   ]
   },
   {
    "code": "ARMOR_CLOTH_HELL",
@@ -7027,7 +7382,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "FEAR_AURA",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "FEAR_AURA",
+    "FROSTSHIELD",
+    "OUTOFCOMBATHEAL"
+   ]
   },
   {
    "code": "ARMOR_CLOTH_AVALON",
@@ -7038,7 +7398,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "CASTBUBBLE",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "CASTBUBBLE",
+    "FROSTSHIELD",
+    "OUTOFCOMBATHEAL"
+   ]
   },
   {
    "code": "ARMOR_CLOTH_ROYAL",
@@ -7049,7 +7414,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "MAGICCIRCLE",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "MAGICCIRCLE",
+    "FROSTSHIELD",
+    "OUTOFCOMBATHEAL"
+   ]
   },
   {
    "code": "ARMOR_LEATHER_SET3",
@@ -7060,7 +7430,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "AMBUSH",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "AMBUSH",
+    "FLAMESHIELD",
+    "OUTOFCOMBATHEAL"
+   ]
   },
   {
    "code": "ARMOR_LEATHER_DRAGON",
@@ -7071,7 +7446,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "IMMUNEAREA",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "IMMUNEAREA",
+    "FLAMESHIELD",
+    "OUTOFCOMBATHEAL"
+   ]
   },
   {
    "code": "ARMOR_LEATHER_SET2",
@@ -7082,7 +7462,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "HASTE",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "HASTE",
+    "FLAMESHIELD",
+    "OUTOFCOMBATHEAL"
+   ]
   },
   {
    "code": "ARMOR_LEATHER_FEY",
@@ -7093,7 +7478,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "MIST_WALKER",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "MIST_WALKER",
+    "FLAMESHIELD",
+    "OUTOFCOMBATHEAL"
+   ]
   },
   {
    "code": "ARMOR_LEATHER_SET1",
@@ -7104,7 +7494,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "BLOODLUST",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "BLOODLUST",
+    "FLAMESHIELD",
+    "OUTOFCOMBATHEAL"
+   ]
   },
   {
    "code": "ARMOR_LEATHER_UNDEAD",
@@ -7115,7 +7510,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "BURNAURA",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "BURNAURA",
+    "FLAMESHIELD",
+    "OUTOFCOMBATHEAL"
+   ]
   },
   {
    "code": "ARMOR_LEATHER_HELL",
@@ -7126,7 +7526,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "LIFESTEALAURA",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "LIFESTEALAURA",
+    "FLAMESHIELD",
+    "OUTOFCOMBATHEAL"
+   ]
   },
   {
    "code": "ARMOR_LEATHER_MORGANA",
@@ -7137,7 +7542,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "STORMSHIELD",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "STORMSHIELD",
+    "FLAMESHIELD",
+    "OUTOFCOMBATHEAL"
+   ]
   },
   {
    "code": "ARMOR_LEATHER_AVALON",
@@ -7148,7 +7558,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "DYNAMIC_DEFENSE",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "DYNAMIC_DEFENSE",
+    "FLAMESHIELD",
+    "OUTOFCOMBATHEAL"
+   ]
   },
   {
    "code": "ARMOR_LEATHER_ROYAL",
@@ -7159,7 +7574,12 @@
    "deux_mains": false,
    "sort_3": null,
    "sort_defaut": "ROYAL_BANNER",
-   "passif_defaut": null
+   "passif_defaut": null,
+   "sorts_autorises": [
+    "ROYAL_BANNER",
+    "FLAMESHIELD",
+    "OUTOFCOMBATHEAL"
+   ]
   }
  ]
 }
