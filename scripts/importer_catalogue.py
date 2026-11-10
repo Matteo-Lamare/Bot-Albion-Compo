@@ -320,17 +320,44 @@ def construire(chemins: dict[str, Path]) -> dict:
         for emplacement, codes in exclusions.items():
             pools[categorie][emplacement].difference_update(codes)
 
-    # --- Sort natif d'une piece d'armure : celui qui la distingue de sa categorie ---
+    # --- Classification des sorts d'armure : emplacement, materiau, objet ---
+    # Le sort generaliste d'une categorie est present sur toutes ses familles
+    # (ex. tissu + casque). Le sort commun a l'emplacement est partage par les
+    # trois materiaux. Le sort propre a l'objet est celui qui lui est distinctif.
     partages: dict[str, set[str]] = {}
-    for categorie, pool in pools.items():
-        listes = [set(a) for c, (cat, a) in actifs_par_objet.items() if cat == categorie and a]
+    for categorie in categories:
+        listes = [
+            set(actifs)
+            for _, (cat, actifs) in actifs_par_objet.items()
+            if cat == categorie and actifs
+        ]
         partages[categorie] = set.intersection(*listes) if listes else set()
+
+    communs_par_slot: dict[str, set[str]] = {}
+    for slot in SLOTS_ARMURE:
+        categories_slot = [
+            code for code, donnees in categories.items()
+            if donnees["slot"] == slot
+        ]
+        ensembles = [partages[code] for code in categories_slot if partages.get(code)]
+        communs_par_slot[slot] = set.intersection(*ensembles) if len(ensembles) >= 3 else set()
+
     for objet in objets:
         categorie, actifs = actifs_par_objet.get(objet["code"], (None, []))
-        if not actifs:
+        if objet["slot"] not in SLOTS_ARMURE or not actifs:
+            if actifs:
+                objet["sort_defaut"] = actifs[0]
             continue
-        distinctifs = [a for a in actifs if a not in partages.get(categorie, set())]
-        objet["sort_defaut"] = (distinctifs or actifs)[0]
+        generalistes = partages.get(categorie, set())
+        communs = communs_par_slot.get(objet["slot"], set())
+        distinctifs = [a for a in actifs if a not in generalistes and a not in communs]
+        autorises = list(dict.fromkeys(
+            [a for a in sorted(communs) if a in actifs or a in pools[categorie]["sort"]]
+            + sorted(generalistes)
+            + distinctifs
+        ))
+        objet["sorts_autorises"] = autorises
+        objet["sort_defaut"] = (distinctifs or [a for a in actifs if a in generalistes] or actifs)[0]
 
     # --- On ne garde que les sorts reellement references ---
     utilises: set[str] = set()
