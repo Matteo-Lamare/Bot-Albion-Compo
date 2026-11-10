@@ -348,16 +348,26 @@ def construire(chemins: dict[str, Path]) -> dict:
             if actifs:
                 objet["sort_defaut"] = actifs[0]
             continue
-        generalistes = partages.get(categorie, set())
-        communs = communs_par_slot.get(objet["slot"], set())
+        generalistes = sorted(partages.get(categorie, set()))
+        communs = sorted(communs_par_slot.get(objet["slot"], set()))
+        # Une piece ne doit JAMAIS recuperer tous les sorts uniques de la famille :
+        # elle propose exactement 1 sort propre, 1 sort commun au materiau,
+        # et 1 sort commun a l'emplacement.
         distinctifs = [a for a in actifs if a not in generalistes and a not in communs]
+        sort_propre = (distinctifs or actifs)[0]
+        sort_materiau = generalistes[0] if generalistes else None
+        sort_emplacement = communs[0] if communs else None
         autorises = list(dict.fromkeys(
-            [a for a in sorted(communs) if a in actifs or a in pools[categorie]["sort"]]
-            + sorted(generalistes)
-            + distinctifs
+            code for code in (sort_propre, sort_materiau, sort_emplacement) if code
         ))
+        if len(autorises) != 3:
+            raise ValueError(
+                f"Armure {objet['nom']} ({categorie}) : impossible de determiner "
+                "exactement un sort propre, un sort de materiau et un sort d'emplacement "
+                f"(obtenus : {autorises})."
+            )
         objet["sorts_autorises"] = autorises
-        objet["sort_defaut"] = (distinctifs or [a for a in actifs if a in generalistes] or actifs)[0]
+        objet["sort_defaut"] = sort_propre
 
     # --- On ne garde que les sorts reellement references ---
     utilises: set[str] = set()
