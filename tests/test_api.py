@@ -200,6 +200,46 @@ def main() -> None:
         verifier(all(gantelets.get(slot) for slot in competences_dagues),
                  "Gantelets : les pools concernes restent non vides")
 
+        # --- Trois niveaux de sorts pour chaque pièce d'armure ---
+        categories_armure = {
+            c["code"]: c for c in catalogue_source["categories"]
+            if c["slot"] in {"casque", "torse", "bottes"}
+        }
+        objets_armure = [
+            o for o in catalogue_source["objets"]
+            if o["slot"] in {"casque", "torse", "bottes"}
+        ]
+        communs_par_slot = {}
+        for slot in {"casque", "torse", "bottes"}:
+            pools = [
+                set(c["sorts"].get("sort", []))
+                for c in categories_armure.values() if c["slot"] == slot
+            ]
+            communs_par_slot[slot] = set.intersection(*pools)
+        sorts_generaux = {}
+        for code, categorie in categories_armure.items():
+            sorts_objets = {
+                o["sort_defaut"] for o in objets_armure
+                if o["categorie"] == code and o.get("sort_defaut")
+            }
+            sorts_generaux[code] = (
+                set(categorie["sorts"].get("sort", []))
+                - sorts_objets - communs_par_slot[categorie["slot"]]
+            )
+            verifier(
+                len(sorts_generaux[code]) == 1,
+                f"{code} : un sort commun au matériau et à l'emplacement",
+            )
+        for objet in objets_armure:
+            autorises = set(objet.get("sorts_autorises", []))
+            verifier(
+                len(autorises) == 3
+                and objet.get("sort_defaut") in autorises
+                and communs_par_slot[objet["slot"]].issubset(autorises)
+                and sorts_generaux[objet["categorie"]].issubset(autorises),
+                f"{objet['nom']} : sort propre + sort matériau + sort emplacement",
+            )
+
         verifier(len(cat.objets) > 300, f"Catalogue charge ({len(cat.objets)} objets)")
         verifier(len(cat.slots) == 9, "Les 9 slots sont decrits par l'API")
         verifier(
