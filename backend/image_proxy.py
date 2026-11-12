@@ -17,7 +17,8 @@ from .models import ImageAlbion
 router = APIRouter(tags=["images"])
 
 _HOTE_AUTORISE = "render.albiononline.com"
-_CHEMIN_AUTORISE = re.compile(r"^/v1/(?:item|spell)/[A-Za-z0-9_@.%-]+\\.png$")
+# Un seul antislash est necessaire dans une regex raw pour matcher le point.
+_CHEMIN_AUTORISE = re.compile(r"^/v1/(?:item|spell)/[A-Za-z0-9_@.%-]+\.png$")
 _TYPES_IMAGE = {"image/png", "image/jpeg", "image/webp", "image/gif"}
 _TAILLE_MAX = 5 * 1024 * 1024
 _TIMEOUT = httpx.Timeout(8.0, connect=3.0)
