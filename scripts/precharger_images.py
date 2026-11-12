@@ -74,7 +74,7 @@ async def precharger_images() -> int:
     semaphore = asyncio.Semaphore(CONCURRENCE)
     timeout = httpx.Timeout(20.0, connect=8.0)
     limites = httpx.Limits(max_connections=CONCURRENCE, max_keepalive_connections=CONCURRENCE)
-    async with httpx.AsyncClient(timeout=timeout, limits=limites, follow_redirects=True) as client:
+    async with httpx.AsyncClient(timeout=timeout, limits=limites, follow_redirects=False) as client:
         resultats = await asyncio.gather(
             *(telecharger(client, semaphore, url) for url in a_telecharger)
         )
