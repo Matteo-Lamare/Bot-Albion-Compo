@@ -18,6 +18,7 @@ from .database import Base, SessionLocal, engine
 from .models import Membre, RoleMembre, StatutCompo, TypeContenu
 from .auth import hacher_mot_de_passe
 from .routers import admin, auth, catalogue, compos
+from .image_proxy import router as images_router
 from .validation import ErreurLigne
 
 FRONTEND_DIR = settings.base_dir / "frontend"
@@ -104,6 +105,7 @@ app.include_router(auth.router)
 app.include_router(admin.router)
 app.include_router(catalogue.router)
 app.include_router(compos.router)
+app.include_router(images_router)
 
 @app.exception_handler(RequestValidationError)
 async def erreurs_de_validation(_: Request, exception: RequestValidationError) -> JSONResponse:

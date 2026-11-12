@@ -298,6 +298,25 @@ uvicorn backend.main:app --host 0.0.0.0 --port 8000
 Derrière un reverse proxy HTTPS (nginx, Caddy), pensez à passer `COOKIE_SECURE=true` dans `.env`
 et à sauvegarder régulièrement `database/compos.db`.
 
+### Cache des icônes Albion
+
+Les vignettes du formulaire passent par `/api/images` : le serveur récupère les PNG
+depuis `render.albiononline.com`, vérifie leur type et les met en cache localement.
+Les URL sources sont limitées aux chemins officiels `/v1/item/*.png` et
+`/v1/spell/*.png` ; une vignette de secours est affichée si une image reste indisponible.
+
+Par défaut, le cache est écrit dans `.cache/albion-images`. Sur Render, ce répertoire
+est éphémère lors d'un redéploiement. Pour conserver les icônes entre les déploiements,
+montez un **Persistent Disk** sur le service (par exemple `/var/data`) et définissez
+la variable d'environnement :
+
+```env
+IMAGE_CACHE_DIR=/var/data/albion-images
+```
+
+Sans disque persistant, le proxy continue de fonctionner, mais les icônes seront
+retéléchargées après un redémarrage ou un redéploiement.
+
 ## 9. Prévu pour la V2 (hors périmètre du MVP)
 
 - Vrai bot Discord avec commandes slash (un webhook ne sait que poster et éditer)

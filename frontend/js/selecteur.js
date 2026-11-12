@@ -2,6 +2,14 @@
 // Utilisé pour tous les slots du formulaire de compo.
 
 const MAX_RESULTATS = 60;
+const IMAGE_SECOURS = "data:image/svg+xml," + encodeURIComponent(
+  '<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64"><rect width="64" height="64" rx="8" fill="#30343d"/><path d="M17 43l10-12 7 8 6-7 8 11H17z" fill="#747d8c"/><circle cx="24" cy="22" r="5" fill="#747d8c"/></svg>'
+);
+
+function urlImageLocale(url, taille) {
+  if (!url) return IMAGE_SECOURS;
+  return `/api/images?url=${encodeURIComponent(url)}&size=${taille * 2}`;
+}
 
 function sansAccents(texte) {
   return (texte || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
@@ -14,7 +22,12 @@ function creerVignette(url, taille = 26) {
   image.height = taille;
   image.loading = "lazy";
   image.alt = "";
-  if (url) image.src = `${url}?size=${taille * 2}`;
+  image.onerror = () => {
+    image.onerror = null;
+    image.src = IMAGE_SECOURS;
+  };
+  image.referrerPolicy = "no-referrer";
+  image.src = urlImageLocale(url, taille);
   return image;
 }
 
