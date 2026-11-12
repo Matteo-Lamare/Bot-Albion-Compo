@@ -253,6 +253,19 @@ def main() -> None:
                 not set(dagues.get(emplacement, [])).intersection(gantelets.get(emplacement, [])),
                 f"Dagues et gantelets : aucun sort d'attaque partage dans {emplacement}",
             )
+        verifier(
+            "PASSIVE_BLEEDCHANCE" in dagues.get("passif", []),
+            "Dagues : le passif Entailles profondes reste autorisé",
+        )
+        verifier(
+            "PASSIVE_BLEEDCHANCE" not in gantelets.get("passif", []),
+            "Gantelets : le passif Entailles profondes est exclu",
+        )
+        verifier(
+            catalogue_source["sorts"]["PASSIVE_KNUCKLE_BRAWLER"]["nom"]
+            != catalogue_source["sorts"]["PASSIVE_KNUCKLE_BRAWLER_SPEED"]["nom"],
+            "Gantelets : les deux variantes de Fureur fatale ont des libellés distincts",
+        )
         verifier(all(dagues.get(slot) for slot in competences_dagues),
                  "Dagues : les pools concernes restent non vides")
         verifier(all(gantelets.get(slot) for slot in competences_dagues),
@@ -299,6 +312,25 @@ def main() -> None:
                 and sorts_generaux[objet["categorie"]].issubset(autorises),
                 f"{objet['nom']} : exactement 3 sorts (propre + matériau + emplacement)",
             )
+
+        # --- Casques de récolte : un sort professionnel distinct par ressource ---
+        from backend.gathering import CAPACITES_CAP, FAMILLES
+        verifier(
+            set(CAPACITES_CAP) == set(FAMILLES)
+            and len(set(CAPACITES_CAP.values())) == len(FAMILLES),
+            "Chaque profession de récolte possède son propre sort de casque",
+        )
+        verifier(
+            CAPACITES_CAP == {
+                "FIBER": "MAGICMUSHROOM",
+                "WOOD": "TREETRUNKS",
+                "ORE": "CC_IMMUNITY",
+                "ROCK": "SLOWSHIELD",
+                "HIDE": "BEARTRAP",
+                "FISH": "THROWINGFISH",
+            },
+            "Les six casques de récolte utilisent les capacités actuelles du jeu",
+        )
 
         verifier(len(cat.objets) > 300, f"Catalogue charge ({len(cat.objets)} objets)")
         verifier(len(cat.slots) == 9, "Les 9 slots sont decrits par l'API")
