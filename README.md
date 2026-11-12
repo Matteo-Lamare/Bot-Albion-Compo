@@ -326,16 +326,6 @@ Ce projet utilise GitHub Flow pour gérer les évolutions et corrections et voil
 
 ## Préchargement des icônes Albion
 
-Les icônes du catalogue sont téléchargées en lot puis conservées dans la base de données.
-L'affichage ne contacte jamais le serveur Albion : il lit uniquement les octets déjà stockés.
+Au démarrage, le bot vérifie les icônes manquantes et les télécharge automatiquement dans la table `cache_images_albion` de PostgreSQL (Neon). Le service reste disponible pendant ce préchargement. Une fois stockées, les images sont servies depuis la base de données ; aucune requête vers Albion n'est nécessaire lors de leur affichage.
 
-Après déploiement, exécutez une fois :
-
-```bash
-python scripts/precharger_images.py
-```
-
-Le script récupère toutes les icônes d'objets et de sorts du catalogue, vérifie leur type
-et leur taille, puis les enregistre en base. Il peut être relancé sans dupliquer les images ;
-les échecs sont listés et le code de sortie est non nul tant que toutes les images ne sont
-pas présentes. Relancez-le après chaque mise à jour du catalogue.
+Le processus est relançable : les icônes déjà présentes ne sont pas retéléchargées. Les erreurs de téléchargement sont consignées dans les logs Render et les icônes concernées seront retentées au prochain démarrage.

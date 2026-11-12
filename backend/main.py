@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from contextlib import asynccontextmanager
+import asyncio
 import re
 
 from fastapi import FastAPI, Request
@@ -19,6 +20,7 @@ from .models import Membre, RoleMembre, StatutCompo, TypeContenu
 from .auth import hacher_mot_de_passe
 from .routers import admin, auth, catalogue, compos
 from .image_proxy import router as images_router
+from scripts.precharger_images import precharger_images
 from .validation import ErreurLigne
 
 FRONTEND_DIR = settings.base_dir / "frontend"
@@ -96,7 +98,22 @@ def initialiser_base() -> None:
 @asynccontextmanager
 async def lifespan(_: FastAPI):
     initialiser_base()
-    yield
+    # Les icones sont prechargees en base en arriere-plan : le service reste
+    # disponible pendant le telechargement initial, puis ne depend plus
+    # d'Albion pour afficher les images.
+    async def lancer_prechargement_images() -> None:
+        try:
+            await precharger_images()
+        except Exception as exc:
+            # Ne bloque pas le bot : le prochain redémarrage retentera le cache.
+            print(f"[images] Echec du prechargement automatique : {exc}")
+
+    tache_images = asyncio.create_task(lancer_prechargement_images())
+    try:
+        yield
+    finally:
+        if not tache_images.done():
+            tache_images.cancel()
 
 
 app = FastAPI(title=settings.app_name, version="1.0.0", lifespan=lifespan)
