@@ -60,8 +60,21 @@ EXCLUSIONS_SORTS_PAR_CATEGORIE = {
     "knuckles": {
         "sort_1": {"ASSASSINSPIRIT", "QDASH", "SUNDERARMOR2"},
         "sort_2": {"CHAINDASH", "DEEPCUTS", "GROUNDDASH", "SKILLSHOT_TELEPORT", "THROWINGBLADES"},
-        "passif": {"PASSIVE_AASPEEDCHANCE_DAGGER", "PASSIVE_HEALTHCHANCE_DAGGER", "PASSIVE_SPELLPOWER_CHANCE_DAGGER"},
+        "passif": {
+            "PASSIVE_AASPEEDCHANCE_DAGGER",
+            "PASSIVE_HEALTHCHANCE_DAGGER",
+            "PASSIVE_SPELLPOWER_CHANCE_DAGGER",
+            "PASSIVE_BLEEDCHANCE",
+        },
     },
+}
+
+# Deux passifs historiques de gantelets partagent le même libellé français,
+# mais leurs mécaniques diffèrent (9 ou 12 cumuls). On les distingue dans le
+# sélecteur au lieu d'afficher deux fois « Fureur fatale ».
+NOMS_SORTS_CORRIGES = {
+    "PASSIVE_KNUCKLE_BRAWLER": "Fureur fatale (9 cumuls)",
+    "PASSIVE_KNUCKLE_BRAWLER_SPEED": "Fureur fatale (12 cumuls)",
 }
 
 # Mots de liaison a retirer en fin de nom quand on deduit le nom sans tier.
@@ -214,6 +227,9 @@ def construire(chemins: dict[str, Path]) -> dict:
 
     print("  lecture des sorts…", flush=True)
     sorts_bruts = charger_sorts(chemins["spells.xml"], textes)
+    for code, nom_corrige in NOMS_SORTS_CORRIGES.items():
+        if code in sorts_bruts:
+            sorts_bruts[code]["nom"] = nom_corrige
     print(f"    {len(sorts_bruts)} sorts", flush=True)
 
     print("  lecture des objets…", flush=True)

@@ -1,7 +1,7 @@
 """Ajout des equipements de gathering et de leurs sorts/passifs au catalogue."""
 from __future__ import annotations
 
-from sqlalchemy import select
+from sqlalchemy import delete, select
 from sqlalchemy.orm import Session
 
 from .models import CategorieAlbion, CategorieSort, ObjetAlbion, SlotEquipement, SortAlbion, Emplacement
@@ -28,6 +28,11 @@ SORTS = {
     "SELF_CLEANSE": "Purification",
     "EMERGENCY_SHIELD": "Bouclier d'urgence",
     "MAGICMUSHROOM": "Pollen magique",
+    "TREETRUNKS": "Troncs d'arbres",
+    "CC_IMMUNITY": "Chant du travailleur motivant",
+    "SLOWSHIELD": "À l'épreuve de la fatigue",
+    "BEARTRAP": "Piège à ours",
+    "THROWINGFISH": "Poisson pourri",
     "OUTOFCOMBATHEAL": "Guérison des blessures",
     "AMBUSH": "Embuscade",
     "WINDWALL": "Bourrasque",
@@ -79,9 +84,21 @@ PASSIF_NOMS = {
 }
 
 SLOTS_SORTS = {
-    "HEAD": (Emplacement.sort, ("BLOCK", "SELF_CLEANSE", "EMERGENCY_SHIELD", "MAGICMUSHROOM")),
+    "HEAD": (Emplacement.sort, ("BLOCK", "SELF_CLEANSE", "EMERGENCY_SHIELD")),
     "ARMOR": (Emplacement.sort, ("OUTOFCOMBATHEAL", "AMBUSH", "WINDWALL")),
     "SHOES": (Emplacement.sort, ("FLEE", "SPRINTHOT", "WANDERLUST")),
+}
+
+# Chaque casque ne propose que le sort propre à sa profession, en plus des
+# trois sorts communs. MAGICMUSHROOM ne doit notamment pas être proposé aux
+# mineurs, carriers, bûcherons, dépeceurs ou pêcheurs.
+CAPACITES_CAP = {
+    "FIBER": "MAGICMUSHROOM",
+    "WOOD": "TREETRUNKS",
+    "ORE": "CC_IMMUNITY",
+    "ROCK": "SLOWSHIELD",
+    "HIDE": "BEARTRAP",
+    "FISH": "THROWINGFISH",
 }
 
 
@@ -144,10 +161,23 @@ def installer_equipements_gathering(db: Session) -> int:
                 ajoutes += 1
 
             emplacement_sort, codes_sort = SLOTS_SORTS[piece]
+            if piece == "HEAD":
+                codes_sort = (*codes_sort, CAPACITES_CAP[famille])
+
+            # Remplacer le pool, ne pas seulement ajouter les nouveaux sorts :
+            # les anciennes installations avaient MAGICMUSHROOM sur tous les casques.
+            db.execute(delete(CategorieSort).where(
+                CategorieSort.categorie_id == categorie.id,
+                CategorieSort.emplacement == emplacement_sort,
+            ))
             for sort_code in codes_sort:
                 sort = _get_or_create_sort(db, sort_code, SORTS[sort_code])
                 _ajouter_pool(db, categorie.id, emplacement_sort, sort)
 
+            db.execute(delete(CategorieSort).where(
+                CategorieSort.categorie_id == categorie.id,
+                CategorieSort.emplacement == Emplacement.passif_1,
+            ))
             passif_code = PASSIFS[famille][piece]
             passif = _get_or_create_sort(db, passif_code, PASSIF_NOMS[famille], passif=True)
             _ajouter_pool(db, categorie.id, Emplacement.passif_1, passif)

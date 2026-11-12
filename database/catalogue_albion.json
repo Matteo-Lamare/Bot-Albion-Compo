@@ -1263,11 +1263,11 @@
    "passif": true
   },
   "PASSIVE_KNUCKLE_BRAWLER": {
-   "nom": "Fureur fatale",
+   "nom": "Fureur fatale (9 cumuls)",
    "passif": true
   },
   "PASSIVE_KNUCKLE_BRAWLER_SPEED": {
-   "nom": "Fureur fatale",
+   "nom": "Fureur fatale (12 cumuls)",
    "passif": true
   },
   "PASSIVE_KNUCKLE_COMBOBREAKER": {
@@ -2433,7 +2433,6 @@
    "slot": "arme",
    "sorts": {
     "passif": [
-     "PASSIVE_BLEEDCHANCE",
      "PASSIVE_KNUCKLE_BRAWLER",
      "PASSIVE_KNUCKLE_BRAWLER_SPEED",
      "PASSIVE_KNUCKLE_COMBOBREAKER",
