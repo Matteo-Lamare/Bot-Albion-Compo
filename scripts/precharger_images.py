@@ -18,7 +18,6 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from backend.database import SessionLocal  # noqa: E402
-from backend.main import initialiser_base  # noqa: E402
 from backend.models import ImageAlbion  # noqa: E402
 
 CATALOGUE = ROOT / "database" / "catalogue_albion.json"
@@ -60,15 +59,24 @@ async def telecharger(client: httpx.AsyncClient, semaphore: asyncio.Semaphore, u
         return url, None, None, None, erreur
 
 
-async def main() -> int:
-    initialiser_base()
+async def precharger_images() -> int:
+    """Complete en arriere-plan les images absentes de la base."""
     urls = urls_catalogue()
+    with SessionLocal() as db:
+        deja = set(db.scalars(select(ImageAlbion.cle)))
+    a_telecharger = [
+        url for url in urls
+        if hashlib.sha256(f"{url}?size={TAILLE}".encode("utf-8")).hexdigest() not in deja
+    ]
+    if not a_telecharger:
+        print(f"Images Albion deja en base : {len(urls)}")
+        return 0
     semaphore = asyncio.Semaphore(CONCURRENCE)
     timeout = httpx.Timeout(20.0, connect=8.0)
     limites = httpx.Limits(max_connections=CONCURRENCE, max_keepalive_connections=CONCURRENCE)
     async with httpx.AsyncClient(timeout=timeout, limits=limites, follow_redirects=False) as client:
         resultats = await asyncio.gather(
-            *(telecharger(client, semaphore, url) for url in urls)
+            *(telecharger(client, semaphore, url) for url in a_telecharger)
         )
 
     reussites = [r for r in resultats if r[1] is not None]
@@ -88,6 +96,7 @@ async def main() -> int:
         db.commit()
 
     print(f"Images catalogue : {len(urls)}")
+    print(f"Images a telecharger : {len(a_telecharger)}")
     print(f"Téléchargées/validées : {len(reussites)}")
     print(f"Échecs : {len(echecs)}")
     for url, _, _, _, erreur in echecs:
@@ -100,4 +109,7 @@ async def main() -> int:
 
 
 if __name__ == "__main__":
-    raise SystemExit(asyncio.run(main()))
+    from backend.main import initialiser_base
+
+    initialiser_base()
+    raise SystemExit(asyncio.run(precharger_images()))
