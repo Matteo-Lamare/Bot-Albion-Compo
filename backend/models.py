@@ -9,6 +9,7 @@ from sqlalchemy import (
     Enum as SAEnum,
     ForeignKey,
     Integer,
+    LargeBinary,
     String,
     Text,
     UniqueConstraint,
@@ -20,6 +21,20 @@ from .database import Base
 
 def utcnow() -> datetime:
     return datetime.now(timezone.utc)
+
+
+class ImageAlbion(Base):
+    """Image Albion mise en cache en base pour rester disponible entre deployements."""
+
+    __tablename__ = "cache_images_albion"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    cle: Mapped[str] = mapped_column(String(64), unique=True, nullable=False, index=True)
+    url_source: Mapped[str] = mapped_column(String(500), nullable=False)
+    taille: Mapped[int] = mapped_column(Integer, nullable=False)
+    contenu: Mapped[bytes] = mapped_column(LargeBinary, nullable=False)
+    type_mime: Mapped[str] = mapped_column(String(40), nullable=False)
+    date_cache: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow, nullable=False)
 
 
 class RoleMembre(str, enum.Enum):
