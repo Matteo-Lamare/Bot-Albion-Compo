@@ -15,7 +15,7 @@ from .catalogue import CHEMIN_CATALOGUE, importer as importer_catalogue
 from .gathering import installer_equipements_gathering
 from .config import settings
 from .database import Base, SessionLocal, engine
-from .models import Membre, ObjetAlbion, RoleMembre, StatutCompo, TypeContenu
+from .models import Membre, RoleMembre, StatutCompo, TypeContenu
 from .auth import hacher_mot_de_passe
 from .routers import admin, auth, catalogue, compos
 from .validation import ErreurLigne
@@ -79,9 +79,12 @@ def initialiser_base() -> None:
             db.add(Membre(pseudo=settings.admin_pseudo, mot_de_passe_hash=hacher_mot_de_passe(settings.admin_password), role=RoleMembre.admin))
             db.commit()
             print(f"[init] Compte admin cree : {settings.admin_pseudo}")
-        if db.scalar(select(ObjetAlbion).limit(1)) is None and CHEMIN_CATALOGUE.exists():
+        # Le catalogue est versionne avec l'application, mais la base Render
+        # est persistante entre les deployements. Il faut donc le resynchroniser
+        # a chaque demarrage, pas seulement lors de la toute premiere creation.
+        if CHEMIN_CATALOGUE.exists():
             compte = importer_catalogue(db)
-            print(f"[init] Catalogue Albion charge : {compte['objets']} objets, {compte['sorts']} sorts")
+            print(f"[init] Catalogue Albion synchronise : {compte['objets']} objets, {compte['sorts']} sorts")
         # Les equipements de gathering sont une extension retrocompatible du
         # catalogue : elle s'applique aussi aux bases deja initialisees.
         ajout_gather = installer_equipements_gathering(db)

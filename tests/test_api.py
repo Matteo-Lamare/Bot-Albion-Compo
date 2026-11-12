@@ -195,6 +195,11 @@ def main() -> None:
                      f"Dagues : competences conservees dans {emplacement}")
             verifier(not codes.intersection(gantelets.get(emplacement, [])),
                      f"Gantelets : competences de Dagues exclues de {emplacement}")
+        for emplacement in ("sort_1", "sort_2"):
+            verifier(
+                not set(dagues.get(emplacement, [])).intersection(gantelets.get(emplacement, [])),
+                f"Dagues et gantelets : aucun sort d'attaque partage dans {emplacement}",
+            )
         verifier(all(dagues.get(slot) for slot in competences_dagues),
                  "Dagues : les pools concernes restent non vides")
         verifier(all(gantelets.get(slot) for slot in competences_dagues),
@@ -231,13 +236,15 @@ def main() -> None:
                 f"{code} : un sort commun au matériau et à l'emplacement",
             )
         for objet in objets_armure:
-            autorises = set(objet.get("sorts_autorises", []))
+            liste_autorises = objet.get("sorts_autorises", [])
+            autorises = set(liste_autorises)
             verifier(
-                len(autorises) == 3
+                len(liste_autorises) == 3
+                and len(autorises) == 3
                 and objet.get("sort_defaut") in autorises
                 and communs_par_slot[objet["slot"]].issubset(autorises)
                 and sorts_generaux[objet["categorie"]].issubset(autorises),
-                f"{objet['nom']} : sort propre + sort matériau + sort emplacement",
+                f"{objet['nom']} : exactement 3 sorts (propre + matériau + emplacement)",
             )
 
         verifier(len(cat.objets) > 300, f"Catalogue charge ({len(cat.objets)} objets)")
