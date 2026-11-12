@@ -18,7 +18,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from backend.database import SessionLocal  # noqa: E402
-from backend.models import ImageAlbion  # noqa: E402
+from backend.models import ImageAlbion, ObjetAlbion, SortAlbion  # noqa: E402
 
 CATALOGUE = ROOT / "database" / "catalogue_albion.json"
 TAILLE = 128
@@ -28,15 +28,32 @@ TYPES_IMAGE = {"image/png", "image/jpeg", "image/webp", "image/gif"}
 
 
 def urls_catalogue() -> list[str]:
+    """Construit les URL depuis le JSON ET les enregistrements réellement en base."""
     donnees = json.loads(CATALOGUE.read_text(encoding="utf-8"))
     urls = {
         f"https://render.albiononline.com/v1/item/{objet['rendu']}.png"
-        for objet in donnees["objets"]
+        for objet in donnees.get("objets", [])
+        if objet.get("rendu")
     }
     urls.update(
         f"https://render.albiononline.com/v1/spell/{code}.png"
-        for code in donnees["sorts"]
+        for code in donnees.get("sorts", {})
+        if code
     )
+
+    # Les compositions existantes peuvent référencer des éléments importés en DB
+    # qui ne figurent plus (ou pas encore) dans le JSON local.
+    with SessionLocal() as db:
+        urls.update(
+            f"https://render.albiononline.com/v1/item/{code_rendu}.png"
+            for code_rendu in db.scalars(select(ObjetAlbion.code_rendu).distinct())
+            if code_rendu
+        )
+        urls.update(
+            f"https://render.albiononline.com/v1/spell/{code}.png"
+            for code in db.scalars(select(SortAlbion.code).distinct())
+            if code
+        )
     return sorted(urls)
 
 
@@ -74,7 +91,7 @@ async def precharger_images() -> int:
     semaphore = asyncio.Semaphore(CONCURRENCE)
     timeout = httpx.Timeout(20.0, connect=8.0)
     limites = httpx.Limits(max_connections=CONCURRENCE, max_keepalive_connections=CONCURRENCE)
-    async with httpx.AsyncClient(timeout=timeout, limits=limites, follow_redirects=False) as client:
+    async with httpx.AsyncClient(timeout=timeout, limits=limites, follow_redirects=True) as client:
         resultats = await asyncio.gather(
             *(telecharger(client, semaphore, url) for url in a_telecharger)
         )
@@ -95,7 +112,7 @@ async def precharger_images() -> int:
                 ))
         db.commit()
 
-    print(f"Images catalogue : {len(urls)}")
+    print(f"Images catalogue (JSON + Neon) : {len(urls)}")
     print(f"Images a telecharger : {len(a_telecharger)}")
     print(f"Téléchargées/validées : {len(reussites)}")
     print(f"Échecs : {len(echecs)}")

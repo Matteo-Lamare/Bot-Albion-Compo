@@ -22,7 +22,18 @@ function creerVignette(url, taille = 26) {
   image.height = taille;
   image.loading = "lazy";
   image.alt = "";
+  // Une réponse 503 signifie souvent que le cache Neon est encore en cours
+  // de remplissage. Retenter avant d'afficher le placeholder définitif.
+  let tentatives = 0;
   image.onerror = () => {
+    if (tentatives < 8) {
+      tentatives += 1;
+      window.setTimeout(() => {
+        const separateur = image.src.includes("?") ? "&" : "?";
+        image.src = urlImageLocale(url, taille) + separateur + "retry=" + tentatives;
+      }, Math.min(1500 * tentatives, 10000));
+      return;
+    }
     image.onerror = null;
     image.src = IMAGE_SECOURS;
   };

@@ -61,7 +61,7 @@ def lire_icone(
             image.contenu,
             media_type=image.type_mime,
             headers={
-                "Cache-Control": "public, max-age=604800, immutable",
+                "Cache-Control": "public, max-age=3600",
                 "X-Image-Cache": "DATABASE",
             },
         )
