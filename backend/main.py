@@ -101,7 +101,14 @@ async def lifespan(_: FastAPI):
     # Les icones sont prechargees en base en arriere-plan : le service reste
     # disponible pendant le telechargement initial, puis ne depend plus
     # d'Albion pour afficher les images.
-    tache_images = asyncio.create_task(precharger_images())
+    async def lancer_prechargement_images() -> None:
+        try:
+            await precharger_images()
+        except Exception as exc:
+            # Ne bloque pas le bot : le prochain redémarrage retentera le cache.
+            print(f"[images] Echec du prechargement automatique : {exc}")
+
+    tache_images = asyncio.create_task(lancer_prechargement_images())
     try:
         yield
     finally:
