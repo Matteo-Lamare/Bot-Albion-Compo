@@ -301,21 +301,15 @@ et à sauvegarder régulièrement `database/compos.db`.
 ### Cache des icônes Albion
 
 Les vignettes du formulaire passent par `/api/images` : le serveur récupère les PNG
-depuis `render.albiononline.com`, vérifie leur type et les met en cache localement.
-Les URL sources sont limitées aux chemins officiels `/v1/item/*.png` et
-`/v1/spell/*.png` ; une vignette de secours est affichée si une image reste indisponible.
+depuis `render.albiononline.com`, vérifie leur type et les stocke dans la table
+`cache_images_albion` de la base SQL. Les images déjà enregistrées sont servies
+directement depuis PostgreSQL/SQLite, sans nouvel appel au serveur Albion.
 
-Par défaut, le cache est écrit dans `.cache/albion-images`. Sur Render, ce répertoire
-est éphémère lors d'un redéploiement. Pour conserver les icônes entre les déploiements,
-montez un **Persistent Disk** sur le service (par exemple `/var/data`) et définissez
-la variable d'environnement :
-
-```env
-IMAGE_CACHE_DIR=/var/data/albion-images
-```
-
-Sans disque persistant, le proxy continue de fonctionner, mais les icônes seront
-retéléchargées après un redémarrage ou un redéploiement.
+Le cache est persistant avec la base de données et survit aux redémarrages et
+redéploiements Render. Aucun Persistent Disk ni variable `IMAGE_CACHE_DIR` n'est
+nécessaire. Les URL sources restent limitées aux chemins officiels
+`/v1/item/*.png` et `/v1/spell/*.png` ; une vignette de secours est affichée
+si une image demeure indisponible.
 
 ## 9. Prévu pour la V2 (hors périmètre du MVP)
 
