@@ -2433,7 +2433,6 @@
    "slot": "arme",
    "sorts": {
     "passif": [
-     "PASSIVE_BLEEDCHANCE",
      "PASSIVE_KNUCKLE_BRAWLER",
      "PASSIVE_KNUCKLE_BRAWLER_SPEED",
      "PASSIVE_KNUCKLE_COMBOBREAKER",
