@@ -15,7 +15,7 @@ from .models import ImageAlbion
 router = APIRouter(tags=["images"])
 
 _HOTE_AUTORISE = "render.albiononline.com"
-_CHEMIN_AUTORISE = re.compile(r"^/v1/(?:item|spell)/[A-Za-z0-9_@.%-]+\\.png$")
+_CHEMIN_AUTORISE = re.compile(r"^/v1/(?:item|spell)/[A-Za-z0-9_@.%-]+\.png$")
 _TAILLE_STOCKEE = 128
 
 
