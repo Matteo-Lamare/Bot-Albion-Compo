@@ -10,7 +10,6 @@ import hashlib
 import json
 import sys
 from pathlib import Path
-from urllib.parse import urlsplit
 
 import httpx
 from sqlalchemy import select
@@ -75,10 +74,7 @@ async def main() -> int:
     reussites = [r for r in resultats if r[1] is not None]
     echecs = [r for r in resultats if r[1] is None]
     with SessionLocal() as db:
-        deja = {
-            image.cle: image
-            for image in db.scalars(select(ImageAlbion))
-        }
+        deja = set(db.scalars(select(ImageAlbion.cle)))
         for _, cible, mime, contenu, _ in reussites:
             cle = hashlib.sha256(cible.encode("utf-8")).hexdigest()
             if cle not in deja:
