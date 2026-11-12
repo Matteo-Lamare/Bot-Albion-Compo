@@ -22,6 +22,7 @@ os.environ["DISCORD_WEBHOOK_URL"] = ""
 from fastapi.testclient import TestClient  # noqa: E402
 
 from backend import images as module_images  # noqa: E402
+from backend import image_proxy as module_image_proxy  # noqa: E402
 from backend.image_proxy import url_albion_autorisee  # noqa: E402
 from backend.main import app  # noqa: E402
 from backend.routers import compos as routeur_compos  # noqa: E402
@@ -182,6 +183,49 @@ def main() -> None:
             client.get("/api/images", params={"url": "https://example.com/image.png"}).status_code == 400,
             "L'API images refuse une URL externe",
         )
+
+        # Le premier appel telecharge et persiste l'image ; le suivant la relit
+        # depuis la base sans contacter Albion.
+        appels_image = {"nombre": 0}
+
+        class FauxClientImage:
+            def __init__(self, **_kwargs):
+                pass
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *_args):
+                return False
+
+            def get(self, _url):
+                appels_image["nombre"] += 1
+                return type("ReponseImage", (), {
+                    "status_code": 200,
+                    "headers": {"content-type": "image/png"},
+                    "content": b"\\x89PNG\\r\\n\\x1a\\nimage-test",
+                })()
+
+        client_httpx_original = module_image_proxy.httpx.Client
+        module_image_proxy.httpx.Client = FauxClientImage
+        try:
+            params_image = {
+                "url": "https://render.albiononline.com/v1/item/T4_BAG.png",
+                "size": 64,
+            }
+            premiere_image = client.get("/api/images", params=params_image)
+            seconde_image = client.get("/api/images", params=params_image)
+            verifier(
+                premiere_image.status_code == 200
+                and premiere_image.headers.get("x-image-cache") == "MISS"
+                and seconde_image.status_code == 200
+                and seconde_image.headers.get("x-image-cache") == "HIT"
+                and premiere_image.content == seconde_image.content
+                and appels_image["nombre"] == 1,
+                "Les icones sont conservees en base et reutilisees au second appel",
+            )
+        finally:
+            module_image_proxy.httpx.Client = client_httpx_original
 
         # --- Authentification ---
         verifier(client.get("/api/compos").status_code == 401, "API protegee sans session")
