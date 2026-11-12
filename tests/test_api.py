@@ -184,48 +184,35 @@ def main() -> None:
             "L'API images refuse une URL externe",
         )
 
-        # Le premier appel telecharge et persiste l'image ; le suivant la relit
-        # depuis la base sans contacter Albion.
-        appels_image = {"nombre": 0}
-
-        class FauxClientImage:
-            def __init__(self, **_kwargs):
-                pass
-
-            def __enter__(self):
-                return self
-
-            def __exit__(self, *_args):
-                return False
-
-            def get(self, _url):
-                appels_image["nombre"] += 1
-                return type("ReponseImage", (), {
-                    "status_code": 200,
-                    "headers": {"content-type": "image/png"},
-                    "content": b"\\x89PNG\\r\\n\\x1a\\nimage-test",
-                })()
-
-        client_httpx_original = module_image_proxy.httpx.Client
-        module_image_proxy.httpx.Client = FauxClientImage
-        try:
-            params_image = {
-                "url": "https://render.albiononline.com/v1/item/T4_BAG.png",
-                "size": 64,
-            }
-            premiere_image = client.get("/api/images", params=params_image)
-            seconde_image = client.get("/api/images", params=params_image)
-            verifier(
-                premiere_image.status_code == 200
-                and premiere_image.headers.get("x-image-cache") == "MISS"
-                and seconde_image.status_code == 200
-                and seconde_image.headers.get("x-image-cache") == "HIT"
-                and premiere_image.content == seconde_image.content
-                and appels_image["nombre"] == 1,
-                "Les icones sont conservees en base et reutilisees au second appel",
-            )
-        finally:
-            module_image_proxy.httpx.Client = client_httpx_original
+        # Le service d'affichage lit uniquement la base : aucun appel Albion à la volée.
+        from backend.models import ImageAlbion
+        import hashlib
+        url_stockee = "https://render.albiononline.com/v1/item/T4_BAG.png?size=128"
+        with module_image_proxy.SessionLocal() as db:
+            db.add(ImageAlbion(
+                cle=hashlib.sha256(url_stockee.encode()).hexdigest(),
+                url_source=url_stockee,
+                taille=128,
+                contenu=b"\\x89PNG\\r\\n\\x1a\\nimage-test",
+                type_mime="image/png",
+            ))
+            db.commit()
+        params_image = {"url": "https://render.albiononline.com/v1/item/T4_BAG.png", "size": 64}
+        image_stockee = client.get("/api/images", params=params_image)
+        verifier(
+            image_stockee.status_code == 200
+            and image_stockee.headers.get("x-image-cache") == "DATABASE"
+            and image_stockee.content.endswith(b"image-test"),
+            "Une icone préchargée est servie depuis la base sans requête externe",
+        )
+        image_absente = client.get("/api/images", params={
+            "url": "https://render.albiononline.com/v1/item/T4_BAG_2.png",
+            "size": 64,
+        })
+        verifier(
+            image_absente.status_code == 503,
+            "Une icone absente est explicitement signalée et ne déclenche aucun téléchargement à l'affichage",
+        )
 
         # --- Authentification ---
         verifier(client.get("/api/compos").status_code == 401, "API protegee sans session")
