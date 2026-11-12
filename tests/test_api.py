@@ -22,6 +22,7 @@ os.environ["DISCORD_WEBHOOK_URL"] = ""
 from fastapi.testclient import TestClient  # noqa: E402
 
 from backend import images as module_images  # noqa: E402
+from backend.image_proxy import url_albion_autorisee  # noqa: E402
 from backend.main import app  # noqa: E402
 from backend.routers import compos as routeur_compos  # noqa: E402
 
@@ -161,6 +162,27 @@ def main() -> None:
     routeur_compos.webhook_configure = lambda _db: url_webhook
 
     with TestClient(app) as client:
+        # --- Proxy et validation des icones Albion ---
+        verifier(
+            url_albion_autorisee("https://render.albiononline.com/v1/item/T4_BAG.png"),
+            "URL d'icone objet Albion autorisee",
+        )
+        verifier(
+            url_albion_autorisee("https://render.albiononline.com/v1/spell/ACID_BOMB.png"),
+            "URL d'icone de sort Albion autorisee",
+        )
+        verifier(
+            not url_albion_autorisee("https://example.com/v1/item/T4_BAG.png")
+            and not url_albion_autorisee("http://render.albiononline.com/v1/item/T4_BAG.png")
+            and not url_albion_autorisee("https://render.albiononline.com.evil.test/v1/item/T4_BAG.png")
+            and not url_albion_autorisee("https://render.albiononline.com/v1/../../etc/passwd"),
+            "Le proxy refuse les hotes, schemas et chemins non autorises",
+        )
+        verifier(
+            client.get("/api/images", params={"url": "https://example.com/image.png"}).status_code == 400,
+            "L'API images refuse une URL externe",
+        )
+
         # --- Authentification ---
         verifier(client.get("/api/compos").status_code == 401, "API protegee sans session")
         verifier(
