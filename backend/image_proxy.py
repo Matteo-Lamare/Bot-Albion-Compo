@@ -54,7 +54,7 @@ def lire_icone(
         if image is None:
             raise HTTPException(
                 status_code=503,
-                detail="Icone absente du cache. Lancez scripts/precharger_images.py.",
+                detail="Icone en cours de prechargement dans la base. Reessayez dans quelques instants.",
                 headers={"Retry-After": "60"},
             )
         return Response(
